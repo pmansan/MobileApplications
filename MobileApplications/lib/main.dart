@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sampleproject/QuizzPage.dart';
-import 'package:sampleproject/homepage.dart';
-import 'package:sampleproject/QuizzPage.dart';
-
+import 'package:MobileApplications/screens/QuizzPage.dart';
+import 'package:MobileApplications/screens/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,9 +18,8 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/':(context) => const HomePage(),
+          '/': (context) => const HomePage(),
           '/quizzpage': (context) => const QuizzPage()
-        }
-    );
+        });
   }
 }
