@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(
+                          const Text(
                             'Login name',
                             style: TextStyle(
                               fontSize: 20,
@@ -62,20 +62,25 @@ class LoginPage extends StatelessWidget {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 22,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             child: Input(
-                                hint: 'Email or Username',
-                                icon: CupertinoIcons.mail),
+                              hint: 'Email or Username',
+                              icon: CupertinoIcons.mail,
+                              show: false,
+                            ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 22,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             child: Input(
-                                hint: 'Password', icon: CupertinoIcons.lock),
+                              hint: 'Password',
+                              icon: CupertinoIcons.lock,
+                              show: true,
+                            ),
                           ),
                           MaterialButton(
                             onPressed: () {},
@@ -111,14 +116,19 @@ class Input extends StatelessWidget {
     super.key,
     required this.hint,
     required this.icon,
+    required this.show,
   });
 
   final String hint;
   final IconData icon;
+  final bool show;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscureText: show,
+      //a bool value that changes upon a button's press
+      obscuringCharacter: '●',
       decoration: InputDecoration(
         labelText: hint,
         labelStyle: const TextStyle(
