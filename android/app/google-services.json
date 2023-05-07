@@ -29,6 +29,13 @@
             {
               "client_id": "250735074464-g8dbco1clt5cu7sv7v1vu0nhlqkfpd0a.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "250735074464-bi1dp4obai3c7q8kpbdba1jm61bvd045.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.plannerApp"
+              }
             }
           ]
         }

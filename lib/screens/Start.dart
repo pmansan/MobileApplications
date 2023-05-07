@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/my_button.dart';
-import 'package:planner_app/screens/Login.dart';
+import 'package:planner_app/screens/SigIn.dart';
 import 'package:planner_app/screens/Signup.dart';
 
 import '../components/my_button2.dart';
 
 class StartPage extends StatelessWidget {
-   // ignore: prefer_const_constructors_in_immutables
-   StartPage({super.key});
-
+  // ignore: prefer_const_constructors_in_immutables
+  StartPage({super.key});
 
   void signLogIn() {}
 
@@ -20,80 +19,73 @@ class StartPage extends StatelessWidget {
       //No app bar
       appBar: null,
       body: SafeArea(
-
         //Centramos
         child: Center(
-
           //Fondo degradado
           child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                 Color(0xfbC3DAF2),
-                Colors.white,
-              ],
-            )
-          ),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xfbC3DAF2),
+                  Colors.white,
+                ],
+              )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //Espacio
+                  const SizedBox(height: 80),
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+                  // Logo
+                  const Image(
+                    image: AssetImage('lib/images/plannel_logo.png'),
+                    height: 130,
+                  ),
 
-              //Espacio
-              const SizedBox(height: 80),
+                  //Espacio
+                  const SizedBox(height: 70),
 
+                  //Texto bienvenida
+                  const Text(
+                    'Welcome to Plannel!',
+                    style: TextStyle(
+                        color: Color(0xfb3a78b1),
+                        fontSize: 20,
+                        fontFamily: 'Hind',
+                        fontWeight: FontWeight.bold),
+                  ),
 
-              // Logo
-              const Image(image: AssetImage('lib/images/plannel_logo.png'),height: 130,),
+                  //Espacio
+                  const SizedBox(height: 150),
 
-              //Espacio
-              const SizedBox(height: 70),
+                  // Sign in button
+                  MyButton(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignInPage()),
+                      );
+                    },
+                  ),
 
-              //Texto bienvenida
-              const Text(
-                'Welcome to Plannel!',
-                style: TextStyle(
-                  color:  Color(0xfb3a78b1),
-                  fontSize: 20,
-                  fontFamily: 'Hind',
-                  fontWeight: FontWeight.bold
-                ),
-              ),
+                  const SizedBox(height: 10),
 
-              //Espacio
-              const SizedBox(height: 150),
+                  // Sign up button
+                  MyButton2(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
+                  ),
 
-
-              // Sign in button
-              MyButton(
-                onTap: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>LogInPage()),
-                          );
-                },
-              ),
-              
-              const SizedBox(height: 10),
-
-               // Sign up button
-              MyButton2(
-                onTap: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>SignUpPage()),
-                          );
-                },
-              ),
-              
-              //Espacio
-              const SizedBox(height: 25),
-
-              ], //Children
-            )
-          ),
+                  //Espacio
+                  const SizedBox(height: 25),
+                ], //Children
+              )),
         ),
       ),
     );

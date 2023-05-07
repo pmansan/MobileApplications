@@ -7,6 +7,7 @@ import 'package:planner_app/firebase_options.dart';
 // import 'package:planner_app/screens/Login.dart';
 // import 'package:planner_app/screens/ActivitiesList.dart';
 import 'package:planner_app/screens/Start.dart';
+import 'package:planner_app/screens/wrapper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //Página a la que redirige cuando se enciende
-      home: StartPage(),
+      home: Wrapper(),
     );
   }
 }
