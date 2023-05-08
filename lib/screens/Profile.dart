@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planner_app/screens/Home.dart';
 import 'package:planner_app/screens/Start.dart';
-//import 'package:planner_app/components/square_tile.dart';
+import 'package:planner_app/services/auth.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -9,6 +9,7 @@ class ProfilePage extends StatelessWidget {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthService _auth = AuthService();
 
   // sign user in method
   void signUserIn() {}
@@ -54,8 +55,8 @@ class ProfilePage extends StatelessWidget {
 
                 //Profile image (tenemos que conseguir que se pueda cambiar subiendola, para eso hay que quitar el const)
                 const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://img.freepik.com/foto-gratis/mujer-hermosa-joven-mirando-camara-chica-moda-verano-casual-camiseta-blanca-pantalones-cortos-hembra-positiva-muestra-emociones-faciales-modelo-divertido-aislado-amarillo_158538-15796.jpg'),
+                  //backgroundImage: NetworkImage(
+                  //   'https://img.freepik.com/foto-gratis/mujer-hermosa-joven-mirando-camara-chica-moda-verano-casual-camiseta-blanca-pantalones-cortos-hembra-positiva-muestra-emociones-faciales-modelo-divertido-aislado-amarillo_158538-15796.jpg'),
                   radius:
                       70.0, // El radio determina el tamaño de la imagen circular
                 ),
@@ -151,8 +152,9 @@ class ProfilePage extends StatelessWidget {
 
                 // log out button
                 InkWell(
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => StartPage())),
+                  onTap: () async {
+                    await _auth.SignOut();
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(25),
                     margin: const EdgeInsets.symmetric(

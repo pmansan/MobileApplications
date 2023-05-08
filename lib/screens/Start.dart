@@ -9,8 +9,6 @@ class StartPage extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
   StartPage({super.key});
 
-  void signLogIn() {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

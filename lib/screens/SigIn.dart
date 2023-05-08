@@ -157,6 +157,7 @@ class SignInPage extends StatelessWidget {
                   print("Error signin in");
                 } else {
                   print("Signin in succesful");
+                  print(result.uid);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomePage()),
