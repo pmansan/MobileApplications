@@ -15,4 +15,4 @@ Cosas que hay que hacer:
   
   -Memoria PAULA
   
-  -Terminar algo que no me acuerdo
+  -Mirar lo del link para compartir con amigos y tal
