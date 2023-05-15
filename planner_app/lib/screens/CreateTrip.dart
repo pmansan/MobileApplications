@@ -1,15 +1,28 @@
+// import 'dart:io';
+// import 'dart:js';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:planner_app/screens/Home.dart';
 import '../components/my_textfield.dart';
 
-class CreateTripPage extends StatelessWidget {
+class CreateTripPage extends StatefulWidget {
   CreateTripPage({super.key});
 
+  @override
+  State<CreateTripPage> createState() => _CreateTripPageState();
+}
+
+class _CreateTripPageState extends State<CreateTripPage> {
   // text editing controllers
   final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-  
+
+  //////////////////////////////////////////
+  TextEditingController _startdate = TextEditingController();
+  TextEditingController _enddate = TextEditingController();
+
+  String? imagePath;
+  //////////////////////////////////////////
 
   // sign user in method
   void signUserIn() {}
@@ -48,6 +61,7 @@ class CreateTripPage extends StatelessWidget {
                       Text('Create your trip',
                         style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 28,
                         fontWeight: FontWeight.bold
                         ),
@@ -65,6 +79,7 @@ class CreateTripPage extends StatelessWidget {
                     Text(
                       'Title',
                       style: TextStyle(color: Color(0xfb3a78b1), 
+                      fontFamily: 'Nunito',
                       fontSize: 18,
                       fontWeight: FontWeight.normal),
                     ),
@@ -94,6 +109,7 @@ class CreateTripPage extends StatelessWidget {
                     Text(
                       'Description',
                       style: TextStyle(color: Color(0xfb3a78b1), 
+                      fontFamily: 'Nunito',
                       fontSize: 18,
                       fontWeight: FontWeight.normal),
                     ),
@@ -139,6 +155,7 @@ class CreateTripPage extends StatelessWidget {
                     Text(
                                 'Starts',
                                 style: TextStyle(color: Color(0xfb3a78b1), 
+                                fontFamily: 'Nunito',
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal),
                               ),
@@ -147,6 +164,7 @@ class CreateTripPage extends StatelessWidget {
                   Text(
                             'Ends',
                             style: TextStyle(color: Color(0xfb3a78b1), 
+                            fontFamily: 'Nunito',
                             fontSize: 18,
                             fontWeight: FontWeight.normal),
                           ),
@@ -160,9 +178,25 @@ class CreateTripPage extends StatelessWidget {
                 child: Row(children: [
                 SizedBox (
                   width: 170, // <-- TextField width
-                  height: 50,
+                  height: 60,
                   child: TextField(
-                  // controller: ,
+                  ////////////////////////////////////////// DATE PICKER 1
+                  controller: _startdate ,
+                  showCursor: true,
+                  readOnly: true,
+                  onTap: ()async {
+                    DateTime? pickeddate = await showDatePicker(
+                      context: context, 
+                      initialDate: DateTime.now(), 
+                      firstDate: DateTime(2020), 
+                      lastDate: DateTime(2030));
+                      if (pickeddate !=null) {
+                        setState(() {
+                          _startdate.text = DateFormat('yyyy-MM-dd').format(pickeddate);
+                        });
+                      }
+                  },
+                  ////////////////////////////////////////// DATE PICKER 1
                   obscureText: false,
                   maxLines: null,
                   expands: true,
@@ -178,20 +212,38 @@ class CreateTripPage extends StatelessWidget {
                       ),
                       fillColor: Colors.grey.shade200,
                       filled: true,
-                      hintText: '02/04/2023',
+                      // hintText: '02/04/2023',
                       hintStyle: TextStyle(color: Colors.grey[500])),
                   ),
                 ),
+
                 const SizedBox(width: 20,),
+
                 SizedBox (
                   width: 170, // <-- TextField width
-                  height: 50,
+                  height: 60,
                   child: TextField(
-                    // controller: ,
                     obscureText: false,
                     maxLines: null,
                     expands: true,
                     keyboardType: TextInputType.multiline,
+                    ////////////////////////////////////////// DATE PICKER 2
+                    controller: _enddate,
+                    showCursor: true,
+                    readOnly: true,
+                    onTap: ()async {
+                      DateTime? pickeddate = await showDatePicker(
+                        context: context, 
+                        initialDate: DateTime.now(), 
+                        firstDate: DateTime(2020), 
+                        lastDate: DateTime(2030));
+                        if (pickeddate !=null) {
+                          setState(() {
+                            _enddate.text = DateFormat('yyyy-MM-dd').format(pickeddate);
+                          });
+                        }
+                    },
+                    ////////////////////////////////////////// DATE PCIKER 2
                     decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white),
@@ -219,44 +271,45 @@ class CreateTripPage extends StatelessWidget {
                       Text(
                         'Trip cover (Optional)',
                         style: TextStyle(color: Color(0xfb3a78b1), 
+                        fontFamily: 'Nunito',
                         fontSize: 18,
                         fontWeight: FontWeight.normal),
                       ),
 
                     ],
                   ),
-              ),        
+              ),   
+
             Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: 
                     SizedBox (
                       width: 500, // <-- TextField width
                       height: 80,
-                      child: TextField(
-                      // controller: ,
-                      obscureText: false,
-                      maxLines: null,
-                      expands: true,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          prefixIcon: const Icon(Icons.camera_alt_outlined),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                          ),
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          // hintText: hintText,
-                          hintStyle: TextStyle(color: Colors.grey[500])),
+
+                      // ( imagePath == null) ? Container() : Image.file(File(imagePath)),
+                      child: ElevatedButton(
+                        style:  ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.grey.shade200),
                         ),
+                        child: Icon(Icons.camera_alt_outlined, color: Colors.grey[500],),
+                        // const Text('Load image cover'), 
+                        ////////////////////////////////////////// IMAGE PICKER
+                        onPressed: () async {
+                          final ImagePicker _picker = ImagePicker();
+                          PickedFile _pickedfile = 
+                            await _picker.getImage(source: ImageSource.gallery);
+                          imagePath = _pickedfile.path;
+
+                          // _pickedfile.readAsBytes().then((value){})
+                        } ,
+                ////////////////////////////////////////// IMAGE PICKER
+                      ),
                       ),
                 ),
               
               GestureDetector(
-                onTap: () {
+              onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>HomePage()),
@@ -289,5 +342,4 @@ class CreateTripPage extends StatelessWidget {
      ;
   ;
 }
-
 }

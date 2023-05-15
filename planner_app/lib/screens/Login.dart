@@ -49,6 +49,7 @@ class LogInPage extends StatelessWidget {
                       Text('Log in',
                         style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 28,
                         fontWeight: FontWeight.bold
                         ),
@@ -67,6 +68,7 @@ class LogInPage extends StatelessWidget {
                     Text(
                       'E-mail',
                       style: TextStyle(color: Color(0xfb3a78b1), 
+                      fontFamily: 'Nunito',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                     ),
@@ -82,6 +84,7 @@ class LogInPage extends StatelessWidget {
                 controller: usernameController,
                 hintText: '',
                 obscureText: false,
+                
               ),
 
               const SizedBox(height: 30),
@@ -94,6 +97,7 @@ class LogInPage extends StatelessWidget {
                   children: const [
                     Text('Password',
                       style: TextStyle(color: Color(0xfb3a78b1), 
+                      fontFamily: 'Nunito',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                     ),
@@ -119,7 +123,8 @@ class LogInPage extends StatelessWidget {
                   children: [
                     Text(
                       'Forgot Password?',
-                      style: TextStyle(color: Colors.grey[600]),
+                      style: TextStyle(color: Colors.grey[600],fontFamily: 'Nunito',),
+                      
                     ),
                   ],
                 ),

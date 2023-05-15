@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planner_app/screens/CreateActivity.dart';
 // import 'package:planner_app/screens/ActivitiesList.dart';
 // import 'package:planner_app/screens/CreateActivity.dart';
 // import 'package:planner_app/screens/Home.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: 'Nunito'),
       //Página a la que redirige cuando se enciende
       home: StartPage(),
     );

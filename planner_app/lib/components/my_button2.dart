@@ -22,6 +22,7 @@ class MyButton2 extends StatelessWidget {
             "Sign Up",
             style: TextStyle(
               color: Colors.white,
+              fontFamily: 'Nunito',
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),

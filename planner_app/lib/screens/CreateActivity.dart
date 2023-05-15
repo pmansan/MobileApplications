@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:planner_app/screens/Home.dart';
 import '../components/my_textfield.dart';
 
@@ -8,7 +9,13 @@ class CreateActivityPage extends StatelessWidget {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
+    //////////////////////////////////////////
+  TextEditingController _time = TextEditingController();
+
+
+  
+  String? imagePath;
+
 
 
   @override
@@ -46,6 +53,7 @@ class CreateActivityPage extends StatelessWidget {
                       Text('Add a new activity',
                         style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 28,
                         fontWeight: FontWeight.bold
                         ),
@@ -63,6 +71,7 @@ class CreateActivityPage extends StatelessWidget {
                     Text(
                       'Title',
                       style: TextStyle(color: Color(0xfb3a78b1), 
+                      fontFamily: 'Nunito',
                       fontSize: 18,
                       fontWeight: FontWeight.normal),
                     ),
@@ -92,6 +101,7 @@ class CreateActivityPage extends StatelessWidget {
                     Text(
                       'Location',
                       style: TextStyle(color: Color(0xfb3a78b1), 
+                      fontFamily: 'Nunito',
                       fontSize: 18,
                       fontWeight: FontWeight.normal),
                     ),
@@ -109,7 +119,8 @@ class CreateActivityPage extends StatelessWidget {
                   width: 500, // <-- TextField width
                   height: 60,
                   child: TextField(
-                  // controller: ,
+          
+                  
                   obscureText: false,
                   maxLines: null,
                   expands: true,
@@ -138,6 +149,7 @@ class CreateActivityPage extends StatelessWidget {
                             'Hour',
                             style: TextStyle(color: Color(0xfb3a78b1), 
                             fontSize: 18,
+                            fontFamily: 'Nunito',
                             fontWeight: FontWeight.normal),
                           ), 
                     SizedBox(width: 155),
@@ -145,6 +157,7 @@ class CreateActivityPage extends StatelessWidget {
                           'Price (optional)',
                           style: TextStyle(color: Color(0xfb3a78b1), 
                           fontSize: 18,
+                          fontFamily: 'Nunito',
                           fontWeight: FontWeight.normal),
                         ),
                     ]
@@ -157,9 +170,19 @@ class CreateActivityPage extends StatelessWidget {
                   child: Row(children: [
                   SizedBox (
                     width: 170, // <-- TextField width
-                    height: 50,
+                    height: 60,
                     child: TextField(
-                    // controller: ,
+                    controller: _time ,
+                    showCursor: true,
+                    readOnly: true,
+                    onTap: ()async {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context, initialTime: TimeOfDay.now());
+                        if (pickedTime !=null) {
+                          
+                          _time.text = '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
+                          };
+                      },
                     obscureText: false,
                     maxLines: null,
                     expands: true,
@@ -175,7 +198,7 @@ class CreateActivityPage extends StatelessWidget {
                         ),
                         fillColor: Colors.grey.shade200,
                         filled: true,
-                        hintText: '02/04/2023',
+                        // hintText: '02/04/2023',
                         hintStyle: TextStyle(color: Colors.grey[500])),
                     ),
                   ),
@@ -184,7 +207,7 @@ class CreateActivityPage extends StatelessWidget {
 
                   SizedBox (
                     width: 170, // <-- TextField width
-                    height: 50,
+                    height: 60,
                     child: TextField(
                     // controller: ,
                     obscureText: false,
@@ -202,7 +225,7 @@ class CreateActivityPage extends StatelessWidget {
                         ),
                         fillColor: Colors.grey.shade200,
                         filled: true,
-                        hintText: '02/04/2023',
+                        // hintText: '02/04/2023',
                         hintStyle: TextStyle(color: Colors.grey[500])
                         ),
                       ),
@@ -219,6 +242,7 @@ class CreateActivityPage extends StatelessWidget {
                           Text(
                             'Activity cover (Optional)',
                             style: TextStyle(color: Color(0xfb3a78b1), 
+                            fontFamily: 'Nunito',
                             fontSize: 18,
                             fontWeight: FontWeight.normal),
                           ),
@@ -227,34 +251,80 @@ class CreateActivityPage extends StatelessWidget {
               ),   
 
               //activity photo (hay quye ver como se puede añadir)
-              Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: 
-                      SizedBox (
-                        width: 500, // <-- TextField width
-                        height: 80,
-                        child: TextField(
-                        // controller: ,
-                        obscureText: false,
-                        maxLines: null,
-                        expands: true,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
-                            ),
-                            prefixIcon: const Icon(Icons.camera_alt_outlined),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey.shade400),
-                            ),
-                            fillColor: Colors.grey.shade200,
-                            filled: true,
-                            // hintText: hintText,
-                            hintStyle: TextStyle(color: Colors.grey[500])),
+               Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: 
+                    SizedBox (
+                      width: 500, // <-- TextField width
+                      height: 80,
+                      // ( imagePath == null) ? Container() : Image.file(File(imagePath)),
+                      child: ElevatedButton(
+                        style:  ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.grey.shade200),
+                        ),
+                        child:  Icon(Icons.camera_alt_outlined,color: Colors.grey[500],),
+                        // const Text('Load image cover'), 
+             ////////////////////////////////////////// IMAGE PICKER
+                        onPressed: () async {
+                          final ImagePicker _picker = ImagePicker();
+                          PickedFile _pickedfile = 
+                            await _picker.getImage(source: ImageSource.gallery);
+                          imagePath = _pickedfile.path;
+
+                          // _pickedfile.readAsBytes().then((value){})
+                        } ,
+              ////////////////////////////////////////// IMAGE PICKER
                       ),
+                      // child: TextField(
+                      // // controller: ,
+                      // obscureText: false,
+                      // maxLines: null,
+                      // expands: true,
+                      // keyboardType: TextInputType.multiline,
+                      // decoration: InputDecoration(
+                      //     enabledBorder: const OutlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.white),
+                      //       borderRadius: BorderRadius.all(Radius.circular(20)),
+                      //     ),
+                      //     prefixIcon: const Icon(Icons.camera_alt_outlined),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.grey.shade400),
+                      //     ),
+                      //     fillColor: Colors.grey.shade200,
+                      //     filled: true,
+                      //     // hintText: hintText,
+                      //     hintStyle: TextStyle(color: Colors.grey[500])),
+                      //   ),
                       ),
-                  ),
+                ),
+              // Padding(
+              //         padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              //         child: 
+              //         SizedBox (
+              //           width: 500, // <-- TextField width
+              //           height: 80,
+              //           child: TextField(
+              //           // controller: ,
+              //           obscureText: false,
+              //           maxLines: null,
+              //           expands: true,
+              //           keyboardType: TextInputType.multiline,
+              //           decoration: InputDecoration(
+              //               enabledBorder: const OutlineInputBorder(
+              //                 borderSide: BorderSide(color: Colors.white),
+              //                 borderRadius: BorderRadius.all(Radius.circular(20)),
+              //               ),
+              //               prefixIcon: const Icon(Icons.camera_alt_outlined),
+              //               focusedBorder: OutlineInputBorder(
+              //                 borderSide: BorderSide(color: Colors.grey.shade400),
+              //               ),
+              //               fillColor: Colors.grey.shade200,
+              //               filled: true,
+              //               // hintText: hintText,
+              //               hintStyle: TextStyle(color: Colors.grey[500])),
+              //         ),
+              //         ),
+              //     ),
 
               // create button    
               GestureDetector(
@@ -276,6 +346,7 @@ class CreateActivityPage extends StatelessWidget {
                             "Create trip",
                             style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Nunito',
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),

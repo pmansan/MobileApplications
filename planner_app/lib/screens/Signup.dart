@@ -50,6 +50,7 @@ class SignUpPage extends StatelessWidget {
                       Text('Sign up',
                         style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 28,
                         fontWeight: FontWeight.bold
                         ),
@@ -68,7 +69,8 @@ class SignUpPage extends StatelessWidget {
                   children: const [
                     Text(
                       'E-mail',
-                      style: TextStyle(color: Color(0xfb3a78b1), 
+                      style: TextStyle(color: Color(0xfb3a78b1),
+                      fontFamily: 'Nunito', 
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                     ),
@@ -96,6 +98,7 @@ class SignUpPage extends StatelessWidget {
                   children: const [
                     Text('Password',
                       style: TextStyle(color: Color(0xfb3a78b1), 
+                      fontFamily: 'Nunito',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                     ),
