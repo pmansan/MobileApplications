@@ -153,7 +153,8 @@ class ProfilePage extends StatelessWidget {
                 // log out button
                 InkWell(
                   onTap: () async {
-                    await _auth.SignOut();
+                    await _auth.signOut();
+                    print('Succesfully signed out');
                   },
                   child: Container(
                     padding: const EdgeInsets.all(25),

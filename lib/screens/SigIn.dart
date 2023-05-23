@@ -7,9 +7,14 @@ import 'package:planner_app/screens/Home.dart';
 import 'package:planner_app/services/auth.dart';
 //import 'package:planner_app/components/square_tile.dart';
 
-class SignInPage extends StatelessWidget {
-  SignInPage({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -156,12 +161,7 @@ class SignInPage extends StatelessWidget {
                 if (result == null) {
                   print("Error signin in");
                 } else {
-                  print("Signin in succesful");
-                  print(result.uid);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
+                  print("Signing in succesful");
                 }
               },
             ),

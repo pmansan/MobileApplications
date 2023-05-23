@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:planner_app/screens/SigIn.dart';
+import 'package:planner_app/screens/Start.dart';
 
 class Authenticate extends StatefulWidget {
-  const Authenticate({super.key});
-
   @override
-  State<Authenticate> createState() => _AuthenticateState();
+  _AuthenticateState createState() => _AuthenticateState();
 }
 
 class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Authenticate'),
+      child: SignInPage(),
     );
   }
 }
