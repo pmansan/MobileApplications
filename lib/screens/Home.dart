@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
             SearchBar(
               controller: passwordController,
               hintText: 'Search...',
-              obscureText: true,
+              //obscureText: true,
             ),
 
             const SizedBox(height: 190),

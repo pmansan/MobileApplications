@@ -22,6 +22,7 @@ class MyButton extends StatelessWidget {
             "Sign In",
             style: TextStyle(
               color: Color(0xfb3a78b1),
+              fontFamily: 'Nunito',
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),

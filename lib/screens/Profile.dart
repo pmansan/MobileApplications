@@ -46,6 +46,7 @@ class ProfilePage extends StatelessWidget {
                         'Your profile',
                         style: TextStyle(
                             color: Color(0xfb3a78b1),
+                            fontFamily: 'Nunito',
                             fontSize: 28,
                             fontWeight: FontWeight.bold),
                       ),
@@ -67,6 +68,7 @@ class ProfilePage extends StatelessWidget {
                   'Name',
                   style: TextStyle(
                       color: Color(0xfb3a78b1),
+                      fontFamily: 'Nunito',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -102,7 +104,12 @@ class ProfilePage extends StatelessWidget {
                           color: Colors.yellow,
                         ),
                         SizedBox(width: 5), // Espacio entre el icono y el texto
-                        Text("Edit profile"),
+                        Text(
+                          "Edit profile",
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -137,7 +144,8 @@ class ProfilePage extends StatelessWidget {
                         ),
                         SizedBox(
                             width: 10), // Espacio entre el icono y el texto
-                        Text("Settings"),
+                        Text("Settings",
+                            style: TextStyle(fontFamily: 'Nunito')),
                       ],
                     ),
                   ),

@@ -51,6 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     'Sign up',
                     style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 28,
                         fontWeight: FontWeight.bold),
                   ),
@@ -70,6 +71,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     'E-mail',
                     style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -96,6 +98,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     'Password',
                     style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),

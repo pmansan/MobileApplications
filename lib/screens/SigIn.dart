@@ -55,6 +55,7 @@ class _SignInPageState extends State<SignInPage> {
                     'Sign in',
                     style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 28,
                         fontWeight: FontWeight.bold),
                   ),
@@ -73,6 +74,7 @@ class _SignInPageState extends State<SignInPage> {
                     'E-mail',
                     style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -101,6 +103,7 @@ class _SignInPageState extends State<SignInPage> {
                     'Password',
                     style: TextStyle(
                         color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -126,7 +129,10 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   Text(
                     'Forgot Password?',
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontFamily: 'Nunito',
+                    ),
                   ),
                 ],
               ),
