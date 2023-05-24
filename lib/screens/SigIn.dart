@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/my_button.dart';
 import 'package:planner_app/components/my_button_anon_signin.dart';
@@ -63,8 +62,6 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
 
-            // const SizedBox(height: 30),
-
             Padding(
               padding: const EdgeInsets.only(left: 30.0, bottom: 15),
               child: Row(
@@ -82,16 +79,12 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
 
-            //const SizedBox(height: 15),
-
             // username textfield
             MyTextField(
               controller: usernameController,
               hintText: '',
               obscureText: false,
             ),
-
-            const SizedBox(height: 30),
 
             //Password text
             Padding(
@@ -117,8 +110,6 @@ class _SignInPageState extends State<SignInPage> {
               hintText: '',
               obscureText: true,
             ),
-
-            const SizedBox(height: 15),
 
             // forgot password? text
             Padding(

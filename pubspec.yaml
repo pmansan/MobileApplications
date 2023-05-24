@@ -40,6 +40,7 @@ dependencies:
   cloud_firestore: ^4.6.0
   provider: ^6.0.5
   image_picker: ^0.8.7+5
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -75,9 +76,10 @@ flutter:
   fonts:
     - family: Nunito
       fonts:
-        - asset: fonts/Nunito-Regular.ttf
-        - asset: fonts/Nunito-Italic.ttf
-        - asset: fonts/Nunito-Bold.ttf
+        - asset: lib/fonts/Nunito-Regular.ttf
+        - asset: lib/fonts/Nunito-Italic.ttf
+        - asset: lib/fonts/Nunito-Bold.ttf
+
     
   #   - images/a_dot_ham.jpeg
 
