@@ -10,6 +10,8 @@ Cosas que hay que hacer:
   - Firebase Storage PAULA
    
   - Añadir la ventana para que se añadan trips JORGE
+  
+  - Cambiar icono app PAULA
    
   -Hacer que se pueda añadir la trip a la pantalla inicial JORGE
   
