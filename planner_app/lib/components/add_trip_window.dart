@@ -31,6 +31,7 @@ class _AddTravelDialogState extends State<AddTravelDialog> {
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
   String? imagePath;
+  XFile? _pickedfile;
 
   DateTime _selectedStartDate = DateTime.now();
   DateTime _selectedEndDate = DateTime.now();
@@ -96,30 +97,28 @@ class _AddTravelDialogState extends State<AddTravelDialog> {
             onTap: () => _showDatePicker(context, false),
           ),
           ElevatedButton(
-                        style:  ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.grey.shade200),
-                        ),
-                        child: Icon(Icons.camera_alt_outlined, color: Colors.grey[500],),
-                        // const Text('Load image cover'), 
-                        ////////////////////////////////////////// IMAGE PICKER
-                        onPressed: () async {
-                          final ImagePicker _picker = ImagePicker();
-                          PickedFile _pickedfile = 
-                            await _picker.getImage(source: ImageSource.gallery);
-                          imagePath = _pickedfile.path;
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStatePropertyAll<Color>(Colors.grey.shade200),
+            ),
+            child: Icon(
+              Icons.camera_alt_outlined,
+              color: Colors.grey[500],
+            ),
+            // const Text('Load image cover'),
+            ////////////////////////////////////////// IMAGE PICKER
+            onPressed: () async {
+              final ImagePicker _picker = ImagePicker();
+              _pickedfile =
+                  await _picker.pickImage(source: ImageSource.gallery);
+              imagePath = _pickedfile!.path;
 
-                          // _pickedfile.readAsBytes().then((value){})
-                        } ,
-                ////////////////////////////////////////// IMAGE PICKER
-                      ),
+              // _pickedfile.readAsBytes().then((value){})
+            },
+            ////////////////////////////////////////// IMAGE PICKER
+          ),
         ],
-        
       ),
-      
-
-
-
-
       actions: <Widget>[
         TextButton(
           onPressed: () {
