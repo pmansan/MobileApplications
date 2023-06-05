@@ -162,6 +162,10 @@ class ProfilePage extends StatelessWidget {
                 InkWell(
                   onTap: () async {
                     await _auth.signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => StartPage()),
+                    );
                     print('Succesfully signed out');
                   },
                   child: Container(

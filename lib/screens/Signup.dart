@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:planner_app/components/my_button2.dart';
 import 'package:planner_app/components/my_textfield.dart';
 import 'package:planner_app/screens/Home.dart';
-//import 'package:planner_app/components/square_tile.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

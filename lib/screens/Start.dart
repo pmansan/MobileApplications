@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/my_button.dart';
-import 'package:planner_app/screens/SigIn.dart';
 import 'package:planner_app/screens/Signup.dart';
+import 'package:planner_app/screens/wrapper.dart';
 
 import '../components/my_button2.dart';
 
@@ -63,7 +63,7 @@ class StartPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignInPage()),
+                        MaterialPageRoute(builder: (context) => Wrapper()),
                       );
                     },
                   ),
