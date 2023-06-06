@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:planner_app/authenticate/Signup.dart';
 import 'package:planner_app/components/my_button.dart';
 import 'package:planner_app/screens/wrapper.dart';
 
@@ -8,6 +7,8 @@ import '../components/my_button2.dart';
 class StartPage extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
   StartPage({super.key});
+
+  bool register = true;
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +62,11 @@ class StartPage extends StatelessWidget {
                   // Sign in button
                   MyButton(
                     onTap: () {
+                      register = false;
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Wrapper()),
+                        MaterialPageRoute(
+                            builder: (context) => Wrapper(Register: register)),
                       );
                     },
                   ),
@@ -73,9 +76,11 @@ class StartPage extends StatelessWidget {
                   // Sign up button
                   MyButton2(
                     onTap: () {
+                      register = true;
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                        MaterialPageRoute(
+                            builder: (context) => Wrapper(Register: register)),
                       );
                     },
                   ),
