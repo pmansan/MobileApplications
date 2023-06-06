@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:planner_app/authenticate/Signup.dart';
 import 'package:planner_app/components/my_button.dart';
-import 'package:planner_app/screens/Signup.dart';
 import 'package:planner_app/screens/wrapper.dart';
 
 import '../components/my_button2.dart';

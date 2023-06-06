@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planner_app/components/my_button.dart';
 import 'package:planner_app/components/my_button_anon_signin.dart';
 import 'package:planner_app/components/my_textfield.dart';
-import 'package:planner_app/screens/Home.dart';
 import 'package:planner_app/services/auth.dart';
-//import 'package:planner_app/components/square_tile.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -17,6 +15,9 @@ class _SignInPageState extends State<SignInPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  String email = '';
+  String password = '';
 
   // Authentication instance
   final AuthService _auth = AuthService();
@@ -105,6 +106,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
 
             // Password textfield
+
             MyTextField(
               controller: passwordController,
               hintText: '',
@@ -132,10 +134,11 @@ class _SignInPageState extends State<SignInPage> {
             // sign in button
             MyButton(
               onTap: () {
-                Navigator.push(
+                print(usernameController.text.toString());
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
-                );
+                );*/
               },
             ),
 
