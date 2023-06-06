@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/round_button.dart';
 import 'package:planner_app/components/search_bar.dart';
-import 'package:planner_app/screens/CreateTrip.dart';
 import 'package:planner_app/screens/Profile.dart';
+import 'package:planner_app/screens/createTrip.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});

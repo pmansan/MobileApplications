@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:planner_app/authenticate/SignIn.dart';
-import 'package:planner_app/authenticate/Signup.dart';
+import 'package:planner_app/authenticate/signIn.dart';
+import 'package:planner_app/authenticate/signup.dart';
 
 class Authenticate extends StatefulWidget {
   final bool? Register;

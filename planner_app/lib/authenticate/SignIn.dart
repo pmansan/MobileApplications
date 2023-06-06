@@ -185,7 +185,9 @@ class _SignInPageState extends State<SignInPage> {
                     SizedBox(height: 20),
                     MyButton_Anon(
                       onTap: () async {
+                        setState(() => loading = true);
                         dynamic result = await _auth.signInAnon();
+                        setState(() => loading = false);
                         if (result == null) {
                           print("Error signin in");
                         } else {
