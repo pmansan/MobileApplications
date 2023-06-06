@@ -3,7 +3,7 @@
 Cosas que hay que hacer:
 
 
-  -Conectar firebase con la app para el log in y el sign up  (y el log out para que lo olvide) JAVI
+  -Conectar firebase con la app para el log in y el sign up  (y el log out para que lo olvide) JAVI ✔
   
   -Hacer que se pueda añadir foto a la actividad y a la trip PAULA ✔
    
