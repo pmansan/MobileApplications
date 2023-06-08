@@ -5,6 +5,7 @@ import 'package:planner_app/screens/CreateTrip.dart';
 import 'package:planner_app/screens/Profile.dart';
 import 'package:planner_app/screens/TripDetailsPage.dart';
 import 'package:planner_app/screens/Models.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //clase de pantalla principal
 class HomePage extends StatefulWidget {
@@ -30,6 +31,37 @@ class _HomePageState extends State<HomePage> {
     DateTime startDate = DateTime.now();
     DateTime endDate = DateTime.now();
 
+    // text editing controllers
+    final titleController = TextEditingController();
+    final descriptionController = TextEditingController();
+    final startDateController = TextEditingController();
+    final endDateController = TextEditingController();
+    final tripCoverController = TextEditingController();
+
+    DateTime selectedDate = DateTime.now();
+
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    void guardarViaje() {
+      String title = titleController.text;
+      String description = descriptionController.text;
+      String startDate = startDateController.text;
+      String endDate = endDateController.text;
+      String tripCover = tripCoverController.text;
+
+      firestore.collection('trips').add({
+        'title': title,
+        'description': description,
+        'startDate': startDate,
+        'endDate': endDate,
+        'tripCover': tripCover,
+      }).then((value) {
+        print('Viaje guardado en Firestore');
+      }).catchError((error) {
+        print('Error al guardar el viaje: $error');
+      });
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -39,6 +71,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
+                controller: titleController,
                 onChanged: (value) {
                   title = value;
                 },
@@ -48,6 +81,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               TextField(
+                controller: descriptionController,
                 onChanged: (value) {
                   description = value;
                 },
@@ -56,40 +90,72 @@ class _HomePageState extends State<HomePage> {
                   labelText: 'Description',
                 ),
               ),
-              ListTile(
-                //fecha inicio
-                title: const Text('Start Date'),
-                subtitle: Text('${startDate.toLocal()}'.split(' ')[0]),
-                onTap: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: startDate,
-                    firstDate: DateTime(2015),
-                    lastDate: DateTime(2101),
-                  );
-                  if (picked != null && picked != startDate)
-                    setState(() {
-                      startDate = picked;
-                    });
-                },
-              ),
-              ListTile(
-                //fecha final
-                title: const Text('End Date'),
-                subtitle: Text('${endDate.toLocal()}'.split(' ')[0]),
-                onTap: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: endDate,
-                    firstDate: DateTime(2015),
-                    lastDate: DateTime(2101),
-                  );
-                  if (picked != null && picked != endDate)
-                    setState(() {
-                      endDate = picked;
-                    });
-                },
-              ),
+             
+StatefulBuilder(
+  builder: (BuildContext context, StateSetter setState) {
+    return ListTile(
+      title: const Text('Start Date'),
+      subtitle: TextFormField(
+        readOnly: true,
+        controller: startDateController,
+        onTap: () async {
+          final DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: startDate,
+            firstDate: DateTime(2015),
+            lastDate: DateTime(2101),
+          );
+          if (picked != null && picked != startDate) {
+            setState(() {
+              startDate = picked;
+              startDateController.text =
+                  '${startDate.toLocal()}'.split(' ')[0];
+            });
+          }
+        },
+        decoration: InputDecoration(
+          hintText: 'Select Start Date',
+        ),
+      ),
+    );
+  },
+),
+ 
+
+
+StatefulBuilder(
+  builder: (BuildContext context, StateSetter setState) {
+    return ListTile(
+      title: const Text('End Date'),
+      subtitle: TextFormField(
+        readOnly: true,
+        controller: endDateController,
+        onTap: () async {
+          final DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: endDate,
+            firstDate: DateTime(2015),
+            lastDate: DateTime(2101),
+          );
+          if (picked != null && picked != endDate) {
+            setState(() {
+              endDate = picked;
+              endDateController.text =
+                  '${endDate.toLocal()}'.split(' ')[0];
+            });
+          }
+        },
+        decoration: InputDecoration(
+          hintText: 'Select End Date',
+        ),
+      ),
+    );
+  },
+),
+
+
+
+
             ],
           ),
           actions: <Widget>[
@@ -110,6 +176,7 @@ class _HomePageState extends State<HomePage> {
                 );
                 _addTravel(travel);
                 Navigator.of(context).pop();
+                guardarViaje();
               },
               child: const Text('Save'),
             ),
@@ -122,6 +189,9 @@ class _HomePageState extends State<HomePage> {
 //pagina en si
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -153,8 +223,11 @@ class _HomePageState extends State<HomePage> {
               controller: passwordController,
               hintText: 'Search...',
             ),
-            const SizedBox(height: 190),
-            Expanded(
+            // const SizedBox(height: 190),
+
+            Container(
+              height: MediaQuery.of(context).size.height *
+                  0.60, // Ajusta el valor según tus necesidades
               //aqui se verá la lista de viajes
               child: ListView.builder(
                 itemCount: _travels.length,
@@ -180,9 +253,11 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-            const SizedBox(height: 145),
+            // const SizedBox(height: 145),
             Padding(
-              padding: const EdgeInsets.only(right: 20.0, bottom: 10),
+              padding: const EdgeInsets.only(
+                right: 20.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.max,
@@ -207,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                     icon: const Icon(Icons.home_outlined),
                     onPressed: () {},
-                    iconSize: 70,
+                    iconSize: 0.17 * screenWidth,
                     color: const Color(0xffb3a78b1),
                   ),
                   const SizedBox(width: 130),
@@ -219,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(builder: (context) => ProfilePage()),
                       );
                     },
-                    iconSize: 70,
+                    iconSize: 0.17 * screenWidth,
                     color: Colors.grey,
                   ),
                 ],

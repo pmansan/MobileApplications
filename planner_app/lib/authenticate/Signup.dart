@@ -4,6 +4,8 @@ import 'package:planner_app/components/loading.dart';
 import 'package:planner_app/components/my_button2.dart';
 import 'package:planner_app/services/auth.dart';
 
+import '../components/my_button.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -26,142 +28,159 @@ class _SignUpPageState extends State<SignUpPage> {
   // sign user in method
   void signUserIn() {}
 
+
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+
     return loading
         ? Loading()
         : Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
-            //App Bar
             appBar: AppBar(
               iconTheme: const IconThemeData(
-                  color: Color(0xffb3a78b1), size: 35 //change your color here
-                  ),
+                color: Color(0xffb3a78b1),
+                size: 35,
+              ),
               backgroundColor: Colors.white,
               elevation: 0,
             ),
-
             body: SafeArea(
-              //Columna para que sea hacia abajo
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //Title text
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0, bottom: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        verticalDirection: VerticalDirection.down,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Sign up',
-                            style: TextStyle(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 0.08 * screenWidth,
+                          bottom: 0.06 * screenHeight,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          verticalDirection: VerticalDirection.down,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Sign up',
+                              style: TextStyle(
                                 color: Color(0xfb3a78b1),
                                 fontFamily: 'Nunito',
                                 fontSize: 28,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ], //Children
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-
-                    //Emailtext
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0, bottom: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'E-mail',
-                            style: TextStyle(
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 0.08 * screenWidth,
+                          bottom: 0.03 * screenHeight,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'E-mail',
+                              style: TextStyle(
                                 color: Color(0xfb3a78b1),
                                 fontFamily: 'Nunito',
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-
-                    // Email or username textfield
-                    TextFormField(
-                        validator: (String? val) =>
-                            val!.isEmpty ? "Enter an email" : null,
-                        onChanged: (val) {
-                          setState(() => email = val);
-                        },
-                        obscureText: false,
-                        decoration:
-                            textInputDecoration.copyWith(hintText: 'Email')),
-
-                    const SizedBox(height: 30),
-
-                    //Password text
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0, bottom: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Password',
-                            style: TextStyle(
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 0.08 * screenWidth,
+                          right: 0.08 * screenWidth,
+                          bottom: 0.01 * screenHeight,
+                        ),
+                        child: TextFormField(
+                          validator: (String? val) =>
+                              val!.isEmpty ? "Enter an email" : null,
+                          onChanged: (val) {
+                            setState(() => email = val);
+                          },
+                          obscureText: false,
+                          decoration:
+                              textInputDecoration.copyWith(hintText: 'Email'),
+                        ),
+                      ),
+                      SizedBox(height: 0.02 * screenHeight),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 0.08 * screenWidth,
+                          bottom: 0.03 * screenHeight,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Password',
+                              style: TextStyle(
                                 color: Color(0xfb3a78b1),
                                 fontFamily: 'Nunito',
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-
-                    // const SizedBox(height: 15),
-
-                    // Password textfield
-                    TextFormField(
-                        validator: (String? val) => val!.length < 6
-                            ? "Enter a password 6+ chars long"
-                            : null,
-                        onChanged: (val) {
-                          setState(() => password = val);
-                        },
-                        obscureText: true,
-                        decoration:
-                            textInputDecoration.copyWith(hintText: 'Password')),
-
-                    const SizedBox(height: 150),
-
-                    // Sign up button
-                    MyButton2(
-                      onTap: () async {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() => loading = true);
-                          dynamic result =
-                              await _auth.registerEmail(email, password);
-                          if (result == null) {
-                            setState(() {
-                              error = 'Invalid credentials';
-                              loading = false;
-                            });
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 0.08 * screenWidth,
+                          right: 0.08 * screenWidth,
+                          bottom: 0.03 * screenHeight,
+                        ),
+                        child: TextFormField(
+                          validator: (String? val) => val!.length < 6
+                              ? "Enter a password 6+ chars long"
+                              : null,
+                          onChanged: (val) {
+                            setState(() => password = val);
+                          },
+                          obscureText: true,
+                          decoration:
+                              textInputDecoration.copyWith(hintText: 'Password'),
+                        ),
+                      ),
+                      SizedBox(height: 0.12 * screenHeight),
+                      MyButton(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() => loading = true);
+                            dynamic result =
+                                await _auth.registerEmail(email, password);
+                            if (result == null) {
+                              setState(() {
+                                error = 'Invalid credentials';
+                                loading = false;
+                              });
+                            }
                           }
-                        }
-                      },
-                    ),
-
-                    SizedBox(height: 12),
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red, fontSize: 18),
-                    )
-                  ], //children
+                        },
+                      ),
+                      SizedBox(height: 0.014 * screenHeight),
+                      Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 18),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           );
-    ;
   }
 }
+

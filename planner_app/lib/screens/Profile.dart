@@ -16,216 +16,218 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        // No app bar
-        appBar: null,
-        body: SafeArea(
-          // background mage
-          child: Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: null,
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
               image: AssetImage('lib/images/BackgroundProfile.png'),
               fit: BoxFit.cover,
-            )),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //Title text
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 30.0, bottom: 20, top: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    verticalDirection: VerticalDirection.down,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Your profile',
-                        style: TextStyle(
-                            color: Color(0xfb3a78b1),
-                            fontFamily: 'Nunito',
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ], //Children
-                  ),
-                ),
-
-                //Profile image (tenemos que conseguir que se pueda cambiar subiendola, para eso hay que quitar el const)
-                const CircleAvatar(
-                  //backgroundImage: NetworkImage(
-                  //   'https://img.freepik.com/foto-gratis/mujer-hermosa-joven-mirando-camara-chica-moda-verano-casual-camiseta-blanca-pantalones-cortos-hembra-positiva-muestra-emociones-faciales-modelo-divertido-aislado-amarillo_158538-15796.jpg'),
-                  radius:
-                      70.0, // El radio determina el tamaño de la imagen circular
-                ),
-
-                const SizedBox(height: 10),
-
-                const Text(
-                  'Name',
-                  style: TextStyle(
-                      color: Color(0xfb3a78b1),
-                      fontFamily: 'Nunito',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-
-                const SizedBox(height: 50),
-
-                const Divider(
-                  thickness: 1, // Establecer el grosor de la línea
-                  color: Colors.grey,
-                  indent: 30,
-                  endIndent: 30,
-                  // Establecer el color de la línea
-                ),
-
-                //Edit button
-                SizedBox(
-                  width: 350,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Acción al hacer clic en el botón
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.only(
-                            left: 0, right: 80, top: 20, bottom: 20),
-                        elevation: 0,
-                        foregroundColor: Colors.grey),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Icon(
-                          Icons.edit_note_rounded,
-                          color: Colors.yellow,
-                        ),
-                        SizedBox(width: 5), // Espacio entre el icono y el texto
-                        Text(
-                          "Edit profile",
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const Divider(
-                  thickness: 1, // Establecer el grosor de la línea
-                  color: Colors.grey,
-                  indent: 30,
-                  endIndent: 30, // Establecer el color de la línea
-                ),
-
-                // settings button
-                SizedBox(
-                  width: 350,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Acción al hacer clic en el botón
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.only(
-                            left: 0, right: 80, top: 20, bottom: 20),
-                        elevation: 0,
-                        foregroundColor: Colors.grey),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Icon(
-                          Icons.settings_rounded,
-                          color: Colors.red,
-                        ),
-                        SizedBox(
-                            width: 10), // Espacio entre el icono y el texto
-                        Text("Settings",
-                            style: TextStyle(fontFamily: 'Nunito')),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const Divider(
-                  thickness: 1, // Establecer el grosor de la línea
-                  color: Colors.grey,
-                  indent: 30,
-                  endIndent: 30, // Establecer el color de la línea
-                ),
-
-                // log out button
-                InkWell(
-                  onTap: () async {
-                    await _auth.signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => StartPage()),
-                    );
-                    print('Succesfully signed out');
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(25),
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 150, vertical: 0),
-                    decoration: BoxDecoration(
-                      color: Color(0xffb3a78b1),
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Log out",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                //Iconos de abajo (Row para que estén situados de izq a derecha)
-
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 50.0, right: 50, top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    verticalDirection: VerticalDirection.up,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.home_outlined),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                        },
-                        iconSize: 70,
-                        color: Colors.grey,
-                      ),
-                      // Icon(Icons.home_outlined,color: Colors.grey,size: 70,),
-                      const SizedBox(width: 130),
-                      IconButton(
-                        icon: const Icon(Icons.person_2_outlined),
-                        onPressed: () {},
-                        iconSize: 70,
-                        color: const Color(0xffb3a78b1),
-                      ),
-                    ], //Children
-                  ),
-                ),
-              ], //children
             ),
           ),
-        ));
-    ;
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 0.08 * screenWidth,
+                  bottom: 0.014 * screenHeight,
+                  top: 0.03 * screenHeight,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  verticalDirection: VerticalDirection.down,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Your profile',
+                      style: TextStyle(
+                        color: Color(0xfb3a78b1),
+                        fontFamily: 'Nunito',
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              CircleAvatar(
+                //backgroundImage: NetworkImage('URL_DE_LA_IMAGEN'),
+                radius: 0.156 * screenWidth,
+              ),
+              SizedBox(height: 0.02 * screenHeight),
+              const Text(
+                'Name',
+                style: TextStyle(
+                  color: Color(0xfb3a78b1),
+                  fontFamily: 'Nunito',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 0.05 * screenHeight),
+              Divider(
+                thickness: 1,
+                color: Colors.grey,
+                indent: 0.08 * screenWidth,
+                endIndent: 0.08 * screenWidth,
+              ),
+              SizedBox(
+                width: 0.778 * screenWidth,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.only(
+                      left: 0,
+                      right: 0.213 * screenWidth,
+                      top: 0.032 * screenHeight,
+                      bottom: 0.032 * screenHeight,
+                    ),
+                    elevation: 0,
+                    foregroundColor: Colors.grey,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Icon(
+                        Icons.edit_note_rounded,
+                        color: Colors.yellow,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        "Edit profile",
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                thickness: 1,
+                color: Colors.grey,
+                indent: 0.08 * screenWidth,
+                endIndent: 0.08 * screenWidth,
+              ),
+              SizedBox(
+                width: 0.778 * screenWidth,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.only(
+                      left: 0,
+                      right: 0.213 * screenWidth,
+                      top: 0.032 * screenHeight,
+                      bottom: 0.032 * screenHeight,
+                    ),
+                    elevation: 0,
+                    foregroundColor: Colors.grey,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Icon(
+                        Icons.settings_rounded,
+                        color: Colors.red,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Settings",
+                        style: TextStyle(fontFamily: 'Nunito'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(
+                bottom:  0.12 * screenWidth,
+              ),
+              child:Divider(
+                thickness: 1,
+                color: Colors.grey,
+                indent: 0.08 * screenWidth,
+                endIndent: 0.08 * screenWidth,
+              )),
+              // SizedBox(width: 0.1 * screenWidth),
+              InkWell(
+                onTap: () async {
+                  await _auth.signOut();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StartPage()),
+                  );
+                  print('Succesfully signed out');
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 0.4 * screenWidth,
+                    vertical: 0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffb3a78b1),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Log out",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 0.13 * screenWidth,
+                  right: 0.13 * screenWidth,
+                  top: 0.032 * screenHeight,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  verticalDirection: VerticalDirection.up,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.home_outlined),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      },
+                      iconSize: 0.17 * screenWidth,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(width: 0.306 * screenWidth),
+                    IconButton(
+                      icon: const Icon(Icons.person_2_outlined),
+                      onPressed: () {},
+                      iconSize: 0.17 * screenWidth,
+                      color: const Color(0xffb3a78b1),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

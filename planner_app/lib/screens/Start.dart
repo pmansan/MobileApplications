@@ -5,90 +5,91 @@ import 'package:planner_app/screens/wrapper.dart';
 import '../components/my_button2.dart';
 
 class StartPage extends StatelessWidget {
-  // ignore: prefer_const_constructors_in_immutables
-  StartPage({super.key});
+  final Key? key;
+  StartPage({this.key}) : super(key: key);
 
   bool register = true;
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
-      //No app bar
       appBar: null,
       body: SafeArea(
-        //Centramos
-        child: Center(
-          //Fondo degradado
-          child: Container(
-              decoration: const BoxDecoration(
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return Center(
+              child: Container(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color(0xfbC3DAF2),
-                  Colors.white,
-                ],
-              )),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //Espacio
-                  const SizedBox(height: 80),
-
-                  // Logo
-                  const Image(
-                    image: AssetImage('lib/images/plannel_logo.png'),
-                    height: 130,
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Color(0xfbC3DAF2),
+                      Colors.white,
+                    ],
                   ),
-
-                  //Espacio
-                  const SizedBox(height: 70),
-
-                  //Texto bienvenida
-                  const Text(
-                    'Welcome to Plannel!',
-                    style: TextStyle(
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: screenHeight * 0.1),
+                    Image(
+                      image: AssetImage('lib/images/plannel_logo.png'),
+                      height: screenHeight * 0.2,
+                    ),
+                    SizedBox(height: screenHeight * 0.05),
+                    Text(
+                      'Welcome to Plannel!',
+                      style: TextStyle(
                         color: Color(0xfb3a78b1),
-                        fontSize: 20,
+                        fontSize: 25,
                         fontFamily: 'Nunito',
-                        fontWeight: FontWeight.bold),
-                  ),
-
-                  //Espacio
-                  const SizedBox(height: 150),
-
-                  // Sign in button
-                  MyButton(
-                    onTap: () {
-                      register = false;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Wrapper(Register: register)),
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // Sign up button
-                  MyButton2(
-                    onTap: () {
-                      register = true;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Wrapper(Register: register)),
-                      );
-                    },
-                  ),
-
-                  //Espacio
-                  const SizedBox(height: 25),
-                ], //Children
-              )),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.1),
+                    Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.1),
+                      child: MyButton(
+                        onTap: () {
+                          register = false;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Wrapper(Register: register),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.05),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: screenHeight * 0.05),
+                      child: MyButton2(
+                        onTap: () {
+                          register = true;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Wrapper(Register: register),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.03),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
