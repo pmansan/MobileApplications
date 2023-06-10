@@ -3,31 +3,66 @@ import 'package:planner_app/components/constants.dart';
 import 'package:planner_app/components/loading.dart';
 import 'package:planner_app/components/my_button2.dart';
 import 'package:planner_app/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import '../components/my_button.dart';
 
+final CollectionReference usersCollection =
+    FirebaseFirestore.instance.collection('users');
+
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  // text editing controllers
+  final AuthService _auth = AuthService();
+
+  final _formKey = GlobalKey<FormState>();
+
   String email = '';
   String password = '';
   String error = '';
 
   bool loading = false;
 
-  final AuthService _auth = AuthService();
+  void signUp() async {
+  if (_formKey.currentState!.validate()) {
+    setState(() => loading = true);
+    dynamic result = await _auth.registerEmail(email, password);
+    if (result == null) {
+      setState(() {
+        error = 'Invalid credentials';
+        loading = false;
+      });
+    } 
+    // else {
+      // // Si el registro es exitoso, añade el correo electrónico a la colección "users"
+      // Map<String, dynamic> userData = {
+      //   'email': email,
+      //   'name': email.substring(0, email.indexOf('@')) // Obtén el nombre de correo electrónico antes del símbolo '@'
+      // };
+      // DocumentReference userRef = await usersCollection.add(userData);
 
-  final _formKey = GlobalKey<FormState>();
+      // // Obtener el ID del usuario recién creado
+      // String userId = userRef.id;
 
-  // sign user in method
-  void signUserIn() {}
+      // // Guardar el ID del usuario en SharedPreferences
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // await prefs.setString('userId', userId);
 
+      // // Crear la colección "trips" dentro del usuario si no existe
+      // await usersCollection.doc(userId).collection('trips').add({});
+
+      setState(() => loading = false);
+    
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -150,25 +185,14 @@ class _SignUpPageState extends State<SignUpPage> {
                             setState(() => password = val);
                           },
                           obscureText: true,
-                          decoration:
-                              textInputDecoration.copyWith(hintText: 'Password'),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Password'),
                         ),
                       ),
                       SizedBox(height: 0.12 * screenHeight),
                       MyButton(
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() => loading = true);
-                            dynamic result =
-                                await _auth.registerEmail(email, password);
-                            if (result == null) {
-                              setState(() {
-                                error = 'Invalid credentials';
-                                loading = false;
-                              });
-                            }
-                          }
-                        },
+                        onTap:
+                            signUp, // Llama a la función signUp al pulsar el botón
                       ),
                       SizedBox(height: 0.014 * screenHeight),
                       Text(
@@ -183,4 +207,3 @@ class _SignUpPageState extends State<SignUpPage> {
           );
   }
 }
-

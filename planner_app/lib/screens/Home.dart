@@ -6,17 +6,51 @@ import 'package:planner_app/screens/Profile.dart';
 import 'package:planner_app/screens/TripDetailsPage.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-//clase de pantalla principal
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-//lista de viajes
 class _HomePageState extends State<HomePage> {
   final passwordController = TextEditingController();
   List<Travel> _travels = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserTrips();
+  }
+
+  void loadUserTrips() async {
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      CollectionReference usersCollection =
+          FirebaseFirestore.instance.collection('users');
+
+      QuerySnapshot tripsSnapshot = await usersCollection
+          .doc(userId)
+          .collection('trips')
+          .get();
+
+      List<Travel> trips = tripsSnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return Travel(
+          title: data['title'],
+          description: data['description'],
+          startDate: data['startDate'].toDate(),
+          endDate: data['endDate'].toDate(),
+        );
+      }).toList();
+
+      setState(() {
+        _travels = trips;
+      });
+    } else {
+      print('El usuario no está autenticado');
+    }
+  }
 
   void _addTravel(Travel travel) {
     setState(() {
@@ -24,42 +58,45 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-//ventana emergente
   void _showAddTravelDialog() {
     String title = '';
     String description = '';
     DateTime startDate = DateTime.now();
     DateTime endDate = DateTime.now();
-
-    // text editing controllers
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
     final startDateController = TextEditingController();
     final endDateController = TextEditingController();
     final tripCoverController = TextEditingController();
-
     DateTime selectedDate = DateTime.now();
-
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     void guardarViaje() {
-      String title = titleController.text;
-      String description = descriptionController.text;
-      String startDate = startDateController.text;
-      String endDate = endDateController.text;
-      String tripCover = tripCoverController.text;
+      String? userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId != null) {
+        CollectionReference usersCollection =
+            FirebaseFirestore.instance.collection('users');
 
-      firestore.collection('trips').add({
-        'title': title,
-        'description': description,
-        'startDate': startDate,
-        'endDate': endDate,
-        'tripCover': tripCover,
-      }).then((value) {
-        print('Viaje guardado en Firestore');
-      }).catchError((error) {
-        print('Error al guardar el viaje: $error');
-      });
+        Map<String, dynamic> tripData = {
+          'title': title,
+          'description': description,
+          'startDate': startDate,
+          'endDate': endDate,
+        };
+
+        usersCollection
+            .doc(userId)
+            .collection('trips')
+            .doc(title)
+            .set(tripData)
+            .then((value) {
+          print('Viaje guardado en Firestore');
+        }).catchError((error) {
+          print('Error al guardar el viaje: $error');
+        });
+      } else {
+        print('El usuario no está autenticado');
+      }
     }
 
     showDialog(
@@ -90,72 +127,64 @@ class _HomePageState extends State<HomePage> {
                   labelText: 'Description',
                 ),
               ),
-             
-StatefulBuilder(
-  builder: (BuildContext context, StateSetter setState) {
-    return ListTile(
-      title: const Text('Start Date'),
-      subtitle: TextFormField(
-        readOnly: true,
-        controller: startDateController,
-        onTap: () async {
-          final DateTime? picked = await showDatePicker(
-            context: context,
-            initialDate: startDate,
-            firstDate: DateTime(2015),
-            lastDate: DateTime(2101),
-          );
-          if (picked != null && picked != startDate) {
-            setState(() {
-              startDate = picked;
-              startDateController.text =
-                  '${startDate.toLocal()}'.split(' ')[0];
-            });
-          }
-        },
-        decoration: InputDecoration(
-          hintText: 'Select Start Date',
-        ),
-      ),
-    );
-  },
-),
- 
-
-
-StatefulBuilder(
-  builder: (BuildContext context, StateSetter setState) {
-    return ListTile(
-      title: const Text('End Date'),
-      subtitle: TextFormField(
-        readOnly: true,
-        controller: endDateController,
-        onTap: () async {
-          final DateTime? picked = await showDatePicker(
-            context: context,
-            initialDate: endDate,
-            firstDate: DateTime(2015),
-            lastDate: DateTime(2101),
-          );
-          if (picked != null && picked != endDate) {
-            setState(() {
-              endDate = picked;
-              endDateController.text =
-                  '${endDate.toLocal()}'.split(' ')[0];
-            });
-          }
-        },
-        decoration: InputDecoration(
-          hintText: 'Select End Date',
-        ),
-      ),
-    );
-  },
-),
-
-
-
-
+              StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return ListTile(
+                    title: const Text('Start Date'),
+                    subtitle: TextFormField(
+                      readOnly: true,
+                      controller: startDateController,
+                      onTap: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: startDate,
+                          firstDate: DateTime(2015),
+                          lastDate: DateTime(2101),
+                        );
+                        if (picked != null && picked != startDate) {
+                          setState(() {
+                            startDate = picked;
+                            startDateController.text =
+                                '${startDate.toLocal()}'.split(' ')[0];
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Select Start Date',
+                      ),
+                    ),
+                  );
+                },
+              ),
+              StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return ListTile(
+                    title: const Text('End Date'),
+                    subtitle: TextFormField(
+                      readOnly: true,
+                      controller: endDateController,
+                      onTap: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: endDate,
+                          firstDate: DateTime(2015),
+                          lastDate: DateTime(2101),
+                        );
+                        if (picked != null && picked != endDate) {
+                          setState(() {
+                            endDate = picked;
+                            endDateController.text =
+                                '${endDate.toLocal()}'.split(' ')[0];
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Select End Date',
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
           actions: <Widget>[
@@ -165,7 +194,6 @@ StatefulBuilder(
               },
               child: const Text('Cancel'),
             ),
-            //boton para añadir viaje
             ElevatedButton(
               onPressed: () {
                 Travel travel = Travel(
@@ -186,7 +214,6 @@ StatefulBuilder(
     );
   }
 
-//pagina en si
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -218,28 +245,21 @@ StatefulBuilder(
                 ],
               ),
             ),
-            //barra de busqueda
             SearchBar(
               controller: passwordController,
               hintText: 'Search...',
             ),
-            // const SizedBox(height: 190),
-
             Container(
-              height: MediaQuery.of(context).size.height *
-                  0.60, // Ajusta el valor según tus necesidades
-              //aqui se verá la lista de viajes
+              height: MediaQuery.of(context).size.height * 0.60,
               child: ListView.builder(
                 itemCount: _travels.length,
                 itemBuilder: (context, index) {
-                  //cada elemento de la lista es un ListTile
                   return ListTile(
                     title: Text(_travels[index].title),
                     subtitle: Text(_travels[index].description),
                     trailing: Text(
                       '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
                     ),
-                    // Al hacer clic en el ListTile, se navega a la página de detalles del viaje
                     onTap: () {
                       Navigator.push(
                         context,
@@ -253,7 +273,6 @@ StatefulBuilder(
                 },
               ),
             ),
-            // const SizedBox(height: 145),
             Padding(
               padding: const EdgeInsets.only(
                 right: 20.0,
@@ -306,3 +325,4 @@ StatefulBuilder(
     );
   }
 }
+

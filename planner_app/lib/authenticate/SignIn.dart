@@ -183,7 +183,7 @@ Widget build(BuildContext context) {
                         }
                       },
                     )),
-                    SizedBox(height: 0.002 * screenSize.height), // Cambia el espacio aquí
+                    // SizedBox(height: 0.0002 * screenSize.height), // Cambia el espacio aquí
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 18),
@@ -200,7 +200,7 @@ Widget build(BuildContext context) {
                         ],
                       ),
                     ),
-                    SizedBox(height: 0.002 * screenSize.height), // Cambia el espacio aquí
+                    // SizedBox(height: 0.0002 * screenSize.height), // Cambia el espacio aquí
                      Padding(padding: EdgeInsets.only(
                         left: 0.08 * screenSize.width, // Cambia el espacio aquí
                         right: 0.08 * screenSize.width, // Cambia el espacio aquí
