@@ -5,6 +5,8 @@ Cosas que hay que hacer:
   
   -Hacer que se pueda añadir foto a la actividad y a la trip 
   
+  -Bloquear que no se pueda tirar para atrás en home y profile, que solo vayan los botones PAULA
+  
   -Que se pueda eliminar la trip y la actcivity JORGE
         y de la base de datos   PAULA
    
