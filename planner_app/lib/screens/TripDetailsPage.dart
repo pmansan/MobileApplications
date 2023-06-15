@@ -14,7 +14,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   List<Activity> _activities = [];
   int _selectedDay = 1;
 
-//para agregar una nueva actividad a la lista de actividades
   void _addActivity(String title, DateTime time) {
     setState(() {
       Activity activity = Activity(title: title, time: time, day: _selectedDay);
@@ -23,7 +22,20 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
     });
   }
 
-  //se construye un widget para representar un día en la interfaz de usuario
+  void _editActivity(Activity activity, String newTitle, DateTime newTime) {
+    setState(() {
+      activity.title = newTitle;
+      activity.time = newTime;
+      _activities.sort((a, b) => a.time.compareTo(b.time));
+    });
+  }
+
+  void _deleteActivity(Activity activity) {
+    setState(() {
+      _activities.remove(activity);
+    });
+  }
+
   Widget _buildDayWidget(int day) {
     bool isSelected = day == _selectedDay;
     DateTime actualDate = widget.travel.startDate.add(Duration(days: day - 1));
@@ -35,9 +47,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         });
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        width: 40.0,
-        height: 40.0,
+        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+        width: 60.0,
+        height: 60.0,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: isSelected ? Colors.blue : Colors.transparent,
@@ -52,6 +64,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.black,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontSize: 18.0,
             ),
           ),
         ),
@@ -60,19 +73,31 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   }
 
   @override
-  //construye y devuelve la interfaz de usuario de la página de detalles del viaje
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.travel.title),
-      ),
       body: Column(
         children: [
-          Padding(
+          Container(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              widget.travel.description,
-              style: TextStyle(fontSize: 18),
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                SizedBox(width: 16.0),
+                Text(
+                  'Trip activities',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+              ],
             ),
           ),
           SingleChildScrollView(
@@ -112,10 +137,25 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                             .map(
                               (activity) => ListTile(
                                 title: Text(activity.title),
-                                subtitle: Text(activity.time
-                                    .toString()
-                                    .substring(11,
-                                        16)), // muestra solo horas y minutos
+                                subtitle: Text(
+                                    activity.time.toString().substring(11, 16)),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        _showEditActivityDialog(activity);
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        _deleteActivity(activity);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                             .toList(),
@@ -131,7 +171,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
     );
   }
 
-  // Muestra un cuadro de diálogo para agregar una nueva actividad
   void _showAddActivityDialog(int day) {
     String title = '';
     DateTime time = DateTime.now();
@@ -177,14 +216,12 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             ],
           ),
           actions: <Widget>[
-            //boton para cancelar y cerrar cuadro de dialogo
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),
-            //boton para agregar actividad
             ElevatedButton(
               onPressed: () {
                 _addActivity(title, time);
@@ -197,4 +234,79 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       },
     );
   }
+
+  void _showEditActivityDialog(Activity activity) {
+    TextEditingController titleController =
+        TextEditingController(text: activity.title);
+    DateTime newTime = activity.time;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Activity'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  hintText: 'Enter the new title',
+                  labelText: 'Title',
+                ),
+              ),
+              ListTile(
+                title: const Text('Time'),
+                subtitle: Text('${newTime.hour}:${newTime.minute}'),
+                onTap: () async {
+                  final TimeOfDay? picked = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.fromDateTime(newTime),
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      newTime = DateTime(
+                        newTime.year,
+                        newTime.month,
+                        newTime.day,
+                        picked.hour,
+                        picked.minute,
+                      );
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _editActivity(activity, titleController.text, newTime);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class Activity {
+  String title;
+  DateTime time;
+  int day;
+
+  Activity({
+    required this.title,
+    required this.time,
+    required this.day,
+  });
 }
