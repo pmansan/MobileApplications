@@ -6,14 +6,13 @@ import 'package:planner_app/screens/Profile.dart';
 import 'package:planner_app/screens/TripDetailsPage.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:planner_app/screens/TripOverviewPage.dart';
 
-//clase de pantalla principal
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-//lista de viajes
 class _HomePageState extends State<HomePage> {
   final passwordController = TextEditingController();
   List<Travel> _travels = [];
@@ -24,14 +23,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-//ventana emergente
   void _showAddTravelDialog() {
     String title = '';
     String description = '';
     DateTime startDate = DateTime.now();
     DateTime endDate = DateTime.now();
 
-    // text editing controllers
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
     final startDateController = TextEditingController();
@@ -90,72 +87,64 @@ class _HomePageState extends State<HomePage> {
                   labelText: 'Description',
                 ),
               ),
-             
-StatefulBuilder(
-  builder: (BuildContext context, StateSetter setState) {
-    return ListTile(
-      title: const Text('Start Date'),
-      subtitle: TextFormField(
-        readOnly: true,
-        controller: startDateController,
-        onTap: () async {
-          final DateTime? picked = await showDatePicker(
-            context: context,
-            initialDate: startDate,
-            firstDate: DateTime(2015),
-            lastDate: DateTime(2101),
-          );
-          if (picked != null && picked != startDate) {
-            setState(() {
-              startDate = picked;
-              startDateController.text =
-                  '${startDate.toLocal()}'.split(' ')[0];
-            });
-          }
-        },
-        decoration: InputDecoration(
-          hintText: 'Select Start Date',
-        ),
-      ),
-    );
-  },
-),
- 
-
-
-StatefulBuilder(
-  builder: (BuildContext context, StateSetter setState) {
-    return ListTile(
-      title: const Text('End Date'),
-      subtitle: TextFormField(
-        readOnly: true,
-        controller: endDateController,
-        onTap: () async {
-          final DateTime? picked = await showDatePicker(
-            context: context,
-            initialDate: endDate,
-            firstDate: DateTime(2015),
-            lastDate: DateTime(2101),
-          );
-          if (picked != null && picked != endDate) {
-            setState(() {
-              endDate = picked;
-              endDateController.text =
-                  '${endDate.toLocal()}'.split(' ')[0];
-            });
-          }
-        },
-        decoration: InputDecoration(
-          hintText: 'Select End Date',
-        ),
-      ),
-    );
-  },
-),
-
-
-
-
+              StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return ListTile(
+                    title: const Text('Start Date'),
+                    subtitle: TextFormField(
+                      readOnly: true,
+                      controller: startDateController,
+                      onTap: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: startDate,
+                          firstDate: DateTime(2015),
+                          lastDate: DateTime(2101),
+                        );
+                        if (picked != null && picked != startDate) {
+                          setState(() {
+                            startDate = picked;
+                            startDateController.text =
+                                '${startDate.toLocal()}'.split(' ')[0];
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Select Start Date',
+                      ),
+                    ),
+                  );
+                },
+              ),
+              StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return ListTile(
+                    title: const Text('End Date'),
+                    subtitle: TextFormField(
+                      readOnly: true,
+                      controller: endDateController,
+                      onTap: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: endDate,
+                          firstDate: DateTime(2015),
+                          lastDate: DateTime(2101),
+                        );
+                        if (picked != null && picked != endDate) {
+                          setState(() {
+                            endDate = picked;
+                            endDateController.text =
+                                '${endDate.toLocal()}'.split(' ')[0];
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Select End Date',
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
           actions: <Widget>[
@@ -165,7 +154,6 @@ StatefulBuilder(
               },
               child: const Text('Cancel'),
             ),
-            //boton para añadir viaje
             ElevatedButton(
               onPressed: () {
                 Travel travel = Travel(
@@ -186,7 +174,6 @@ StatefulBuilder(
     );
   }
 
-//pagina en si
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -218,34 +205,28 @@ StatefulBuilder(
                 ],
               ),
             ),
-            //barra de busqueda
             SearchBar(
               controller: passwordController,
               hintText: 'Search...',
             ),
-            // const SizedBox(height: 190),
-
             Container(
-              height: MediaQuery.of(context).size.height *
-                  0.60, // Ajusta el valor según tus necesidades
-              //aqui se verá la lista de viajes
+              height: MediaQuery.of(context).size.height * 0.60,
               child: ListView.builder(
                 itemCount: _travels.length,
                 itemBuilder: (context, index) {
-                  //cada elemento de la lista es un ListTile
                   return ListTile(
                     title: Text(_travels[index].title),
                     subtitle: Text(_travels[index].description),
                     trailing: Text(
                       '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
                     ),
-                    // Al hacer clic en el ListTile, se navega a la página de detalles del viaje
                     onTap: () {
+                      Travel travel = _travels[index];
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              TripDetailsPage(travel: _travels[index]),
+                              TripOverviewPage(travel: travel),
                         ),
                       );
                     },
@@ -253,7 +234,6 @@ StatefulBuilder(
                 },
               ),
             ),
-            // const SizedBox(height: 145),
             Padding(
               padding: const EdgeInsets.only(
                 right: 20.0,
