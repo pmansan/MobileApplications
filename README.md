@@ -2,16 +2,19 @@
 
 Cosas que hay que hacer:
 
+  -Mejorar estilos pantallas
   
   -Hacer que se pueda añadir foto a la actividad y a la trip  
   
   -Hacer que salga Dia1 si la trip es de un dia
   
-  -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio
+  -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio 
+
+  -Que sean mas grandes las tiles PAULA  ✔
   
   -Bloquear que no se pueda tirar para atrás en home y profile, que solo vayan los botones PAULA ✔
   
-  -Que se pueda eliminar la trip y la actcivity JORGE
+  -Que se pueda eliminar la trip y la actcivity JORGE  ✔
         y de la base de datos   PAULA
    
   -API maps JAVI
@@ -20,11 +23,11 @@ Cosas que hay que hacer:
   
   -Editar perfil e iniciar sesion con google JAVI
    
-  - Firebase Storage PAULA
+  - Firebase Storage PAULA  ✔
   -        Hay que hacer que a cada usuario le corresponda una base de datos con sus trips y actividades  ✔
   -        Hay que hacer que cuando inicie la aplicacion mire si hay un usuario y cargue su base de datos y si no pues que vaya a start para el login  ✔
  
-  - Añadir pantalla trip detail y activity detail JORGE
+  - Añadir pantalla trip detail y activity detail JORGE  ✔
  
   - Cambiar icono app PAULA ✔
   
