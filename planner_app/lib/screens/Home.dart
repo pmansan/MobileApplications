@@ -90,67 +90,82 @@ class _HomePageState extends State<HomePage> {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     void guardarViaje() async {
-  String? userId = FirebaseAuth.instance.currentUser?.uid;
-  if (userId != null) {
-    CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+      String? userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId != null) {
+        CollectionReference usersCollection =
+            FirebaseFirestore.instance.collection('users');
 
-    // Verificar si se seleccionó una imagen
-    if (_pickedImage != null) {
-      // Subir la imagen a Firebase Storage
-      final storageRef = firebase_storage.FirebaseStorage.instance.ref();
-      final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-      final uploadTask = storageRef.child(imageName).putFile(File(_pickedImage!.path));
+        // Verificar si se seleccionó una imagen
+        if (_pickedImage != null) {
+          // Subir la imagen a Firebase Storage
+          final storageRef = firebase_storage.FirebaseStorage.instance.ref();
+          final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+          final uploadTask =
+              storageRef.child(imageName).putFile(File(_pickedImage!.path));
 
-      try {
-        firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
-        String downloadURL = await taskSnapshot.ref.getDownloadURL();
+          try {
+            firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
+            String downloadURL = await taskSnapshot.ref.getDownloadURL();
 
-        // Crear el mapa de datos para tripData con la URL de la imagen
-        Map<String, dynamic> tripData = {
-          'title': title,
-          'description': description,
-          'startDate': startDate,
-          'endDate': endDate,
-          'imageURL': downloadURL, // Agregar la URL de la imagen a tripData
-        };
+            // Crear el mapa de datos para tripData con la URL de la imagen
+            Map<String, dynamic> tripData = {
+              'title': title,
+              'description': description,
+              'startDate': startDate,
+              'endDate': endDate,
+              'imageURL': downloadURL, // Agregar la URL de la imagen a tripData
+            };
 
-        // Guardar tripData en Firestore
-        usersCollection.doc(userId).collection('trips').doc(title).set(tripData).then((value) {
-          print('Viaje guardado en Firestore');
-        }).catchError((error) {
-          print('Error al guardar el viaje: $error');
-        });
-      } catch (error) {
-        print('Error al subir la imagen a Firebase Storage: $error');
+            // travel.imageURL = downloadURL;
+
+            // Guardar tripData en Firestore
+            usersCollection
+                .doc(userId)
+                .collection('trips')
+                .doc(title)
+                .set(tripData)
+                .then((value) {
+              print('Viaje guardado en Firestore');
+            }).catchError((error) {
+              print('Error al guardar el viaje: $error');
+            });
+          } catch (error) {
+            print('Error al subir la imagen a Firebase Storage: $error');
+          }
+        } else {
+          // Crear el mapa de datos para tripData sin la URL de la imagen
+          Map<String, dynamic> tripData = {
+            'title': title,
+            'description': description,
+            'startDate': startDate,
+            'endDate': endDate,
+          };
+
+          // Guardar tripData en Firestore
+          usersCollection
+              .doc(userId)
+              .collection('trips')
+              .doc(title)
+              .set(tripData)
+              .then((value) {
+            print('Viaje guardado en Firestore');
+          }).catchError((error) {
+            print('Error al guardar el viaje: $error');
+          });
+        }
+      } else {
+        print('El usuario no está autenticado');
       }
-    } else {
-      // Crear el mapa de datos para tripData sin la URL de la imagen
-      Map<String, dynamic> tripData = {
-        'title': title,
-        'description': description,
-        'startDate': startDate,
-        'endDate': endDate,
-      };
-
-      // Guardar tripData en Firestore
-      usersCollection.doc(userId).collection('trips').doc(title).set(tripData).then((value) {
-        print('Viaje guardado en Firestore');
-      }).catchError((error) {
-        print('Error al guardar el viaje: $error');
-      });
     }
-  } else {
-    print('El usuario no está autenticado');
-  }
-}
-
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Add a new travel'),
-          content: Column(
+          content: SingleChildScrollView(
+              // Agregar este widget
+              child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
@@ -203,93 +218,34 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  return ListTile(
-                    title: const Text('End Date'),
-                    subtitle: TextFormField(
-                      readOnly: true,
-                      controller: endDateController,
-                      onTap: () async {
-                        final DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: endDate,
-                          firstDate: DateTime(2015),
-                          lastDate: DateTime(2101),
-                        );
-                        if (picked != null && picked != endDate) {
-                          setState(() {
-                            endDate = picked;
-                            endDateController.text =
-                                '${endDate.toLocal()}'.split(' ')[0];
-                          });
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Select End Date',
-                      ),
+                  builder: (BuildContext context, StateSetter setState) {
+                return ListTile(
+                  title: const Text('End Date'),
+                  subtitle: TextFormField(
+                    readOnly: true,
+                    controller: endDateController,
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: endDate,
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime(2101),
+                      );
+                      if (picked != null && picked != endDate) {
+                        setState(() {
+                          endDate = picked;
+                          endDateController.text =
+                              '${endDate.toLocal()}'.split(' ')[0];
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Select End Date',
                     ),
-                  );
-                },
-              ),
-              StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  return ListTile(
-                    title: const Text('Start Date'),
-                    subtitle: TextFormField(
-                      readOnly: true,
-                      controller: startDateController,
-                      onTap: () async {
-                        final DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: startDate,
-                          firstDate: DateTime(2015),
-                          lastDate: DateTime(2101),
-                        );
-                        if (picked != null && picked != startDate) {
-                          setState(() {
-                            startDate = picked;
-                            startDateController.text =
-                                '${startDate.toLocal()}'.split(' ')[0];
-                          });
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Select Start Date',
-                      ),
-                    ),
-                  );
-                },
-              ),
-              StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  return ListTile(
-                    title: const Text('End Date'),
-                    subtitle: TextFormField(
-                      readOnly: true,
-                      controller: endDateController,
-                      onTap: () async {
-                        final DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: endDate,
-                          firstDate: DateTime(2015),
-                          lastDate: DateTime(2101),
-                        );
-                        if (picked != null && picked != endDate) {
-                          setState(() {
-                            endDate = picked;
-                            endDateController.text =
-                                '${endDate.toLocal()}'.split(' ')[0];
-                          });
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Select End Date',
-                      ),
-                    ),
-                  );
-                },
-              ),
-              // Muestra la imagen seleccionada
+                  ),
+                );
+              }),
+              //Muestra la imagen seleccionada
               ElevatedButton(
                 onPressed: _pickImage,
                 child: const Text('Add Image'),
@@ -310,7 +266,7 @@ class _HomePageState extends State<HomePage> {
               //     )),
               //   ),
             ],
-          ),
+          )),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -373,32 +329,62 @@ class _HomePageState extends State<HomePage> {
               controller: passwordController,
               hintText: 'Search...',
             ),
+// ...
+
             Container(
-              height: MediaQuery.of(context).size.height * 0.60,
-              height: MediaQuery.of(context).size.height * 0.60,
+              height: MediaQuery.of(context).size.height * 0.6,
               child: ListView.builder(
                 itemCount: _travels.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_travels[index].title),
-                    subtitle: Text(_travels[index].description),
-                    trailing: Text(
-                      '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
-                    ),
-                    onTap: () {
-                      Travel travel = _travels[index];
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TripOverviewPage(travel: travel),
+                  return Card(
+                      elevation: 2,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.5,
+                              left: MediaQuery.of(context).size.height * 0.025,
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.025),
+                          tileColor: Color.fromARGB(250, 132, 176, 216),
+                          // leading: Container(
+                          //   // decoration: BoxDecoration(
+                          //   //   shape: BoxShape.circle,
+                          //   //   image: DecorationImage(
+                          //   //     fit: BoxFit.cover,
+                          //   //     image: NetworkImage(_travels[index].pickedImage)
+                          //   //         : AssetImage(
+                          //   //             'assets/images/placeholder_image.jpg'),
+                          //   //   ),
+                          //   // ),
+                          // ),
+                          title: Text(_travels[index].title,
+                              style: const TextStyle(fontSize: 20)),
+                          subtitle: Text(
+                              '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
+                              style: const TextStyle(fontSize: 15)),
+                          // Text(_travels[index].description, ),
+                          // trailing: Text(
+                          //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
+                          // ),
+                          onTap: () {
+                            Travel travel = _travels[index];
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    TripOverviewPage(travel: travel),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  );
+                      ));
                 },
               ),
             ),
+
+// ...
+
             Padding(
               padding: const EdgeInsets.only(
                 right: 20.0,
@@ -410,8 +396,10 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   FloatingActionButton(
+                    // foregroundColor: Color(0xfb3a78b1),
+                    backgroundColor: Color(0xfb3a78b1),
                     onPressed: _showAddTravelDialog,
-                    child: const Icon(Icons.add),
+                    child: const Icon(Icons.add,),
                   ),
                 ],
               ),

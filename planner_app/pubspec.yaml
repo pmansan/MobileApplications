@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.18.1
   flutter_spinkit: ^5.2.0
   shared_preferences: ^2.1.2
+  firebase_storage: ^11.2.3
 
 dev_dependencies:
   flutter_test:
