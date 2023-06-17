@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/round_button.dart';
 import 'package:planner_app/components/search_bar.dart';
@@ -7,20 +9,36 @@ import 'package:planner_app/screens/TripDetailsPage.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:image_picker/image_picker.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+
+  loadUserTrips() {}
 }
 
 class _HomePageState extends State<HomePage> {
   final passwordController = TextEditingController();
   List<Travel> _travels = [];
+  PickedFile? _pickedImage;
 
   @override
   void initState() {
     super.initState();
     loadUserTrips();
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _pickedImage = PickedFile(pickedImage.path);
+      });
+    }
   }
 
   void loadUserTrips() async {
@@ -29,10 +47,8 @@ class _HomePageState extends State<HomePage> {
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('users');
 
-      QuerySnapshot tripsSnapshot = await usersCollection
-          .doc(userId)
-          .collection('trips')
-          .get();
+      QuerySnapshot tripsSnapshot =
+          await usersCollection.doc(userId).collection('trips').get();
 
       List<Travel> trips = tripsSnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -71,33 +87,61 @@ class _HomePageState extends State<HomePage> {
     DateTime selectedDate = DateTime.now();
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    void guardarViaje() {
-      String? userId = FirebaseAuth.instance.currentUser?.uid;
-      if (userId != null) {
-        CollectionReference usersCollection =
-            FirebaseFirestore.instance.collection('users');
+    void guardarViaje() async {
+  String? userId = FirebaseAuth.instance.currentUser?.uid;
+  if (userId != null) {
+    CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
 
+    // Verificar si se seleccionó una imagen
+    if (_pickedImage != null) {
+      // Subir la imagen a Firebase Storage
+      final storageRef = firebase_storage.FirebaseStorage.instance.ref();
+      final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final uploadTask = storageRef.child(imageName).putFile(File(_pickedImage!.path));
+
+      try {
+        firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
+        String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+        // Crear el mapa de datos para tripData con la URL de la imagen
         Map<String, dynamic> tripData = {
           'title': title,
           'description': description,
           'startDate': startDate,
           'endDate': endDate,
+          'imageURL': downloadURL, // Agregar la URL de la imagen a tripData
         };
 
-        usersCollection
-            .doc(userId)
-            .collection('trips')
-            .doc(title)
-            .set(tripData)
-            .then((value) {
+        // Guardar tripData en Firestore
+        usersCollection.doc(userId).collection('trips').doc(title).set(tripData).then((value) {
           print('Viaje guardado en Firestore');
         }).catchError((error) {
           print('Error al guardar el viaje: $error');
         });
-      } else {
-        print('El usuario no está autenticado');
+      } catch (error) {
+        print('Error al subir la imagen a Firebase Storage: $error');
       }
+    } else {
+      // Crear el mapa de datos para tripData sin la URL de la imagen
+      Map<String, dynamic> tripData = {
+        'title': title,
+        'description': description,
+        'startDate': startDate,
+        'endDate': endDate,
+      };
+
+      // Guardar tripData en Firestore
+      usersCollection.doc(userId).collection('trips').doc(title).set(tripData).then((value) {
+        print('Viaje guardado en Firestore');
+      }).catchError((error) {
+        print('Error al guardar el viaje: $error');
+      });
     }
+  } else {
+    print('El usuario no está autenticado');
+  }
+}
+
 
     showDialog(
       context: context,
@@ -185,6 +229,26 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
+              // Muestra la imagen seleccionada
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: const Text('Add Image'),
+              ),
+              // if (_pickedImage != null)
+              //   Image.file(
+              //     File(_pickedImage!.path),
+              //     height: 90, // Ajusta la altura según tus necesidades
+              //     fit: BoxFit.fitWidth,
+              //   ),
+              // if (_pickedImage != null)
+              //   Container(
+              //     height: 100, // Ajusta la altura según tus necesidades
+              //     child: ClipRect(
+              //         child: Image.file(
+              //       File(_pickedImage!.path),
+              //       fit: BoxFit.fitWidth,
+              //     )),
+              //   ),
             ],
           ),
           actions: <Widget>[
@@ -325,4 +389,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       initialData: null,
       child: MaterialApp(
+        title:'Plannel',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Nunito'),
         //Página a la que redirige cuando se enciende

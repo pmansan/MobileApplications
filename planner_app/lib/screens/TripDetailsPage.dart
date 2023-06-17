@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:planner_app/screens/Models.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
+  // final String tripId;
 
   const TripDetailsPage({required this.travel});
 
@@ -11,15 +15,85 @@ class TripDetailsPage extends StatefulWidget {
 }
 
 class _TripDetailsPageState extends State<TripDetailsPage> {
+  Map<int, List<Activity>> _activitiesMap = {};
   List<Activity> _activities = [];
   int _selectedDay = 1;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-//para agregar una nueva actividad a la lista de actividades
+  @override
+  void initState() {
+    super.initState();
+    loadDatabaseData();
+  }
+
+  void loadDatabaseData() {
+    final userId = getUserId();
+    if (userId != null) {
+      if (_activitiesMap.containsKey(_selectedDay)) {
+        // Si las actividades para el día seleccionado ya se han cargado, usarlas desde el mapa
+        setState(() {
+          _activities = _activitiesMap[_selectedDay]!;
+        });
+      } else {
+        _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('trips')
+            .doc(widget.travel.title)
+            .collection('days')
+            .doc('day$_selectedDay')
+            .collection('activities')
+            .get()
+            .then((activitiesSnapshot) {
+          final List<Activity> loadedActivities = [];
+          activitiesSnapshot.docs.forEach((activityDoc) {
+            final data = activityDoc.data();
+            final title = data['title'];
+            final time = data['time'].toDate();
+            Activity activity = Activity(title: title, time: time, day: _selectedDay);
+            loadedActivities.add(activity);
+          });
+
+          setState(() {
+            _activities = loadedActivities;
+            _activitiesMap[_selectedDay] = loadedActivities; // Almacenar las actividades en el mapa
+          });
+        });
+      }
+    }
+  }
+
+  String? getUserId() {
+    final user = _auth.currentUser;
+    if (user != null) {
+      return user.uid;
+    } else {
+      return null;
+    }
+  }
+
   void _addActivity(String title, DateTime time) {
     setState(() {
       Activity activity = Activity(title: title, time: time, day: _selectedDay);
       _activities.add(activity);
       _activities.sort((a, b) => a.time.compareTo(b.time));
+
+      String? userId = getUserId();
+      if (userId != null) {
+        _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('trips')
+            .doc(widget.travel.title)
+            .collection('days')
+            .doc('day$_selectedDay')
+            .collection('activities')
+            .add({
+          'title': title,
+          'time': time,
+        });
+      }
     });
   }
 
@@ -32,6 +106,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       onTap: () {
         setState(() {
           _selectedDay = day;
+          loadDatabaseData();
         });
       },
       child: Container(

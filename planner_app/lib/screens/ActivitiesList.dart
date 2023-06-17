@@ -108,7 +108,7 @@ class ActivitiesListPage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 150),
+            const SizedBox(height: 130),
 
             // text
             const Text(

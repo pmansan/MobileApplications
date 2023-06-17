@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planner_app/screens/Home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../components/my_textfield.dart';
 
@@ -11,7 +13,18 @@ class CreateActivityPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   //////////////////////////////////////////
-  TextEditingController _time = TextEditingController();
+  // TextEditingController _time = TextEditingContrÇoller();
+  String title = '';
+  String location= '';
+  DateTime hour = DateTime.now();
+  DateTime price = DateTime.now();
+  final titleController = TextEditingController();
+  final locationController = TextEditingController();
+  final hourController = TextEditingController();
+  final priceController = TextEditingController();
+  // final tripCoverController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String? imagePath;
   XFile? _pickedfile;
@@ -77,7 +90,7 @@ class CreateActivityPage extends StatelessWidget {
 
             // activity title textfield
             MyTextField(
-              controller: usernameController,
+              controller: titleController,
               hintText: 'e.g Trip to Spain... ',
               obscureText: false,
             ),
@@ -111,6 +124,7 @@ class CreateActivityPage extends StatelessWidget {
                 width: 500, // <-- TextField width
                 height: 60,
                 child: TextField(
+                  controller: locationController,
                   obscureText: false,
                   maxLines: null,
                   expands: true,
@@ -165,14 +179,14 @@ class CreateActivityPage extends StatelessWidget {
                       width: 170, // <-- TextField width
                       height: 60,
                       child: TextField(
-                        controller: _time,
+                        controller: hourController,
                         showCursor: true,
                         readOnly: true,
                         onTap: () async {
                           TimeOfDay? pickedTime = await showTimePicker(
                               context: context, initialTime: TimeOfDay.now());
                           if (pickedTime != null) {
-                            _time.text =
+                            hourController.text =
                                 '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
                           }
                           ;
@@ -205,7 +219,7 @@ class CreateActivityPage extends StatelessWidget {
                       width: 170, // <-- TextField width
                       height: 60,
                       child: TextField(
-                        // controller: ,
+                        controller: priceController,
                         obscureText: false,
                         maxLines: null,
                         expands: true,

@@ -20,7 +20,12 @@ class ProfilePage extends StatelessWidget {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
 
-    return Scaffold(
+    return  WillPopScope(
+      onWillPop: () async {
+        // Bloquea la navegación hacia atrás
+        return false;
+      },
+    child: Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: null,
@@ -228,6 +233,7 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
+    )
     );
   }
 }
