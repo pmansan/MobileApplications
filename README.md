@@ -23,7 +23,7 @@ Cosas que hay que hacer:
   
   -Editar perfil e iniciar sesion con google JAVI
    
-  - Firebase Storage PAULA
+  - Firebase Storage PAULA  ✔
   -        Hay que hacer que a cada usuario le corresponda una base de datos con sus trips y actividades  ✔
   -        Hay que hacer que cuando inicie la aplicacion mire si hay un usuario y cargue su base de datos y si no pues que vaya a start para el login  ✔
  
