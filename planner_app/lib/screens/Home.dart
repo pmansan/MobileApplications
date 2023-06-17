@@ -8,6 +8,7 @@ import 'package:planner_app/screens/Profile.dart';
 import 'package:planner_app/screens/TripDetailsPage.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:planner_app/screens/TripOverviewPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
@@ -79,6 +80,7 @@ class _HomePageState extends State<HomePage> {
     String description = '';
     DateTime startDate = DateTime.now();
     DateTime endDate = DateTime.now();
+
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
     final startDateController = TextEditingController();
@@ -229,6 +231,64 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
+              StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return ListTile(
+                    title: const Text('Start Date'),
+                    subtitle: TextFormField(
+                      readOnly: true,
+                      controller: startDateController,
+                      onTap: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: startDate,
+                          firstDate: DateTime(2015),
+                          lastDate: DateTime(2101),
+                        );
+                        if (picked != null && picked != startDate) {
+                          setState(() {
+                            startDate = picked;
+                            startDateController.text =
+                                '${startDate.toLocal()}'.split(' ')[0];
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Select Start Date',
+                      ),
+                    ),
+                  );
+                },
+              ),
+              StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return ListTile(
+                    title: const Text('End Date'),
+                    subtitle: TextFormField(
+                      readOnly: true,
+                      controller: endDateController,
+                      onTap: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: endDate,
+                          firstDate: DateTime(2015),
+                          lastDate: DateTime(2101),
+                        );
+                        if (picked != null && picked != endDate) {
+                          setState(() {
+                            endDate = picked;
+                            endDateController.text =
+                                '${endDate.toLocal()}'.split(' ')[0];
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Select End Date',
+                      ),
+                    ),
+                  );
+                },
+              ),
               // Muestra la imagen seleccionada
               ElevatedButton(
                 onPressed: _pickImage,
@@ -315,6 +375,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.60,
+              height: MediaQuery.of(context).size.height * 0.60,
               child: ListView.builder(
                 itemCount: _travels.length,
                 itemBuilder: (context, index) {
@@ -325,11 +386,12 @@ class _HomePageState extends State<HomePage> {
                       '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
                     ),
                     onTap: () {
+                      Travel travel = _travels[index];
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              TripDetailsPage(travel: _travels[index]),
+                              TripOverviewPage(travel: travel),
                         ),
                       );
                     },

@@ -3,7 +3,11 @@
 Cosas que hay que hacer:
 
   
-  -Hacer que se pueda añadir foto a la actividad y a la trip  ✔
+  -Hacer que se pueda añadir foto a la actividad y a la trip  
+  
+  -Hacer que salga Dia1 si la trip es de un dia
+  
+  -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio
   
   -Bloquear que no se pueda tirar para atrás en home y profile, que solo vayan los botones PAULA ✔
   
