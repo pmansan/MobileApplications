@@ -13,12 +13,12 @@ Cosas que hay que hacer:
   
   -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio 
 
+   - Memoria
+
   -Que se pueda eliminar la trip y la actcivity JORGE  ✔
-        y de la base de datos   PAULA
+        y de la base de datos   PAULA ✔
 
-  - Memoria
-
-  -Que sean mas grandes las tiles PAULA  ✔
+   -Que sean mas grandes las tiles PAULA  ✔
   -Bloquear que no se pueda tirar para atrás en home y profile, que solo vayan los botones PAULA ✔
   -Mirar lo del link para compartir con amigos y tal (lo último)
   - Firebase Storage PAULA  ✔
