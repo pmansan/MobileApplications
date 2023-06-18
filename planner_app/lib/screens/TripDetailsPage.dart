@@ -3,7 +3,6 @@ import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
   // final String tripId;
@@ -50,14 +49,17 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           activitiesSnapshot.docs.forEach((activityDoc) {
             final data = activityDoc.data();
             final title = data['title'];
+            final id = activityDoc.id;
             final time = data['time'].toDate();
-            Activity activity = Activity(title: title, time: time, day: _selectedDay);
+            Activity activity =
+                Activity(title: title, time: time, day: _selectedDay, id: id);
             loadedActivities.add(activity);
           });
 
           setState(() {
             _activities = loadedActivities;
-            _activitiesMap[_selectedDay] = loadedActivities; // Almacenar las actividades en el mapa
+            _activitiesMap[_selectedDay] =
+                loadedActivities; // Almacenar las actividades en el mapa
           });
         });
       }
@@ -75,13 +77,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
 
   void _addActivity(String title, DateTime time) {
     setState(() {
-      Activity activity = Activity(title: title, time: time, day: _selectedDay);
-      _activities.add(activity);
-      _activities.sort((a, b) => a.time.compareTo(b.time));
-
       String? userId = getUserId();
       if (userId != null) {
-        _firestore
+        DocumentReference docRef = _firestore
             .collection('users')
             .doc(userId)
             .collection('trips')
@@ -89,7 +87,19 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             .collection('days')
             .doc('day$_selectedDay')
             .collection('activities')
-            .add({
+            .doc();
+
+        Activity activity = Activity(
+          title: title,
+          time: time,
+          day: _selectedDay,
+          id: docRef.id, // Asignar el ID generado automáticamente por Firestore
+        );
+
+        _activities.add(activity);
+        _activities.sort((a, b) => a.time.compareTo(b.time));
+
+        docRef.set({
           'title': title,
           'time': time,
         });
@@ -102,12 +112,47 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       activity.title = newTitle;
       activity.time = newTime;
       _activities.sort((a, b) => a.time.compareTo(b.time));
+
+      String? userId = getUserId();
+      if (userId != null) {
+        _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('trips')
+            .doc(widget.travel.title)
+            .collection('days')
+            .doc('day$_selectedDay')
+            .collection('activities')
+            .doc(activity.id)
+            .update({
+          'title': newTitle,
+          'time': newTime,
+        }).then((_) {
+          print('Actividad actualizada en Firestore.');
+        }).catchError((error) {
+          print('Error al actualizar la actividad: $error');
+        });
+      }
     });
   }
 
   void _deleteActivity(Activity activity) {
     setState(() {
       _activities.remove(activity);
+
+      String? userId = getUserId();
+      if (userId != null && activity.id != null) {
+        _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('trips')
+            .doc(widget.travel.title)
+            .collection('days')
+            .doc('day$_selectedDay')
+            .collection('activities')
+            .doc(activity.id)
+            .delete();
+      }
     });
   }
 
@@ -250,62 +295,68 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   void _showAddActivityDialog(int day) {
     String title = '';
     DateTime time = DateTime.now();
+    TimeOfDay pickedTime = TimeOfDay.now();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Add an activity'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                onChanged: (value) {
-                  title = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Enter the title of the activity',
-                  labelText: 'Title',
-                ),
-              ),
-              ListTile(
-                title: const Text('Time'),
-                subtitle: Text('${time.hour}:${time.minute}'),
-                onTap: () async {
-                  final TimeOfDay? picked = await showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay.fromDateTime(time),
-                  );
-                  if (picked != null) {
-                    setState(() {
-                      time = DateTime(
-                        time.year,
-                        time.month,
-                        time.day,
-                        picked.hour,
-                        picked.minute,
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: const Text('Add an activity'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  TextField(
+                    onChanged: (value) {
+                      title = value;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Enter the title of the activity',
+                      labelText: 'Title',
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Time'),
+                    subtitle: Text('${pickedTime!.hour}:${pickedTime!.minute}'),
+                    onTap: () async {
+                      final TimeOfDay? picked = await showTimePicker(
+                        context: context,
+                        initialTime: pickedTime!,
                       );
-                    });
-                  }
-                },
+                      if (picked != null) {
+                        setState(() {
+                          pickedTime = picked;
+                          time = DateTime(
+                            time.year,
+                            time.month,
+                            time.day,
+                            picked.hour,
+                            picked.minute,
+                          );
+                        });
+                      }
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _addActivity(title, time);
-                Navigator.of(context).pop();
-              },
-              child: const Text('Save'),
-            ),
-          ],
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _addActivity(title, time);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Save'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -379,10 +430,11 @@ class Activity {
   String title;
   DateTime time;
   int day;
+  String? id;
 
-  Activity({
-    required this.title,
-    required this.time,
-    required this.day,
-  });
+  Activity(
+      {required this.title,
+      required this.time,
+      required this.day,
+      required this.id});
 }
