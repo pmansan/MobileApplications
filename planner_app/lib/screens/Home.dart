@@ -370,10 +370,10 @@ class _HomePageState extends State<HomePage> {
                               //   //   ),
                               //   // ),
                               // ),
-                              title: Text(_travels[index].title,
+                              title: Text(capitalize(_travels[index].title),
                                   style: const TextStyle(fontSize: 20)),
-                              subtitle: Text(
-                                  '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
+                              subtitle: Text(capitalize(
+                                  '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}'),
                                   style: const TextStyle(fontSize: 15)),
                               // Text(_travels[index].description, ),
                               // trailing: Text(

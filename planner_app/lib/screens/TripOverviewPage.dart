@@ -16,7 +16,7 @@ class TripOverviewPage extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 2 / 6,
-            color: Colors.blue,
+            color: const Color(0xffb3a78b1),
             child: Stack(
               children: [
                 Align(
@@ -41,7 +41,7 @@ class TripOverviewPage extends StatelessWidget {
                       children: [
                         Text(
                           '${travel.startDate.day}${_getDaySuffix(travel.startDate.day)} ${_getMonthAbbreviation(travel.startDate.month)}-${travel.endDate.day}${_getDaySuffix(travel.endDate.day)} ${_getMonthAbbreviation(travel.endDate.month)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -49,8 +49,8 @@ class TripOverviewPage extends StatelessWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          travel.title,
-                          style: TextStyle(
+                          capitalize(travel.title),
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -70,18 +70,18 @@ class TripOverviewPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Description',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                      color: const Color(0xffb3a78b1),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    travel.description,
-                    style: TextStyle(
+                    capitalize(travel.description),
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
                     ),
@@ -105,8 +105,9 @@ class TripOverviewPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                    borderRadius: BorderRadius.circular(30.0), 
                   ),
+                  backgroundColor: const Color(0xffb3a78b1),
                   padding:
                       EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                   textStyle: TextStyle(fontSize: 18.0),

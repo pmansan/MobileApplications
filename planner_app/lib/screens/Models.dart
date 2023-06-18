@@ -25,3 +25,7 @@ class Travel {
 
   Duration get duration => endDate.difference(startDate);
 }
+
+ String capitalize(String text) {
+  return text.isNotEmpty ? text[0].toUpperCase() + text.substring(1) : '';
+}
