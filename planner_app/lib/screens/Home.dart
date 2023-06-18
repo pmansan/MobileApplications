@@ -24,6 +24,9 @@ class _HomePageState extends State<HomePage> {
   final passwordController = TextEditingController();
   List<Travel> _travels = [];
   PickedFile? _pickedImage;
+  bool isTitleValid = true;
+  bool isStartDateValid = true;
+  bool isEndDateValid = true;
 
   @override
   void initState() {
@@ -94,6 +97,11 @@ class _HomePageState extends State<HomePage> {
       if (userId != null) {
         CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('users');
+
+        if (title.isEmpty || startDate == null || endDate == null) {
+          print('Por favor, completa todos los campos obligatorios');
+          return; // No se guarda nada hasta que esté todo correcto
+        }
 
         // Verificar si se seleccionó una imagen
         if (_pickedImage != null) {
@@ -299,143 +307,150 @@ class _HomePageState extends State<HomePage> {
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      appBar: null,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, bottom: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                verticalDirection: VerticalDirection.down,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Your trips',
-                    style: TextStyle(
-                        color: Color(0xfb3a78b1),
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
+    return WillPopScope(
+        onWillPop: () async {
+          // Bloquea la navegación hacia atrás
+          return false;
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.white,
+          appBar: null,
+          body: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, bottom: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    verticalDirection: VerticalDirection.down,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Your trips',
+                        style: TextStyle(
+                            color: Color(0xfb3a78b1),
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            SearchBar(
-              controller: passwordController,
-              hintText: 'Search...',
-            ),
-// ...
-
-            Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: ListView.builder(
-                itemCount: _travels.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                      elevation: 2,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.6,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.5,
-                              left: MediaQuery.of(context).size.height * 0.025,
-                              bottom:
-                                  MediaQuery.of(context).size.height * 0.025),
-                          tileColor: Color.fromARGB(250, 132, 176, 216),
-                          // leading: Container(
-                          //   // decoration: BoxDecoration(
-                          //   //   shape: BoxShape.circle,
-                          //   //   image: DecorationImage(
-                          //   //     fit: BoxFit.cover,
-                          //   //     image: NetworkImage(_travels[index].pickedImage)
-                          //   //         : AssetImage(
-                          //   //             'assets/images/placeholder_image.jpg'),
-                          //   //   ),
-                          //   // ),
-                          // ),
-                          title: Text(_travels[index].title,
-                              style: const TextStyle(fontSize: 20)),
-                          subtitle: Text(
-                              '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
-                              style: const TextStyle(fontSize: 15)),
-                          // Text(_travels[index].description, ),
-                          // trailing: Text(
-                          //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
-                          // ),
-                          onTap: () {
-                            Travel travel = _travels[index];
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    TripOverviewPage(travel: travel),
-                              ),
-                            );
-                          },
-                        ),
-                      ));
-                },
-              ),
-            ),
-
-// ...
-
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 20.0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                verticalDirection: VerticalDirection.down,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    // foregroundColor: Color(0xfb3a78b1),
-                    backgroundColor: Color(0xfb3a78b1),
-                    onPressed: _showAddTravelDialog,
-                    child: const Icon(Icons.add,),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0, right: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                verticalDirection: VerticalDirection.up,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.home_outlined),
-                    onPressed: () {},
-                    iconSize: 0.17 * screenWidth,
-                    color: const Color(0xffb3a78b1),
-                  ),
-                  const SizedBox(width: 130),
-                  IconButton(
-                    icon: const Icon(Icons.person_2_outlined),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()),
-                      );
+                ),
+                SearchBar(
+                  controller: passwordController,
+                  hintText: 'Search...',
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: ListView.builder(
+                    itemCount: _travels.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                          elevation: 2,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            child: ListTile(
+                              contentPadding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height * 0.5,
+                                  left: MediaQuery.of(context).size.height *
+                                      0.025,
+                                  bottom: MediaQuery.of(context).size.height *
+                                      0.025),
+                              tileColor: Color.fromARGB(250, 132, 176, 216),
+                              // leading: Container(
+                              //   // decoration: BoxDecoration(
+                              //   //   shape: BoxShape.circle,
+                              //   //   image: DecorationImage(
+                              //   //     fit: BoxFit.cover,
+                              //   //     image: NetworkImage(_travels[index].pickedImage)
+                              //   //         : AssetImage(
+                              //   //             'assets/images/placeholder_image.jpg'),
+                              //   //   ),
+                              //   // ),
+                              // ),
+                              title: Text(_travels[index].title,
+                                  style: const TextStyle(fontSize: 20)),
+                              subtitle: Text(
+                                  '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
+                                  style: const TextStyle(fontSize: 15)),
+                              // Text(_travels[index].description, ),
+                              // trailing: Text(
+                              //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
+                              // ),
+                              onTap: () {
+                                Travel travel = _travels[index];
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TripOverviewPage(travel: travel),
+                                  ),
+                                );
+                              },
+                            ),
+                          ));
                     },
-                    iconSize: 0.17 * screenWidth,
-                    color: Colors.grey,
                   ),
-                ],
-              ),
+                ),
+
+// ...
+
+                Padding(
+                  padding: const EdgeInsets.only(
+                    right: 20.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
+                    verticalDirection: VerticalDirection.down,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      FloatingActionButton(
+                        // foregroundColor: Color(0xfb3a78b1),
+                        backgroundColor: Color(0xfb3a78b1),
+                        onPressed: _showAddTravelDialog,
+                        child: const Icon(
+                          Icons.add,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 50.0, right: 50),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    verticalDirection: VerticalDirection.up,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.home_outlined),
+                        onPressed: () {},
+                        iconSize: 0.17 * screenWidth,
+                        color: const Color(0xffb3a78b1),
+                      ),
+                      const SizedBox(width: 130),
+                      IconButton(
+                        icon: const Icon(Icons.person_2_outlined),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfilePage()),
+                          );
+                        },
+                        iconSize: 0.17 * screenWidth,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
