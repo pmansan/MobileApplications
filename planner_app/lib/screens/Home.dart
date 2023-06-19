@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/round_button.dart';
 import 'package:planner_app/components/search_bar.dart';
@@ -39,9 +38,9 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _pickedImage = PickedFile(pickedImage.path);
         loadUserTrips();
+        print(_pickedImage);
       });
     }
-    
   }
 
   void loadUserTrips() async {
@@ -161,6 +160,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
+//Dialog to add trip
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Select Start Date',
                       ),
                     ),
@@ -242,13 +242,13 @@ class _HomePageState extends State<HomePage> {
                         });
                       }
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Select End Date',
                     ),
                   ),
                 );
               }),
-              //Muestra la imagen seleccionada
+              //Image add
               ElevatedButton(
                 onPressed: _pickImage,
                 child: const Text('Add Image'),
@@ -258,7 +258,7 @@ class _HomePageState extends State<HomePage> {
               //     File(_pickedImage!.path),
               //     height: 90, // Ajusta la altura según tus necesidades
               //     fit: BoxFit.fitWidth,
-              //   ),            
+              //   ),
             ],
           )),
           actions: <Widget>[
@@ -290,6 +290,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//Page
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -298,7 +299,7 @@ class _HomePageState extends State<HomePage> {
     // loadUserTrips();
     return WillPopScope(
         onWillPop: () async {
-          // Bloquea la navegación hacia atrás
+          // Block go back
           return false;
         },
         child: Scaffold(
@@ -309,8 +310,12 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                //Title
                 Padding(
-                  padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.04, bottom: MediaQuery.of(context).size.height * 0.05, top: MediaQuery.of(context).size.height * 0.025),
+                  padding: EdgeInsets.only(
+                      left: screenHeight * 0.04,
+                      bottom: screenHeight * 0.025,
+                      top: screenHeight * 0.025),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -327,11 +332,9 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.05,
-                // ),
+                //List of trips
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.65,
+                  height: screenHeight * 0.65,
                   child: ListView.builder(
                     itemCount: _travels.length,
                     itemBuilder: (context, index) {
@@ -340,32 +343,28 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.62,
+                                height: screenHeight * 0.62,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(80),
                                   image: DecorationImage(
                                       image: _travels[index].imageURL != null &&
                                               _travels[index].imageURL != 'null'
                                           ? NetworkImage(
-                                                  _travels[index].imageURL!)
-                                          : const AssetImage(
-                                                  'lib/images/amsterdam.jpg')
-                                              as ImageProvider<Object>,
-                                      // image: AssetImage('lib/images/amsterdam.jpg'),
+                                              _travels[index].imageURL!)
+                                          : _pickedImage != null
+                                              ? FileImage(
+                                                  File(_pickedImage!.path))
+                                              : const AssetImage(
+                                                      'lib/images/blue.png')
+                                                  as ImageProvider<Object>,
                                       fit: BoxFit.fill),
                                 ),
                                 child: ListTile(
                                   contentPadding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height *
-                                          0.5,
-                                      left: MediaQuery.of(context).size.height *
-                                          0.05,
-                                      bottom:
-                                          MediaQuery.of(context).size.height *
-                                              0.025),
+                                      top: screenHeight * 0.5,
+                                      left: screenHeight * 0.05,
+                                      bottom: screenHeight * 0.025),
                                   tileColor: Colors.transparent,
-
                                   title: Text(capitalize(_travels[index].title),
                                       style: const TextStyle(
                                           fontSize: 22,
@@ -394,27 +393,23 @@ class _HomePageState extends State<HomePage> {
                                                   Color.fromARGB(255, 0, 0, 0),
                                             ),
                                           ])),
-                                  // trailing: Text(
-                                  //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
-                                  // ),
                                   onTap: () {
                                     Travel travel = _travels[index];
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            TripOverviewPage(travel: travel),
+                                            TripOverviewPage(travel: travel, pickedimage: _pickedImage),                                            
                                       ),
                                     );
+                                    loadUserTrips();
                                   },
                                 ),
                               )));
                     },
                   ),
                 ),
-
-// ...
-
+                //Add trip icon
                 Padding(
                   padding: const EdgeInsets.only(
                     right: 20.0,
@@ -427,7 +422,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       FloatingActionButton(
                         // foregroundColor: Color(0xfb3a78b1),
-                        backgroundColor: Color(0xfb3a78b1),
+                        backgroundColor: const Color(0xfb3a78b1),
                         onPressed: _showAddTravelDialog,
                         child: const Icon(
                           Icons.add,
@@ -436,6 +431,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
+                //Icons home and profile
                 Padding(
                   padding: const EdgeInsets.only(left: 50.0, right: 50),
                   child: Row(

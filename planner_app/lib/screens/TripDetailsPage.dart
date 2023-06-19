@@ -3,7 +3,7 @@ import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-
+import 'package:image_picker/image_picker.dart';
 
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
@@ -21,8 +21,19 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   int _selectedDay = 1;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  // PickedFile? _pickedImage;
 
+  // Future<void> _pickImage() async {
+  //   final picker = ImagePicker();
+  //   final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
+  //   if (pickedImage != null) {
+  //     setState(() {
+  //       _pickedImage = PickedFile(pickedImage.path);
+  //       print(_pickedImage);
+  //     });
+  //   }
+  // }
 
   @override
   void initState() {
@@ -177,9 +188,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         height: 60.0,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isSelected ? const Color(0xffb3a78b1) : Colors.transparent,
+          color: isSelected ? const Color(0xfb3a78b1) : Colors.transparent,
           border: Border.all(
-            color: const Color(0xffb3a78b1),
+            color: const Color(0xfb3a78b1),
             width: isSelected ? 2.0 : 1.0,
           ),
         ),
@@ -208,13 +219,13 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             child: Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
-                SizedBox(width: 16.0),
-                Text(
+                const SizedBox(width: 16.0),
+                const Text(
                   'Trip activities',
                   style: TextStyle(
                     fontSize: 24,
@@ -249,11 +260,13 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text('Day $day',
-                        style: const TextStyle(
-                          color:  Color(0xffb3a78b1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25),),
+                        title: Text(
+                          'Day $day',
+                          style: const TextStyle(
+                              color: Color(0xffb3a78b1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25),
+                        ),
                         trailing: IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
@@ -265,13 +278,16 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         children: activitiesForDay
                             .map(
                               (activity) => ListTile(
-                                title: Text(capitalize(activity.title), 
-                                style: const TextStyle(fontSize: 20,
-                                    fontWeight: FontWeight.w200)),
+                                title: Text(capitalize(activity.title),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w200)),
                                 subtitle: Text(
-                                    activity.time.toString().substring(11, 16),
-                                    style: const TextStyle(fontSize: 15,
-                                    fontWeight: FontWeight.w200),),
+                                  activity.time.toString().substring(11, 16),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w200),
+                                ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -330,11 +346,11 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   ),
                   ListTile(
                     title: const Text('Time'),
-                    subtitle: Text('${pickedTime!.hour}:${pickedTime!.minute}'),
+                    subtitle: Text('${pickedTime.hour}:${pickedTime.minute}'),
                     onTap: () async {
                       final TimeOfDay? picked = await showTimePicker(
                         context: context,
-                        initialTime: pickedTime!,
+                        initialTime: pickedTime,
                       );
                       if (picked != null) {
                         setState(() {
@@ -350,6 +366,10 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       }
                     },
                   ),
+                  // ElevatedButton(
+                  //   onPressed: _pickImage,
+                  //   child: const Text('Add Image'),
+                  // ),
                 ],
               ),
               actions: <Widget>[

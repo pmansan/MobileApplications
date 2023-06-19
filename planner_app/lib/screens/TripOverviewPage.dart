@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:planner_app/screens/TripDetailsPage.dart';
 
 class TripOverviewPage extends StatelessWidget {
   final Travel travel;
+  final pickedimage;
 
-  const TripOverviewPage({required this.travel});
+  const TripOverviewPage({required this.travel, required this.pickedimage});
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +18,20 @@ class TripOverviewPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 2.5/ 6,
+            height: MediaQuery.of(context).size.height * 2.5 / 6,
             // color: const Color(0xffb3a78b1),
             decoration: BoxDecoration(
-                              // borderRadius: BorderRadius.circular(80),
-                              image: DecorationImage(
-                                  image: travel.imageURL != null &&
-                                          travel.imageURL != 'null'
-                                      ? NetworkImage(travel.imageURL!)
-                                      : const AssetImage('lib/images/amsterdam.jpg') as ImageProvider<Object>,
-                                  // image: AssetImage('lib/images/amsterdam.jpg'),
-                                  fit: BoxFit.fill),
-                            ),
+              // borderRadius: BorderRadius.circular(80),
+              image: DecorationImage(
+                  image: travel.imageURL != null && travel.imageURL != 'null'
+                      ? NetworkImage(travel.imageURL!)
+                      : pickedimage != null
+                          ? FileImage(File(pickedimage!.path))
+                          : const AssetImage('lib/images/blue.png')
+                              as ImageProvider<Object>,
+                  // image: AssetImage('lib/images/amsterdam.jpg'),
+                  fit: BoxFit.fill),
+            ),
             child: Stack(
               children: [
                 Align(
@@ -115,7 +120,7 @@ class TripOverviewPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0), 
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                   backgroundColor: const Color(0xffb3a78b1),
                   padding:

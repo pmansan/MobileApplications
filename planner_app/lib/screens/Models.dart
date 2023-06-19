@@ -15,7 +15,7 @@ class Travel {
   final String description;
   final DateTime startDate;
   final DateTime endDate;
-  final String? imageURL;
+  late final String? imageURL;
 
   Travel({
     required this.title,
