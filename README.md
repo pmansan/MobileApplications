@@ -15,7 +15,7 @@ Cosas que hay que hacer:
 
   -Arreglar cuando se edita la hora de una actividad, en el dialogo sale la hora anterior y no la nueva que seleccionas
   
-  -Hacer que se pueda añadir foto a la actividad y a la trip  PAULA 
+  -Hacer que se pueda añadir foto la trip ✔ y a la actividad (todavia no) PAULA 
 
   -Quitar search
   
