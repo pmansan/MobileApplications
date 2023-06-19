@@ -1,4 +1,5 @@
 # MobileApplications
+# IMPORTANTE: antes de empezar a escribir hacer "git pull origin main" para descargar todos los cambios subidos y empezar a escribir a partir de ahi porque si no hay conflictos
 
 Cosas que hay que hacer:
 
@@ -14,8 +15,10 @@ Cosas que hay que hacer:
   -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio 
 
    - Memoria
+   - Que se pueda eliminar la trip JORGE  
+        y de la base de datos   PAULA 
 
-  -Que se pueda eliminar la trip y la actcivity JORGE  ✔
+  -Que se pueda eliminar la actcivity JORGE  ✔
         y de la base de datos   PAULA ✔
 
    -Que sean mas grandes las tiles PAULA  ✔
