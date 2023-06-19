@@ -6,13 +6,13 @@ Cosas que hay que hacer:
   - Editar perfil e iniciar sesion con google JAVI
   - API maps JAVI
 
-  -Mejorar estilos pantallas
+  -Mejorar estilos pantallas JORGE
   
-  -Hacer que se pueda añadir foto a la actividad y a la trip  
+  -Hacer que se pueda añadir foto a la actividad y a la trip  PAULA 
   
-  -Hacer que salga Dia1 si la trip es de un dia
+  -Hacer que salga Dia1 si la trip es de un dia JORGE ✔
   
-  -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio 
+  -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio JORGE ✔
 
    - Memoria
    - Que se pueda eliminar la trip JORGE  
