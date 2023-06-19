@@ -1,4 +1,5 @@
 # MobileApplications
+# IMPORTANTE: antes de empezar a escribir hacer "git pull origin main" para descargar todos los cambios subidos y empezar a escribir a partir de ahi porque si no hay conflictos
 
 Cosas que hay que hacer:
 
