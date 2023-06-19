@@ -15,12 +15,14 @@ class Travel {
   final String description;
   final DateTime startDate;
   final DateTime endDate;
+  final String? imageURL;
 
   Travel({
     required this.title,
     required this.description,
     required this.startDate,
     required this.endDate,
+    this.imageURL,
   });
 
   Duration get duration => endDate.difference(startDate);

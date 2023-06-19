@@ -61,6 +61,7 @@ class _HomePageState extends State<HomePage> {
           description: data['description'],
           startDate: data['startDate'].toDate(),
           endDate: data['endDate'].toDate(),
+          // imageURL: data['imageURL'],
         );
       }).toList();
 
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> {
     final descriptionController = TextEditingController();
     final startDateController = TextEditingController();
     final endDateController = TextEditingController();
-    final tripCoverController = TextEditingController();
+    // final tripCoverController = TextEditingController();
     DateTime selectedDate = DateTime.now();
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -342,40 +343,63 @@ class _HomePageState extends State<HomePage> {
                   controller: passwordController,
                   hintText: 'Search...',
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.65,
                   child: ListView.builder(
                     itemCount: _travels.length,
                     itemBuilder: (context, index) {
                       return Card(
-                          elevation: 2,
+                          elevation: 0,
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.6,
+                            height: MediaQuery.of(context).size.height * 0.64,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80),
+                              image: DecorationImage(
+                                image: _travels[index].imageURL != null
+                                    ? NetworkImage(_travels[index].imageURL!) as ImageProvider<Object>
+                                    : const AssetImage(
+                                        'lib/images/amsterdam.jpg'), // Replace with your own placeholder image
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                             child: ListTile(
                               contentPadding: EdgeInsets.only(
                                   top: MediaQuery.of(context).size.height * 0.5,
-                                  left: MediaQuery.of(context).size.height *
-                                      0.025,
+                                  left:
+                                      MediaQuery.of(context).size.height * 0.05,
                                   bottom: MediaQuery.of(context).size.height *
                                       0.025),
-                              tileColor: Color.fromARGB(250, 132, 176, 216),
-                              // leading: Container(
-                              //   // decoration: BoxDecoration(
-                              //   //   shape: BoxShape.circle,
-                              //   //   image: DecorationImage(
-                              //   //     fit: BoxFit.cover,
-                              //   //     image: NetworkImage(_travels[index].pickedImage)
-                              //   //         : AssetImage(
-                              //   //             'assets/images/placeholder_image.jpg'),
-                              //   //   ),
-                              //   // ),
-                              // ),
+                              tileColor: Colors.transparent,
+
                               title: Text(capitalize(_travels[index].title),
-                                  style: const TextStyle(fontSize: 20)),
-                              subtitle: Text(capitalize(
-                                  '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}'),
-                                  style: const TextStyle(fontSize: 15)),
-                              // Text(_travels[index].description, ),
+                                  style: const TextStyle(
+                                      fontSize: 22,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(0.5, 0.5),
+                                          blurRadius: 10.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ])),
+                              subtitle: Text(
+                                  capitalize(
+                                      '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}'),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(0.5, 0.5),
+                                          blurRadius: 10.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ])),
                               // trailing: Text(
                               //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
                               // ),
