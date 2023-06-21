@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planner_app/screens/Models.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
-
 
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
-  // final String tripId;
 
   const TripDetailsPage({required this.travel});
 
@@ -16,98 +11,14 @@ class TripDetailsPage extends StatefulWidget {
 }
 
 class _TripDetailsPageState extends State<TripDetailsPage> {
-  Map<int, List<Activity>> _activitiesMap = {};
   List<Activity> _activities = [];
   int _selectedDay = 1;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
-
-  @override
-  void initState() {
-    super.initState();
-    loadDatabaseData();
-  }
-
-  void loadDatabaseData() {
-    final userId = getUserId();
-    if (userId != null) {
-      if (_activitiesMap.containsKey(_selectedDay)) {
-        // Si las actividades para el día seleccionado ya se han cargado, usarlas desde el mapa
-        setState(() {
-          _activities = _activitiesMap[_selectedDay]!;
-        });
-      } else {
-        _firestore
-            .collection('users')
-            .doc(userId)
-            .collection('trips')
-            .doc(widget.travel.title)
-            .collection('days')
-            .doc('day$_selectedDay')
-            .collection('activities')
-            .get()
-            .then((activitiesSnapshot) {
-          final List<Activity> loadedActivities = [];
-          activitiesSnapshot.docs.forEach((activityDoc) {
-            final data = activityDoc.data();
-            final title = data['title'];
-            final id = activityDoc.id;
-            final time = data['time'].toDate();
-            Activity activity =
-                Activity(title: title, time: time, day: _selectedDay, id: id);
-            loadedActivities.add(activity);
-          });
-
-          setState(() {
-            _activities = loadedActivities;
-            _activitiesMap[_selectedDay] =
-                loadedActivities; // Almacenar las actividades en el mapa
-          });
-        });
-      }
-    }
-  }
-
-  String? getUserId() {
-    final user = _auth.currentUser;
-    if (user != null) {
-      return user.uid;
-    } else {
-      return null;
-    }
-  }
 
   void _addActivity(String title, DateTime time) {
     setState(() {
-      String? userId = getUserId();
-      if (userId != null) {
-        DocumentReference docRef = _firestore
-            .collection('users')
-            .doc(userId)
-            .collection('trips')
-            .doc(widget.travel.title)
-            .collection('days')
-            .doc('day$_selectedDay')
-            .collection('activities')
-            .doc();
-
-        Activity activity = Activity(
-          title: title,
-          time: time,
-          day: _selectedDay,
-          id: docRef.id, // Asignar el ID generado automáticamente por Firestore
-        );
-
-        _activities.add(activity);
-        _activities.sort((a, b) => a.time.compareTo(b.time));
-
-        docRef.set({
-          'title': title,
-          'time': time,
-        });
-      }
+      Activity activity = Activity(title: title, time: time, day: _selectedDay);
+      _activities.add(activity);
+      _activities.sort((a, b) => a.time.compareTo(b.time));
     });
   }
 
@@ -116,47 +27,12 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       activity.title = newTitle;
       activity.time = newTime;
       _activities.sort((a, b) => a.time.compareTo(b.time));
-
-      String? userId = getUserId();
-      if (userId != null) {
-        _firestore
-            .collection('users')
-            .doc(userId)
-            .collection('trips')
-            .doc(widget.travel.title)
-            .collection('days')
-            .doc('day$_selectedDay')
-            .collection('activities')
-            .doc(activity.id)
-            .update({
-          'title': newTitle,
-          'time': newTime,
-        }).then((_) {
-          print('Actividad actualizada en Firestore.');
-        }).catchError((error) {
-          print('Error al actualizar la actividad: $error');
-        });
-      }
     });
   }
 
   void _deleteActivity(Activity activity) {
     setState(() {
       _activities.remove(activity);
-
-      String? userId = getUserId();
-      if (userId != null && activity.id != null) {
-        _firestore
-            .collection('users')
-            .doc(userId)
-            .collection('trips')
-            .doc(widget.travel.title)
-            .collection('days')
-            .doc('day$_selectedDay')
-            .collection('activities')
-            .doc(activity.id)
-            .delete();
-      }
     });
   }
 
@@ -168,7 +44,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       onTap: () {
         setState(() {
           _selectedDay = day;
-          loadDatabaseData();
         });
       },
       child: Container(
@@ -177,9 +52,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         height: 60.0,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isSelected ? const Color(0xffb3a78b1) : Colors.transparent,
+          color: isSelected ? Colors.blue : Colors.transparent,
           border: Border.all(
-            color: const Color(0xffb3a78b1),
+            color: Colors.blue,
             width: isSelected ? 2.0 : 1.0,
           ),
         ),
@@ -219,7 +94,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xffb3a78b1),
+                    color: Colors.blue,
                   ),
                 ),
               ],
@@ -228,7 +103,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: List.generate(widget.travel.duration.inDays, (index) {
+              children:
+                  List.generate(widget.travel.duration.inDays + 1, (index) {
                 final day = index + 1;
                 return _buildDayWidget(day);
               }),
@@ -236,7 +112,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.travel.duration.inDays,
+              itemCount: widget.travel.duration.inDays + 1,
               itemBuilder: (context, index) {
                 final day = index + 1;
                 final activitiesForDay = _activities
@@ -249,11 +125,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text('Day $day',
-                        style: const TextStyle(
-                          color:  Color(0xffb3a78b1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25),),
+                        title: Text('Day $day'),
                         trailing: IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
@@ -265,13 +137,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         children: activitiesForDay
                             .map(
                               (activity) => ListTile(
-                                title: Text(capitalize(activity.title), 
-                                style: const TextStyle(fontSize: 20,
-                                    fontWeight: FontWeight.w200)),
+                                title: Text(activity.title),
                                 subtitle: Text(
-                                    activity.time.toString().substring(11, 16),
-                                    style: const TextStyle(fontSize: 15,
-                                    fontWeight: FontWeight.w200),),
+                                    activity.time.toString().substring(11, 16)),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -307,68 +175,62 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   void _showAddActivityDialog(int day) {
     String title = '';
     DateTime time = DateTime.now();
-    TimeOfDay pickedTime = TimeOfDay.now();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: const Text('Add an activity'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  TextField(
-                    onChanged: (value) {
-                      title = value;
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Enter the title of the activity',
-                      labelText: 'Title',
-                    ),
-                  ),
-                  ListTile(
-                    title: const Text('Time'),
-                    subtitle: Text('${pickedTime!.hour}:${pickedTime!.minute}'),
-                    onTap: () async {
-                      final TimeOfDay? picked = await showTimePicker(
-                        context: context,
-                        initialTime: pickedTime!,
-                      );
-                      if (picked != null) {
-                        setState(() {
-                          pickedTime = picked;
-                          time = DateTime(
-                            time.year,
-                            time.month,
-                            time.day,
-                            picked.hour,
-                            picked.minute,
-                          );
-                        });
-                      }
-                    },
-                  ),
-                ],
+        return AlertDialog(
+          title: const Text('Add an activity'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                onChanged: (value) {
+                  title = value;
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Enter the title of the activity',
+                  labelText: 'Title',
+                ),
               ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _addActivity(title, time);
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Save'),
-                ),
-              ],
-            );
-          },
+              ListTile(
+                title: const Text('Time'),
+                subtitle: Text('${time.hour}:${time.minute}'),
+                onTap: () async {
+                  final TimeOfDay? picked = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.fromDateTime(time),
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      time = DateTime(
+                        time.year,
+                        time.month,
+                        time.day,
+                        picked.hour,
+                        picked.minute,
+                      );
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _addActivity(title, time);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
         );
       },
     );
@@ -442,11 +304,10 @@ class Activity {
   String title;
   DateTime time;
   int day;
-  String? id;
 
-  Activity(
-      {required this.title,
-      required this.time,
-      required this.day,
-      required this.id});
+  Activity({
+    required this.title,
+    required this.time,
+    required this.day,
+  });
 }
