@@ -379,14 +379,14 @@ class _HomePageState extends State<HomePage> {
                   height: 5,
                 ),
                 Container(
-                    height: MediaQuery.of(context).size.height * 0.65,
+                    height: MediaQuery.of(context).size.height * 0.6,
                     child: ListView.builder(
                       itemCount: _travels.length,
                       itemBuilder: (context, index) {
                         return Card(
                           elevation: 0,
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.64,
+                            height: MediaQuery.of(context).size.height * 0.6,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(80),
                               image: DecorationImage(
@@ -401,10 +401,10 @@ class _HomePageState extends State<HomePage> {
                             child: ListTile(
                               contentPadding: EdgeInsets.only(
                                   top: MediaQuery.of(context).size.height * 0.5,
-                                  left:
-                                      MediaQuery.of(context).size.height * 0.05,
+                                  left:  screenWidth*0.08,
                                   bottom: MediaQuery.of(context).size.height *
-                                      0.025),
+                                      0.025,
+                                      right: screenWidth*0.05),                                  
                               tileColor: Colors.transparent,
                               title: Text(
                                 capitalize(_travels[index].title),
@@ -438,7 +438,8 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               trailing: IconButton(
-                                icon: Icon(Icons.delete),
+                                icon: Icon(Icons.delete_outline_rounded,
+                                color: Colors.white,),
                                 onPressed: () {
                                   showDialog(
                                     context: context,
