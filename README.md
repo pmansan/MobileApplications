@@ -4,16 +4,15 @@
 Cosas que hay que hacer:
 
   - Editar perfil JAVI
-  - - ~~Iniciar sesion con google JAVI~~
   - # API maps JAVI:
-  -       Meter localizacion en actividad JAVI
-  -       Hacer pantalla detalle actividad y meter el mapa JAVI
+  - Meter localizacion en actividad JAVI
+  - Hacer pantalla detalle actividad y meter el mapa JAVI
 
   -Mejorar estilos pantallas JORGE
 
   # Mirar compartir enlace JORGE
 
-  -Arreglar cuando se edita la hora de una actividad, en el dialogo sale la hora anterior y no la nueva que seleccionas
+  -Arreglar cuando se edita la hora de una actividad, en el dialogo sale la hora anterior y no la nueva que seleccionas ??
   
   -Hacer que se pueda añadir foto la trip ✔ y a la actividad (todavia no) PAULA 
       _Nota: cuando no hay foto se tendria que guardar por defecto en firebase un 'no picture' o algo así, porque si no al cargar una foto se pone también en las que no   
@@ -45,3 +44,4 @@ Cosas que hay que hacer:
    -Poner bien las horas y las fechas PAULA ✔
    - Hacer que se pueda añadir la trip a la pantalla inicial JORGE ✔
    - Hacer que se pueda añadir activities a cada trip  JORGE ✔
+   -  ~~Iniciar sesion con google JAVI~~
