@@ -1,12 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/constants.dart';
 import 'package:planner_app/components/loading.dart';
-import 'package:planner_app/components/my_button2.dart';
 import 'package:planner_app/services/auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 
 import '../components/my_button.dart';
 
@@ -32,37 +28,18 @@ class _SignUpPageState extends State<SignUpPage> {
   bool loading = false;
 
   void signUp() async {
-  if (_formKey.currentState!.validate()) {
-    setState(() => loading = true);
-    dynamic result = await _auth.registerEmail(email, password);
-    if (result == null) {
-      setState(() {
-        error = 'Invalid credentials';
-        loading = false;
-      });
-    } 
-    // else {
-      // // Si el registro es exitoso, añade el correo electrónico a la colección "users"
-      // Map<String, dynamic> userData = {
-      //   'email': email,
-      //   'name': email.substring(0, email.indexOf('@')) // Obtén el nombre de correo electrónico antes del símbolo '@'
-      // };
-      // DocumentReference userRef = await usersCollection.add(userData);
-
-      // // Obtener el ID del usuario recién creado
-      // String userId = userRef.id;
-
-      // // Guardar el ID del usuario en SharedPreferences
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // await prefs.setString('userId', userId);
-
-      // // Crear la colección "trips" dentro del usuario si no existe
-      // await usersCollection.doc(userId).collection('trips').add({});
-
+    if (_formKey.currentState!.validate()) {
+      setState(() => loading = true);
+      dynamic result = await _auth.registerEmail(email, password);
+      if (result == null) {
+        setState(() {
+          error = 'Invalid credentials';
+          loading = false;
+        });
+      }
       setState(() => loading = false);
-    
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {

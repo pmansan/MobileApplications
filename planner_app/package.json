@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@firebase/app": "^0.9.12"
+  }
+}

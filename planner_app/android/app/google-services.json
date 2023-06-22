@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "250735074464",
+    "project_id": "planner-dima",
+    "storage_bucket": "planner-dima.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250735074464:android:6dc8848d83bcea48233dc5",
+        "android_client_info": {
+          "package_name": "com.example.planner_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250735074464-adu3lsb7k7756mrqe6croq3vn3o2c0d1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi2tTQFvMzwIryRI8wRMGszv3mGSwikBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250735074464-adu3lsb7k7756mrqe6croq3vn3o2c0d1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "250735074464-bi1dp4obai3c7q8kpbdba1jm61bvd045.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.plannerApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

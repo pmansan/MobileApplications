@@ -1,17 +1,14 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:planner_app/components/round_button.dart';
-import 'package:planner_app/components/search_bar.dart';
-import 'package:planner_app/screens/CreateTrip.dart';
-import 'package:planner_app/screens/Profile.dart';
-import 'package:planner_app/screens/TripDetailsPage.dart';
-import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:planner_app/screens/TripOverviewPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:planner_app/components/search_bar.dart';
+import 'package:planner_app/screens/Models.dart';
+import 'package:planner_app/screens/Profile.dart';
+import 'package:planner_app/screens/TripOverviewPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -339,7 +336,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                SearchBar(
+                Searchbar(
                   controller: passwordController,
                   hintText: 'Search...',
                 ),
@@ -375,6 +372,7 @@ class _HomePageState extends State<HomePage> {
                               tileColor: Colors.transparent,
 
                               title: Text(capitalize(_travels[index].title),
+<<<<<<< HEAD
                                   style: const TextStyle(
                                       fontSize: 22,
                                       color: Colors.white,
@@ -400,6 +398,14 @@ class _HomePageState extends State<HomePage> {
                                           color: Color.fromARGB(255, 0, 0, 0),
                                         ),
                                       ])),
+=======
+                                  style: const TextStyle(fontSize: 20)),
+                              subtitle: Text(
+                                  capitalize(
+                                      '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}'),
+                                  style: const TextStyle(fontSize: 15)),
+                              // Text(_travels[index].description, ),
+>>>>>>> f89f330 (Edit profile)
                               // trailing: Text(
                               //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
                               // ),

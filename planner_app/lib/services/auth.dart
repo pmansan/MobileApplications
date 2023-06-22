@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:planner_app/models/user.dart';
+import 'package:planner_app/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,6 +15,10 @@ class AuthService {
     return _auth
         .authStateChanges()
         .map((User? user) => _userFromFirebaseUser(user));
+  }
+
+  User? getUid() {
+    return _auth.currentUser;
   }
 
   // Sign in anonomously
@@ -47,6 +52,8 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
+      await DataBaseService(uid: user!.uid)
+          .updateUserData(email.substring(0, email.indexOf('@')), email);
       return _userFromFirebaseUser(user!);
     } catch (e) {
       print(e.toString());

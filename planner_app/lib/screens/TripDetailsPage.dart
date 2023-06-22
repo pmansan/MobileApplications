@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:planner_app/screens/Models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
-
+import 'package:flutter/material.dart';
+import 'package:planner_app/screens/Models.dart';
 
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
@@ -21,8 +19,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   int _selectedDay = 1;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
 
   @override
   void initState() {
@@ -249,11 +245,13 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text('Day $day',
-                        style: const TextStyle(
-                          color:  Color(0xffb3a78b1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25),),
+                        title: Text(
+                          'Day $day',
+                          style: const TextStyle(
+                              color: Color(0xffb3a78b1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25),
+                        ),
                         trailing: IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
@@ -265,13 +263,16 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         children: activitiesForDay
                             .map(
                               (activity) => ListTile(
-                                title: Text(capitalize(activity.title), 
-                                style: const TextStyle(fontSize: 20,
-                                    fontWeight: FontWeight.w200)),
+                                title: Text(capitalize(activity.title),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w200)),
                                 subtitle: Text(
-                                    activity.time.toString().substring(11, 16),
-                                    style: const TextStyle(fontSize: 15,
-                                    fontWeight: FontWeight.w200),),
+                                  activity.time.toString().substring(11, 16),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w200),
+                                ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [

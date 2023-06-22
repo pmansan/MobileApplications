@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatelessWidget {
+class Searchbar extends StatelessWidget {
   final controller;
   final String hintText;
   // final bool obscureText;
 
-  const SearchBar({
+  const Searchbar({
     super.key,
     required this.controller,
     required this.hintText,
@@ -18,11 +18,14 @@ class SearchBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
         controller: controller,
-        
+
         // obscureText: obscureText,
-        style: TextStyle(fontSize: 15.0,fontFamily: 'Nunito',),
+        style: TextStyle(
+          fontSize: 15.0,
+          fontFamily: 'Nunito',
+        ),
         decoration: InputDecoration(
-            contentPadding:  EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -33,7 +36,7 @@ class SearchBar extends StatelessWidget {
             fillColor: Colors.grey.shade200,
             filled: true,
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[500])),    
+            hintStyle: TextStyle(color: Colors.grey[500])),
       ),
     );
   }
