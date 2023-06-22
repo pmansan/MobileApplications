@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _pickedImage = PickedFile(pickedImage.path);
         loadUserTrips();
-        print(_pickedImage);
+        // print(_pickedImage);
       });
     }
   }
@@ -410,7 +410,8 @@ class _HomePageState extends State<HomePage> {
                                   contentPadding: EdgeInsets.only(
                                       top: screenHeight * 0.5,
                                       left: screenHeight * 0.05,
-                                      bottom: screenHeight * 0.025),
+                                      bottom: screenHeight * 0.025,
+                                      right: screenHeight * 0.025,),
                                   tileColor: Colors.transparent,
                                   title: Text(capitalize(_travels[index].title),
                                       style: const TextStyle(
@@ -440,13 +441,50 @@ class _HomePageState extends State<HomePage> {
                                                   Color.fromARGB(255, 0, 0, 0),
                                             ),
                                           ])),
+                                  trailing: IconButton(
+                                    icon: const Icon(Icons.delete_outline_rounded,
+                                    color: Colors.white, shadows: [Shadow(
+                                              offset: Offset(0.5, 0.5),
+                                              blurRadius: 10.0,
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0),
+                                            ),],),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Delete Travel'),
+                                            content: const Text(
+                                                'Are you sure you want to delete this travel?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Cancel'),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  _deleteTravel(index);
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Delete'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
                                   onTap: () {
                                     Travel travel = _travels[index];
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            TripOverviewPage(travel: travel, pickedimage: _pickedImage),                                            
+                                        builder: (context) => TripOverviewPage(
+                                            travel: travel,
+                                            pickedimage: _pickedImage),
                                       ),
                                     );
                                     loadUserTrips();
