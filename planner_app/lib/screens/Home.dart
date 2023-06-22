@@ -356,7 +356,8 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(80),
                               image: DecorationImage(
                                 image: _travels[index].imageURL != null
-                                    ? NetworkImage(_travels[index].imageURL!) as ImageProvider<Object>
+                                    ? NetworkImage(_travels[index].imageURL!)
+                                        as ImageProvider<Object>
                                     : const AssetImage(
                                         'lib/images/amsterdam.jpg'), // Replace with your own placeholder image
                                 fit: BoxFit.cover,
@@ -372,7 +373,6 @@ class _HomePageState extends State<HomePage> {
                               tileColor: Colors.transparent,
 
                               title: Text(capitalize(_travels[index].title),
-<<<<<<< HEAD
                                   style: const TextStyle(
                                       fontSize: 22,
                                       color: Colors.white,
@@ -398,14 +398,6 @@ class _HomePageState extends State<HomePage> {
                                           color: Color.fromARGB(255, 0, 0, 0),
                                         ),
                                       ])),
-=======
-                                  style: const TextStyle(fontSize: 20)),
-                              subtitle: Text(
-                                  capitalize(
-                                      '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}'),
-                                  style: const TextStyle(fontSize: 15)),
-                              // Text(_travels[index].description, ),
->>>>>>> f89f330 (Edit profile)
                               // trailing: Text(
                               //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
                               // ),
