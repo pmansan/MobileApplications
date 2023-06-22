@@ -3,19 +3,28 @@
 
 Cosas que hay que hacer:
 
-  - Editar perfil e iniciar sesion con google JAVI
-  - API maps JAVI
+  - Editar perfil JAVI
+  - Iniciar sesion con google JAVI
+  - API maps JAVI:
+  -       Meter localizacion en actividad JAVI
+  -       Hacer pantalla detalle actividad y meter el mapa JAVI
 
-  -Mejorar estilos pantallas
+  -Mejorar estilos pantallas JORGE
+
+  -Mirar compartir enlace JORGE
+
+  -Arreglar cuando se edita la hora de una actividad, en el dialogo sale la hora anterior y no la nueva que seleccionas
   
-  -Hacer que se pueda añadir foto a la actividad y a la trip  
+  -Hacer que se pueda añadir foto a la actividad y a la trip  PAULA 
+
+  -Quitar search
   
-  -Hacer que salga Dia1 si la trip es de un dia
+  -Hacer que salga Dia1 si la trip es de un dia JORGE ✔
   
-  -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio 
+  -Hacer que solo pueda crearse la trip con un titulo y fechas obligatorio JORGE ✔
 
    - Memoria
-   - Que se pueda eliminar la trip JORGE  
+   - Que se pueda eliminar la trip JORGE  ✔
         y de la base de datos   PAULA 
 
   -Que se pueda eliminar la actcivity JORGE  ✔

@@ -77,6 +77,31 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _deleteTravel(int index) {
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      CollectionReference usersCollection =
+          FirebaseFirestore.instance.collection('users');
+      String title = _travels[index].title;
+
+      usersCollection
+          .doc(userId)
+          .collection('trips')
+          .doc(title)
+          .delete()
+          .then((value) {
+        setState(() {
+          _travels.removeAt(index);
+        });
+        print('Viaje eliminado de Firestore');
+      }).catchError((error) {
+        print('Error al eliminar el viaje: $error');
+      });
+    } else {
+      print('El usuario no está autenticado');
+    }
+  }
+
   void _showAddTravelDialog() {
     String title = '';
     String description = '';
@@ -270,6 +295,28 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () {
+                if (title.isEmpty || startDate == null || endDate == null) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Error'),
+                        content: const Text(
+                            'Please complete all the required fields.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  return;
+                }
+
                 Travel travel = Travel(
                   title: title,
                   description: description,

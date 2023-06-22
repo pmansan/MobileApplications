@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
-  // final String tripId;
 
   const TripDetailsPage({required this.travel});
 
@@ -16,7 +15,6 @@ class TripDetailsPage extends StatefulWidget {
 }
 
 class _TripDetailsPageState extends State<TripDetailsPage> {
-  Map<int, List<Activity>> _activitiesMap = {};
   List<Activity> _activities = [];
   int _selectedDay = 1;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -92,33 +90,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
 
   void _addActivity(String title, DateTime time) {
     setState(() {
-      String? userId = getUserId();
-      if (userId != null) {
-        DocumentReference docRef = _firestore
-            .collection('users')
-            .doc(userId)
-            .collection('trips')
-            .doc(widget.travel.title)
-            .collection('days')
-            .doc('day$_selectedDay')
-            .collection('activities')
-            .doc();
-
-        Activity activity = Activity(
-          title: title,
-          time: time,
-          day: _selectedDay,
-          id: docRef.id, // Asignar el ID generado automáticamente por Firestore
-        );
-
-        _activities.add(activity);
-        _activities.sort((a, b) => a.time.compareTo(b.time));
-
-        docRef.set({
-          'title': title,
-          'time': time,
-        });
-      }
+      Activity activity = Activity(title: title, time: time, day: _selectedDay);
+      _activities.add(activity);
+      _activities.sort((a, b) => a.time.compareTo(b.time));
     });
   }
 
@@ -127,47 +101,12 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       activity.title = newTitle;
       activity.time = newTime;
       _activities.sort((a, b) => a.time.compareTo(b.time));
-
-      String? userId = getUserId();
-      if (userId != null) {
-        _firestore
-            .collection('users')
-            .doc(userId)
-            .collection('trips')
-            .doc(widget.travel.title)
-            .collection('days')
-            .doc('day$_selectedDay')
-            .collection('activities')
-            .doc(activity.id)
-            .update({
-          'title': newTitle,
-          'time': newTime,
-        }).then((_) {
-          print('Actividad actualizada en Firestore.');
-        }).catchError((error) {
-          print('Error al actualizar la actividad: $error');
-        });
-      }
     });
   }
 
   void _deleteActivity(Activity activity) {
     setState(() {
       _activities.remove(activity);
-
-      String? userId = getUserId();
-      if (userId != null && activity.id != null) {
-        _firestore
-            .collection('users')
-            .doc(userId)
-            .collection('trips')
-            .doc(widget.travel.title)
-            .collection('days')
-            .doc('day$_selectedDay')
-            .collection('activities')
-            .doc(activity.id)
-            .delete();
-      }
     });
   }
 
@@ -179,7 +118,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       onTap: () {
         setState(() {
           _selectedDay = day;
-          loadDatabaseData();
         });
       },
       child: Container(
@@ -230,7 +168,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xffb3a78b1),
+                    color: Colors.blue,
                   ),
                 ),
               ],
@@ -239,7 +177,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: List.generate(widget.travel.duration.inDays, (index) {
+              children:
+                  List.generate(widget.travel.duration.inDays + 1, (index) {
                 final day = index + 1;
                 return _buildDayWidget(day);
               }),
@@ -247,7 +186,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.travel.duration.inDays,
+              itemCount: widget.travel.duration.inDays + 1,
               itemBuilder: (context, index) {
                 final day = index + 1;
                 final activitiesForDay = _activities
@@ -323,7 +262,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   void _showAddActivityDialog(int day) {
     String title = '';
     DateTime time = DateTime.now();
-    TimeOfDay pickedTime = TimeOfDay.now();
 
     showDialog(
       context: context,
@@ -462,11 +400,10 @@ class Activity {
   String title;
   DateTime time;
   int day;
-  String? id;
 
-  Activity(
-      {required this.title,
-      required this.time,
-      required this.day,
-      required this.id});
+  Activity({
+    required this.title,
+    required this.time,
+    required this.day,
+  });
 }
