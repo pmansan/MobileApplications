@@ -4,20 +4,23 @@
 Cosas que hay que hacer:
 
   - Editar perfil JAVI
-  - Iniciar sesion con google JAVI
-  - API maps JAVI:
+  - - ~~Iniciar sesion con google JAVI~~
+  - # API maps JAVI:
   -       Meter localizacion en actividad JAVI
   -       Hacer pantalla detalle actividad y meter el mapa JAVI
 
   -Mejorar estilos pantallas JORGE
 
-  -Mirar compartir enlace JORGE
+  # Mirar compartir enlace JORGE
 
   -Arreglar cuando se edita la hora de una actividad, en el dialogo sale la hora anterior y no la nueva que seleccionas
   
   -Hacer que se pueda añadir foto la trip ✔ y a la actividad (todavia no) PAULA 
+      _Nota: cuando no hay foto se tendria que guardar por defecto en firebase un 'no picture' o algo así, porque si no al cargar una foto se pone también en las que no   
+      tiene fotos_
 
-  -Quitar search
+    - End date no puede ser antes que start date (si sobra tiempo, no debe ser muy dificil)
+  -Quitar search ✔
   
   -Hacer que salga Dia1 si la trip es de un dia JORGE ✔
   
@@ -25,7 +28,7 @@ Cosas que hay que hacer:
 
    - Memoria
    - Que se pueda eliminar la trip JORGE  ✔
-        y de la base de datos   PAULA 
+        y de la base de datos   PAULA ✔
 
   -Que se pueda eliminar la actcivity JORGE  ✔
         y de la base de datos   PAULA ✔
