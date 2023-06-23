@@ -190,108 +190,183 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add a new travel'),
+          title: Text(
+            'Add a new travel',
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: Color(0xfb3a78b1),
+            ),
+          ),
           content: SingleChildScrollView(
-              // Agregar este widget
-              child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: titleController,
-                onChanged: (value) {
-                  title = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Enter the name of the travel',
-                  labelText: 'Title',
-                ),
-              ),
-              TextField(
-                controller: descriptionController,
-                onChanged: (value) {
-                  description = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Enter a description of the travel',
-                  labelText: 'Description',
-                ),
-              ),
-              StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  return ListTile(
-                    title: const Text('Start Date'),
-                    subtitle: TextFormField(
-                      readOnly: true,
-                      controller: startDateController,
-                      onTap: () async {
-                        final DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: startDate,
-                          firstDate: DateTime(2015),
-                          lastDate: DateTime(2101),
-                        );
-                        if (picked != null && picked != startDate) {
-                          setState(() {
-                            startDate = picked;
-                            startDateController.text =
-                                '${startDate.toLocal()}'.split(' ')[0];
-                          });
-                        }
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Select Start Date',
-                      ),
-                    ),
-                  );
-                },
-              ),
-              StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                return ListTile(
-                  title: const Text('End Date'),
-                  subtitle: TextFormField(
-                    readOnly: true,
-                    controller: endDateController,
-                    onTap: () async {
-                      final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: endDate,
-                        firstDate: DateTime(2015),
-                        lastDate: DateTime(2101),
-                      );
-                      if (picked != null && picked != endDate) {
-                        setState(() {
-                          endDate = picked;
-                          endDateController.text =
-                              '${endDate.toLocal()}'.split(' ')[0];
-                        });
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Select End Date',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    'Title',
+                    style: TextStyle(
+                      color: Color(0xfb3a78b1),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                );
-              }),
-              //Image add
-              ElevatedButton(
-                onPressed: _pickImage,
-                child: const Text('Add Image'),
-              ),
-              // if (_pickedImage != null)
-              //   Image.file(
-              //     File(_pickedImage!.path),
-              //     height: 90, // Ajusta la altura según tus necesidades
-              //     fit: BoxFit.fitWidth,
-              //   ),
-            ],
-          )),
+                  subtitle: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextField(
+                      controller: titleController,
+                      onChanged: (value) {
+                        title = value;
+                      },
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter the name of the travel',
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                ListTile(
+                  title: Text(
+                    'Description',
+                    style: TextStyle(
+                      color: Color(0xfb3a78b1),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Expanded(
+                      child: TextField(
+                        controller: descriptionController,
+                        onChanged: (value) {
+                          description = value;
+                        },
+                        maxLines: null,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Enter a description of the travel',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return ListTile(
+                      title: Text(
+                        'Start Date',
+                        style: TextStyle(
+                          color: Color(0xfb3a78b1),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: startDateController,
+                          onTap: () async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: startDate,
+                              firstDate: DateTime(2015),
+                              lastDate: DateTime(2101),
+                            );
+                            if (picked != null && picked != startDate) {
+                              setState(() {
+                                startDate = picked;
+                                startDateController.text =
+                                    '${startDate.toLocal()}'.split(' ')[0];
+                              });
+                            }
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Select Start Date',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return ListTile(
+                      title: Text(
+                        'End Date',
+                        style: TextStyle(
+                          color: Color(0xfb3a78b1),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: endDateController,
+                          onTap: () async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: endDate,
+                              firstDate: DateTime(2015),
+                              lastDate: DateTime(2101),
+                            );
+                            if (picked != null && picked != endDate) {
+                              setState(() {
+                                endDate = picked;
+                                endDateController.text =
+                                    '${endDate.toLocal()}'.split(' ')[0];
+                              });
+                            }
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Select End Date',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: _pickImage,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xfb3a78b1)),
+                  ),
+                  child: const Text('Add Image'),
+                ),
+              ],
+            ),
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: const Text('Cancel',
+                  style: TextStyle(
+                    color: Color(0xfb3a78b1),
+                  )),
             ),
             ElevatedButton(
               onPressed: () {
@@ -330,6 +405,10 @@ class _HomePageState extends State<HomePage> {
                 // loadUserTrips();
               },
               child: const Text('Save'),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(const Color(0xfb3a78b1)),
+              ),
             ),
           ],
         );
@@ -380,19 +459,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 //List of trips
-                SizedBox(
-                  height: screenHeight * 0.65,
+                Container(
+                  height: screenHeight * 0.63,
                   child: ListView.builder(
                     itemCount: _travels.length,
                     itemBuilder: (context, index) {
                       return Card(
                           elevation: 0,
                           child: Padding(
-                              padding: const EdgeInsets.all(15),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenWidth * 0.01,
+                                  horizontal: screenHeight * 0.03),
                               child: Container(
-                                height: screenHeight * 0.62,
+                                height: screenHeight * 0.6,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80),
+                                  borderRadius: BorderRadius.circular(65),
                                   image: DecorationImage(
                                       image: _travels[index].imageURL != null &&
                                               _travels[index].imageURL != 'null'
@@ -408,10 +489,11 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: ListTile(
                                   contentPadding: EdgeInsets.only(
-                                      top: screenHeight * 0.5,
-                                      left: screenHeight * 0.05,
-                                      bottom: screenHeight * 0.025,
-                                      right: screenHeight * 0.025,),
+                                    top: screenHeight * 0.5,
+                                    left: screenHeight * 0.05,
+                                    bottom: screenHeight * 0.025,
+                                    right: screenHeight * 0.025,
+                                  ),
                                   tileColor: Colors.transparent,
                                   title: Text(capitalize(_travels[index].title),
                                       style: const TextStyle(
@@ -442,13 +524,17 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ])),
                                   trailing: IconButton(
-                                    icon: const Icon(Icons.delete_outline_rounded,
-                                    color: Colors.white, shadows: [Shadow(
-                                              offset: Offset(0.5, 0.5),
-                                              blurRadius: 10.0,
-                                              color:
-                                                  Color.fromARGB(255, 0, 0, 0),
-                                            ),],),
+                                    icon: const Icon(
+                                      Icons.delete_outline_rounded,
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow(
+                                          offset: Offset(0.5, 0.5),
+                                          blurRadius: 10.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ],
+                                    ),
                                     onPressed: () {
                                       showDialog(
                                         context: context,
@@ -462,7 +548,12 @@ class _HomePageState extends State<HomePage> {
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
-                                                child: const Text('Cancel'),
+                                                child: const Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                    color: Color(0xfb3a78b1),
+                                                  ),
+                                                ),
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
