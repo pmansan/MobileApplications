@@ -3,6 +3,7 @@ import 'package:planner_app/models/planner.dart';
 
 class DataBaseService {
   final String? uid;
+  String imagePath = '';
 
   DataBaseService({this.uid});
 
@@ -13,16 +14,20 @@ class DataBaseService {
     return await plannerCollection.doc(uid).set({
       'name': name,
       'email': email,
+      'trips': '',
+      //'imagePath': imagePath,
     });
   }
 
   Future updateUserName(String name) async {
-    DocumentSnapshot emailSnapshot =
+    DocumentSnapshot dataSnapshot =
         await DataBaseService(uid: uid).plannerCollection.doc(uid).get();
 
     return await plannerCollection.doc(uid).set({
       'name': name,
-      'email': emailSnapshot.get('email'),
+      'email': dataSnapshot.get('email'),
+      'trips': dataSnapshot.get('trips'),
+      //'imagePath': dataSnapshot.get('imagePath'),
     });
   }
 

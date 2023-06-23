@@ -306,10 +306,11 @@ class _HomePageState extends State<HomePage> {
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
     return WillPopScope(
-        onWillPop: () async {
-          // Bloquea la navegación hacia atrás
-          return false;
-        },
+      onWillPop: () async {
+        // Bloquea la navegación hacia atrás
+        return false;
+      },
+      child: Expanded(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
@@ -340,9 +341,7 @@ class _HomePageState extends State<HomePage> {
                   controller: passwordController,
                   hintText: 'Search...',
                 ),
-                SizedBox(
-                  height: 5,
-                ),
+
                 Container(
                   height: MediaQuery.of(context).size.height * 0.65,
                   child: ListView.builder(
@@ -473,6 +472,8 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

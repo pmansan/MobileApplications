@@ -62,8 +62,9 @@ class _ProfilePageState extends State<ProfilePage> {
     final double screenHeight = screenSize.height;
 
     return StreamProvider<List<Planner>>.value(
-        value: DataBaseService().users,
-        initialData: [],
+      value: DataBaseService().users,
+      initialData: [],
+      child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
@@ -280,6 +281,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

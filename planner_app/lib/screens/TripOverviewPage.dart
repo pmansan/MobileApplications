@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:planner_app/screens/TripDetailsPage.dart';
 
-class TripOverviewPage extends StatelessWidget {
+class TripOverviewPage extends StatefulWidget {
   final Travel travel;
 
-  const TripOverviewPage({required this.travel});
+  const TripOverviewPage({super.key, required this.travel});
+
+  @override
+  State<TripOverviewPage> createState() => _TripOverviewPageState();
+}
+
+class _TripOverviewPageState extends State<TripOverviewPage> {
+  GoogleMapController? _mapController;
+  Set<Marker> _markers = {};
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> getCoordinates(String placeName) async {
+    try {
+      List<Location> locations = await locationFromAddress(placeName);
+      if (locations.isNotEmpty) {
+        Location location = locations.first;
+        double latitude = location.latitude;
+        double longitude = location.longitude;
+        print('Latitude: $latitude');
+        print('Longitude: $longitude');
+      } else {
+        print('No location found for the given place name.');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +72,7 @@ class TripOverviewPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '${travel.startDate.day}${_getDaySuffix(travel.startDate.day)} ${_getMonthAbbreviation(travel.startDate.month)}-${travel.endDate.day}${_getDaySuffix(travel.endDate.day)} ${_getMonthAbbreviation(travel.endDate.month)}',
+                          '${widget.travel.startDate.day}${_getDaySuffix(widget.travel.startDate.day)} ${_getMonthAbbreviation(widget.travel.startDate.month)}-${widget.travel.endDate.day}${_getDaySuffix(widget.travel.endDate.day)} ${_getMonthAbbreviation(widget.travel.endDate.month)}',
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -49,7 +81,7 @@ class TripOverviewPage extends StatelessWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          capitalize(travel.title),
+                          capitalize(widget.travel.title),
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -80,7 +112,7 @@ class TripOverviewPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    capitalize(travel.description),
+                    capitalize(widget.travel.description),
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
@@ -88,6 +120,21 @@ class TripOverviewPage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+          Expanded(
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(37.1881700,
+                    -3.6066700), // Set the initial map center coordinates
+                zoom: 14.0, // Set the initial zoom level
+              ),
+              onMapCreated: (controller) {
+                _mapController = controller;
+                getCoordinates('Milan');
+              },
+              markers: _markers,
+              myLocationEnabled: false, // Enable user's current location
             ),
           ),
           Container(
@@ -99,13 +146,14 @@ class TripOverviewPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TripDetailsPage(travel: travel),
+                      builder: (context) =>
+                          TripDetailsPage(travel: widget.travel),
                     ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0), 
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                   backgroundColor: const Color(0xffb3a78b1),
                   padding:
