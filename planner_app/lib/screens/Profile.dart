@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planner_app/screens/Home.dart';
 import 'package:planner_app/screens/Start.dart';
 import 'package:planner_app/services/auth.dart';
+import 'package:planner_app/main.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -170,7 +171,7 @@ class ProfilePage extends StatelessWidget {
                   await _auth.signOut();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StartPage()),
+                    FadePageRoute(builder: (context) => StartPage()),
                   );
                   print('Succesfully signed out');
                 },
@@ -213,7 +214,7 @@ class ProfilePage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          FadePageRoute(builder: (context) => HomePage()),
                         );
                       },
                       iconSize: 0.17 * screenWidth,

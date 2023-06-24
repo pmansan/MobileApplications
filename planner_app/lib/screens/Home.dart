@@ -11,6 +11,8 @@ import 'package:planner_app/screens/TripOverviewPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
+import 'package:planner_app/screens/Home.dart';
+import 'package:planner_app/main.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -121,6 +123,7 @@ class _HomePageState extends State<HomePage> {
       if (userId != null) {
         CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('users');
+            
 
         // Verificar si se seleccionó una imagen
         if (_pickedImage != null) {
@@ -391,7 +394,6 @@ class _HomePageState extends State<HomePage> {
                   );
                   return;
                 }
-
                 Travel travel = Travel(
                   title: title,
                   description: description,
@@ -399,10 +401,14 @@ class _HomePageState extends State<HomePage> {
                   endDate: endDate,
                 );
                 _addTravel(travel);
-                // Navigator.of(context).pop();
                 guardarViaje();
                 Navigator.of(context).pop();
                 // loadUserTrips();
+                Navigator.push(
+                  context,
+                  FadePageRoute(builder: (context) => HomePage()),
+                );
+                loadUserTrips();
               },
               child: const Text('Save'),
               style: ButtonStyle(
@@ -422,7 +428,7 @@ class _HomePageState extends State<HomePage> {
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
-    // loadUserTrips();
+    loadUserTrips();
     return WillPopScope(
         onWillPop: () async {
           // Block go back
@@ -479,12 +485,12 @@ class _HomePageState extends State<HomePage> {
                                               _travels[index].imageURL != 'null'
                                           ? NetworkImage(
                                               _travels[index].imageURL!)
-                                          : _pickedImage != null
-                                              ? FileImage(
-                                                  File(_pickedImage!.path))
-                                              : const AssetImage(
-                                                      'lib/images/blue.png')
-                                                  as ImageProvider<Object>,
+                                          // : _pickedImage != null
+                                          //     ? FileImage(
+                                          //         File(_pickedImage!.path))
+                                          : const AssetImage(
+                                                  'lib/images/blue.png')
+                                              as ImageProvider<Object>,
                                       fit: BoxFit.fill),
                                 ),
                                 child: ListTile(
@@ -570,15 +576,15 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   onTap: () {
                                     Travel travel = _travels[index];
+                                    loadUserTrips();
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
+                                      FadePageRoute(
                                         builder: (context) => TripOverviewPage(
                                             travel: travel,
                                             pickedimage: _pickedImage),
                                       ),
                                     );
-                                    loadUserTrips();
                                   },
                                 ),
                               )));
@@ -628,7 +634,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            FadePageRoute(
                                 builder: (context) => ProfilePage()),
                           );
                         },

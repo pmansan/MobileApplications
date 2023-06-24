@@ -15,6 +15,23 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+class FadePageRoute<T> extends PageRouteBuilder<T> {
+  final WidgetBuilder builder;
+
+  FadePageRoute({required this.builder})
+      : super(
+          transitionDuration: const Duration(milliseconds: 20),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              builder(context),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -24,7 +41,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       initialData: null,
       child: MaterialApp(
-        title:'Plannel',
+        title: 'Plannel',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Nunito'),
         //Página a la que redirige cuando se enciende
