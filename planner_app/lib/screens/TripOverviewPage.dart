@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -125,12 +127,12 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
           Expanded(
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
-                target: LatLng(37.1881700,
-                    -3.6066700), // Set the initial map center coordinates
+                target: LatLng(37.1881700, -3.6066700),
                 zoom: 14.0, // Set the initial zoom level
               ),
               onMapCreated: (controller) {
                 _mapController = controller;
+                print("MAP CREATED");
                 getCoordinates('Milan');
               },
               markers: _markers,

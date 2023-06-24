@@ -310,167 +310,164 @@ class _HomePageState extends State<HomePage> {
         // Bloquea la navegación hacia atrás
         return false;
       },
-      child: Expanded(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
-          appBar: null,
-          body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, bottom: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    verticalDirection: VerticalDirection.down,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Your trips',
-                        style: TextStyle(
-                            color: Color(0xfb3a78b1),
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        appBar: null,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0, bottom: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  verticalDirection: VerticalDirection.down,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Your trips',
+                      style: TextStyle(
+                          color: Color(0xfb3a78b1),
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                Searchbar(
-                  controller: passwordController,
-                  hintText: 'Search...',
-                ),
+              ),
+              Searchbar(
+                controller: passwordController,
+                hintText: 'Search...',
+              ),
 
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
-                  child: ListView.builder(
-                    itemCount: _travels.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                          elevation: 0,
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.64,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(80),
-                              image: DecorationImage(
-                                image: _travels[index].imageURL != null
-                                    ? NetworkImage(_travels[index].imageURL!)
-                                        as ImageProvider<Object>
-                                    : const AssetImage(
-                                        'lib/images/amsterdam.jpg'), // Replace with your own placeholder image
-                                fit: BoxFit.cover,
-                              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.65,
+                child: ListView.builder(
+                  itemCount: _travels.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                        elevation: 0,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.64,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80),
+                            image: DecorationImage(
+                              image: _travels[index].imageURL != null
+                                  ? NetworkImage(_travels[index].imageURL!)
+                                      as ImageProvider<Object>
+                                  : const AssetImage(
+                                      'lib/images/amsterdam.jpg'), // Replace with your own placeholder image
+                              fit: BoxFit.cover,
                             ),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height * 0.5,
-                                  left:
-                                      MediaQuery.of(context).size.height * 0.05,
-                                  bottom: MediaQuery.of(context).size.height *
-                                      0.025),
-                              tileColor: Colors.transparent,
+                          ),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.5,
+                                left: MediaQuery.of(context).size.height * 0.05,
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.025),
+                            tileColor: Colors.transparent,
 
-                              title: Text(capitalize(_travels[index].title),
-                                  style: const TextStyle(
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(0.5, 0.5),
-                                          blurRadius: 10.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                      ])),
-                              subtitle: Text(
-                                  capitalize(
-                                      '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}'),
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(0.5, 0.5),
-                                          blurRadius: 10.0,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                      ])),
-                              // trailing: Text(
-                              //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
-                              // ),
-                              onTap: () {
-                                Travel travel = _travels[index];
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        TripOverviewPage(travel: travel),
-                                  ),
-                                );
-                              },
-                            ),
-                          ));
-                    },
-                  ),
+                            title: Text(capitalize(_travels[index].title),
+                                style: const TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.5, 0.5),
+                                        blurRadius: 10.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ])),
+                            subtitle: Text(
+                                capitalize(
+                                    '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}'),
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.5, 0.5),
+                                        blurRadius: 10.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ])),
+                            // trailing: Text(
+                            //   '${_travels[index].startDate.day}/${_travels[index].startDate.month}/${_travels[index].startDate.year} - ${_travels[index].endDate.day}/${_travels[index].endDate.month}/${_travels[index].endDate.year}',
+                            // ),
+                            onTap: () {
+                              Travel travel = _travels[index];
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      TripOverviewPage(travel: travel),
+                                ),
+                              );
+                            },
+                          ),
+                        ));
+                  },
                 ),
+              ),
 
 // ...
 
-                Padding(
-                  padding: const EdgeInsets.only(
-                    right: 20.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
-                    verticalDirection: VerticalDirection.down,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      FloatingActionButton(
-                        // foregroundColor: Color(0xfb3a78b1),
-                        backgroundColor: Color(0xfb3a78b1),
-                        onPressed: _showAddTravelDialog,
-                        child: const Icon(
-                          Icons.add,
-                        ),
-                      ),
-                    ],
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 20.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    verticalDirection: VerticalDirection.up,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.home_outlined),
-                        onPressed: () {},
-                        iconSize: 0.17 * screenWidth,
-                        color: const Color(0xffb3a78b1),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  verticalDirection: VerticalDirection.down,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      // foregroundColor: Color(0xfb3a78b1),
+                      backgroundColor: Color(0xfb3a78b1),
+                      onPressed: _showAddTravelDialog,
+                      child: const Icon(
+                        Icons.add,
                       ),
-                      const SizedBox(width: 130),
-                      IconButton(
-                        icon: const Icon(Icons.person_2_outlined),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProfilePage()),
-                          );
-                        },
-                        iconSize: 0.17 * screenWidth,
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  verticalDirection: VerticalDirection.up,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.home_outlined),
+                      onPressed: () {},
+                      iconSize: 0.17 * screenWidth,
+                      color: const Color(0xffb3a78b1),
+                    ),
+                    const SizedBox(width: 130),
+                    IconButton(
+                      icon: const Icon(Icons.person_2_outlined),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
+                        );
+                      },
+                      iconSize: 0.17 * screenWidth,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

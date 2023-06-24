@@ -109,14 +109,27 @@ class _ProfilePageState extends State<ProfilePage> {
                     radius: 0.156 * screenWidth,
                   ),
                   SizedBox(height: 0.02 * screenHeight),
-                  Text(
-                    name,
-                    style: TextStyle(
-                      color: Color(0xfb3a78b1),
-                      fontFamily: 'Nunito',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  StreamBuilder<DocumentSnapshot>(
+                    stream: DataBaseService(uid: getUserId())
+                        .plannerCollection
+                        .doc(getUserId())
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        String name = snapshot.data!.get('name');
+                        return Text(
+                          name,
+                          style: TextStyle(
+                            color: Color(0xfb3a78b1),
+                            fontFamily: 'Nunito',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      } else {
+                        return Text('Loading...');
+                      }
+                    },
                   ),
                   SizedBox(height: 0.05 * screenHeight),
                   Divider(
