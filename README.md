@@ -12,11 +12,10 @@ Cosas que hay que hacer:
 
   # Mirar compartir enlace JORGE
 
-  -Arreglar cuando se edita la hora de una actividad, en el dialogo sale la hora anterior y no la nueva que seleccionas ??
+  -Arreglar cuando se edita la hora de una actividad, en el dialogo sale la hora anterior y no la nueva que seleccionas ✔
   
   -Hacer que se pueda añadir foto la trip ✔ y a la actividad (todavia no) PAULA 
-      _Nota: cuando no hay foto se tendria que guardar por defecto en firebase un 'no picture' o algo así, porque si no al cargar una foto se pone también en las que no   
-      tiene fotos_
+  _cambiar nombre guardarviaje y otros a ingles_
 
     - End date no puede ser antes que start date (si sobra tiempo, no debe ser muy dificil)
   -Quitar search ✔
