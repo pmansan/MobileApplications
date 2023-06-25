@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:planner_app/screens/Models.dart';
+import 'package:planner_app/screens/markerSelection.dart';
 
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
@@ -19,6 +21,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   int _selectedDay = 1;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  LatLng? markerPosition;
 
   @override
   void initState() {
@@ -94,6 +97,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           time: time,
           day: _selectedDay,
           id: docRef.id, // Asignar el ID generado automáticamente por Firestore
+          markerPosition: markerPosition,
         );
 
         _activities.add(activity);
@@ -102,7 +106,15 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         docRef.set({
           'title': title,
           'time': time,
+          'markerPosition': GeoPoint(
+            markerPosition!.latitude,
+            markerPosition!.longitude,
+          ),
         });
+        print("Activity coordinates --> " +
+            activity.markerPosition!.latitude.toString() +
+            ", " +
+            activity.markerPosition!.longitude.toString());
       }
     });
   }
@@ -154,6 +166,48 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             .delete();
       }
     });
+  }
+
+  void _showMap(BuildContext context, LatLng activityLocation) {
+    Set<Marker> markers = {};
+
+    // Add a marker for the activity location
+    final activityMarker = Marker(
+      markerId: MarkerId('activityMarker'),
+      position: activityLocation,
+    );
+    markers.add(activityMarker);
+
+    // Create a GoogleMap widget
+    GoogleMap googleMap = GoogleMap(
+      initialCameraPosition: CameraPosition(
+        target: activityLocation,
+        zoom: 15.0,
+      ),
+      markers: markers,
+    );
+
+    // Show the map in an AlertDialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            width: double.maxFinite,
+            height: 400.0,
+            child: googleMap,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildDayWidget(int day) {
@@ -288,6 +342,13 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                         _deleteActivity(activity);
                                       },
                                     ),
+                                    IconButton(
+                                      icon: Icon(Icons.location_on_rounded),
+                                      onPressed: () {
+                                        _showMap(
+                                            context, activity.markerPosition!);
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
@@ -347,6 +408,22 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                             picked.hour,
                             picked.minute,
                           );
+                        });
+                      }
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Add Marker'),
+                    onTap: () async {
+                      final LatLng? position = await Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MarkerSelection(travel: widget.travel),
+                        ),
+                      );
+                      if (position != null) {
+                        setState(() {
+                          markerPosition = position;
                         });
                       }
                     },
@@ -444,10 +521,12 @@ class Activity {
   DateTime time;
   int day;
   String? id;
+  LatLng? markerPosition;
 
   Activity(
       {required this.title,
       required this.time,
       required this.day,
-      required this.id});
+      required this.id,
+      this.markerPosition});
 }

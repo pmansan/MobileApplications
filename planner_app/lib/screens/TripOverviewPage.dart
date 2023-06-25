@@ -18,10 +18,12 @@ class TripOverviewPage extends StatefulWidget {
 class _TripOverviewPageState extends State<TripOverviewPage> {
   GoogleMapController? _mapController;
   Set<Marker> _markers = {};
+  LatLng? _initialCameraPosition;
 
   @override
   void initState() {
     super.initState();
+    getCoordinates(widget.travel.title);
   }
 
   Future<void> getCoordinates(String placeName) async {
@@ -33,11 +35,28 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
         double longitude = location.longitude;
         print('Latitude: $latitude');
         print('Longitude: $longitude');
+        setState(() {
+          _initialCameraPosition = LatLng(latitude, longitude);
+        });
+        _createMap();
       } else {
         print('No location found for the given place name.');
       }
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  void _createMap() async {
+    if (_initialCameraPosition != null && _mapController != null) {
+      _mapController!.animateCamera(
+        await CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: _initialCameraPosition!,
+            zoom: 14.0,
+          ),
+        ),
+      );
     }
   }
 
@@ -127,13 +146,12 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
           Expanded(
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
-                target: LatLng(37.1881700, -3.6066700),
+                target:
+                    _initialCameraPosition ?? LatLng(37.2430548, -115.8120572),
                 zoom: 14.0, // Set the initial zoom level
               ),
               onMapCreated: (controller) {
                 _mapController = controller;
-                print("MAP CREATED");
-                getCoordinates('Milan');
               },
               markers: _markers,
               myLocationEnabled: false, // Enable user's current location

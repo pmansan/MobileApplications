@@ -1,0 +1,22 @@
+# This is a generated file; do not edit or check into version control.
+cloud_firestore=/Users/javi/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.0/
+cloud_firestore_web=/Users/javi/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.0/
+firebase_auth=/Users/javi/.pub-cache/hosted/pub.dev/firebase_auth-4.6.2/
+firebase_auth_web=/Users/javi/.pub-cache/hosted/pub.dev/firebase_auth_web-5.5.2/
+firebase_core=/Users/javi/.pub-cache/hosted/pub.dev/firebase_core-2.14.0/
+firebase_core_web=/Users/javi/.pub-cache/hosted/pub.dev/firebase_core_web-2.6.0/
+firebase_storage=/Users/javi/.pub-cache/hosted/pub.dev/firebase_storage-11.2.3/
+firebase_storage_web=/Users/javi/.pub-cache/hosted/pub.dev/firebase_storage_web-3.6.3/
+flutter_plugin_android_lifecycle=/Users/javi/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15/
+image_picker=/Users/javi/.pub-cache/hosted/pub.dev/image_picker-0.8.7+5/
+image_picker_android=/Users/javi/.pub-cache/hosted/pub.dev/image_picker_android-0.8.6+19/
+image_picker_for_web=/Users/javi/.pub-cache/hosted/pub.dev/image_picker_for_web-2.1.12/
+image_picker_ios=/Users/javi/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.7+4/
+path_provider_linux=/Users/javi/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.11/
+path_provider_windows=/Users/javi/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.7/
+shared_preferences=/Users/javi/.pub-cache/hosted/pub.dev/shared_preferences-2.1.2/
+shared_preferences_android=/Users/javi/.pub-cache/hosted/pub.dev/shared_preferences_android-2.1.4/
+shared_preferences_foundation=/Users/javi/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.2.2/
+shared_preferences_linux=/Users/javi/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.2.0/
+shared_preferences_web=/Users/javi/.pub-cache/hosted/pub.dev/shared_preferences_web-2.1.0/
+shared_preferences_windows=/Users/javi/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.2.0/
