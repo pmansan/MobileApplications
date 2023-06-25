@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+import 'package:planner_app/main.dart';
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();

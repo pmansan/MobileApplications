@@ -15,6 +15,23 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+class FadePageRoute<T> extends PageRouteBuilder<T> {
+  final WidgetBuilder builder;
+
+  FadePageRoute({required this.builder})
+      : super(
+          transitionDuration: const Duration(milliseconds: 20),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              builder(context),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

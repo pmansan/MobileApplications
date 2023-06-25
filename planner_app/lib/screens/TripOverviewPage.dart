@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -8,6 +9,7 @@ import 'package:planner_app/screens/TripDetailsPage.dart';
 
 class TripOverviewPage extends StatefulWidget {
   final Travel travel;
+  final pickedimage;
 
   const TripOverviewPage({super.key, required this.travel});
 
@@ -68,14 +70,26 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 2 / 6,
-            color: const Color(0xffb3a78b1),
+            height: MediaQuery.of(context).size.height * 2.5 / 6,
+            // color: const Color(0xffb3a78b1),
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.circular(80),
+              image: DecorationImage(
+                  image: travel.imageURL != null && travel.imageURL != 'null'
+                      ? NetworkImage(travel.imageURL!)
+                      : pickedimage != null
+                          ? FileImage(File(pickedimage!.path))
+                          : const AssetImage('lib/images/blue.png')
+                              as ImageProvider<Object>,
+                  // image: AssetImage('lib/images/amsterdam.jpg'),
+                  fit: BoxFit.fill),
+            ),
             child: Stack(
               children: [
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
                       color: Colors.white,
                     ),
