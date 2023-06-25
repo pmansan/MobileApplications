@@ -4,7 +4,7 @@ import 'package:planner_app/components/constants.dart';
 import 'package:planner_app/components/loading.dart';
 import 'package:planner_app/services/auth.dart';
 
-import '../components/my_button.dart';
+import '../components/my_button2.dart';
 
 final CollectionReference usersCollection =
     FirebaseFirestore.instance.collection('users');
@@ -167,7 +167,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       SizedBox(height: 0.12 * screenHeight),
-                      MyButton(
+                      MyButton2(
                         onTap:
                             signUp, // Llama a la función signUp al pulsar el botón
                       ),

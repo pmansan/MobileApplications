@@ -161,28 +161,28 @@ class _SignInPageState extends State<SignInPage> {
                             decoration: textInputDecoration.copyWith(
                                 hintText: 'Password'),
                           )),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left:
-                              0.6 * screenSize.width, // Cambia el espacio aquí
-                          right:
-                              0.08 * screenSize.width, // Cambia el espacio aquí
-                          bottom: 0.05 *
-                              screenSize.height, // Cambia el espacio aquí
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontFamily: 'Nunito',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left:
+                      //         0.6 * screenSize.width, // Cambia el espacio aquí
+                      //     right:
+                      //         0.08 * screenSize.width, // Cambia el espacio aquí
+                      //     bottom: 0.05 *
+                      //         screenSize.height, // Cambia el espacio aquí
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       Text(
+                      //         'Forgot Password?',
+                      //         style: TextStyle(
+                      //           color: Colors.grey[600],
+                      //           fontFamily: 'Nunito',
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       // SizedBox(height: 0.02 * screenSize.height), // Cambia el espacio aquí
                       Padding(
                           padding: EdgeInsets.only(
@@ -190,7 +190,7 @@ class _SignInPageState extends State<SignInPage> {
                                   screenSize.width, // Cambia el espacio aquí
                               right: 0.08 *
                                   screenSize.width, // Cambia el espacio aquí
-                              top: 0.05 *
+                              top: 0.2 *
                                   screenSize.height // Cambia el espacio aquí
                               ),
                           child: MyButton(
@@ -213,41 +213,41 @@ class _SignInPageState extends State<SignInPage> {
                         error,
                         style: TextStyle(color: Colors.red, fontSize: 18),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 0.08 * screenSize.width,
-                            right: 0.08 * screenSize.width),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Or',
-                              style: TextStyle(color: Colors.grey[600]),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //       left: 0.08 * screenSize.width,
+                      //       right: 0.08 * screenSize.width),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Text(
+                      //         'Or',
+                      //         style: TextStyle(color: Colors.grey[600]),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       // SizedBox(height: 0.0002 * screenSize.height), // Cambia el espacio aquí
-                      Padding(
-                          padding: EdgeInsets.only(
-                            left: 0.08 *
-                                screenSize.width, // Cambia el espacio aquí
-                            right: 0.08 *
-                                screenSize.width, // Cambia el espacio aquí
-                            bottom: 0.1 * screenSize.height,
-                          ),
-                          child: MyButton_Anon(
-                            onTap: () async {
-                              setState(() => loading = true);
-                              dynamic result = await _auth.signInAnon();
-                              setState(() => loading = false);
-                              if (result == null) {
-                                print("Error signing in");
-                              } else {
-                                print("Signing in succesful");
-                              }
-                            },
-                          )),
+                      // Padding(
+                      //     padding: EdgeInsets.only(
+                      //       left: 0.08 *
+                      //           screenSize.width, // Cambia el espacio aquí
+                      //       right: 0.08 *
+                      //           screenSize.width, // Cambia el espacio aquí
+                      //       bottom: 0.1 * screenSize.height,
+                      //     ),
+                      //     child: MyButton_Anon(
+                      //       onTap: () async {
+                      //         setState(() => loading = true);
+                      //         dynamic result = await _auth.signInAnon();
+                      //         setState(() => loading = false);
+                      //         if (result == null) {
+                      //           print("Error signing in");
+                      //         } else {
+                      //           print("Signing in succesful");
+                      //         }
+                      //       },
+                      //     )),
                     ],
                   ),
                 ),

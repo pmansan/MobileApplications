@@ -177,43 +177,43 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.grey,
-                    indent: 0.08 * screenWidth,
-                    endIndent: 0.08 * screenWidth,
-                  ),
-                  SizedBox(
-                    width: 0.778 * screenWidth,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        padding: EdgeInsets.only(
-                          left: 0,
-                          right: 0.213 * screenWidth,
-                          top: 0.032 * screenHeight,
-                          bottom: 0.032 * screenHeight,
-                        ),
-                        elevation: 0,
-                        foregroundColor: Colors.grey,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          Icon(
-                            Icons.settings_rounded,
-                            color: Colors.red,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            "Settings",
-                            style: TextStyle(fontFamily: 'Nunito'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Divider(
+                  //   thickness: 1,
+                  //   color: Colors.grey,
+                  //   indent: 0.08 * screenWidth,
+                  //   endIndent: 0.08 * screenWidth,
+                  // ),
+                  // SizedBox(
+                  //   width: 0.778 * screenWidth,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {},
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.white,
+                  //       padding: EdgeInsets.only(
+                  //         left: 0,
+                  //         right: 0.213 * screenWidth,
+                  //         top: 0.032 * screenHeight,
+                  //         bottom: 0.032 * screenHeight,
+                  //       ),
+                  //       elevation: 0,
+                  //       foregroundColor: Colors.grey,
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: const <Widget>[
+                  //         Icon(
+                  //           Icons.settings_rounded,
+                  //           color: Colors.red,
+                  //         ),
+                  //         SizedBox(width: 10),
+                  //         Text(
+                  //           "Settings",
+                  //           style: TextStyle(fontFamily: 'Nunito'),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Padding(
                       padding: EdgeInsets.only(
                         bottom: 0.12 * screenWidth,

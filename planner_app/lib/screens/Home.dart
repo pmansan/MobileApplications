@@ -336,6 +336,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              
               Searchbar(
                 controller: passwordController,
                 hintText: 'Search...',
