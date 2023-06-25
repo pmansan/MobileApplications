@@ -123,7 +123,6 @@ class _HomePageState extends State<HomePage> {
       if (userId != null) {
         CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('users');
-            
 
         // Verificar si se seleccionó una imagen
         if (_pickedImage != null) {
@@ -378,7 +377,13 @@ class _HomePageState extends State<HomePage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Error'),
+                        title: const Text(
+                          'Error',
+                          style: TextStyle(
+                              color: Color(0xfb3a78b1),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
                         content: const Text(
                             'Please complete all the required fields.'),
                         actions: <Widget>[
@@ -386,7 +391,42 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('OK'),
+                            child: const Text('OK', 
+                            style: TextStyle(
+                                  color: Color(0xfb3a78b1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  return;
+                } else if (endDate.isBefore(startDate)) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text(
+                          'Error',
+                          style: TextStyle(
+                              color: Color(0xfb3a78b1),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        content: const Text(
+                            'The end date cannot be before the start date.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              'OK',
+                              style: TextStyle(
+                                  color: Color(0xfb3a78b1),
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ],
                       );
@@ -634,8 +674,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            FadePageRoute(
-                                builder: (context) => ProfilePage()),
+                            FadePageRoute(builder: (context) => ProfilePage()),
                           );
                         },
                         iconSize: 0.17 * screenWidth,
