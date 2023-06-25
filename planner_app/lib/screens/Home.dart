@@ -388,6 +388,37 @@ class _HomePageState extends State<HomePage> {
                     },
                   );
                   return;
+                } else if (endDate.isBefore(startDate)) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text(
+                          'Error',
+                          style: TextStyle(
+                              color: Color(0xfb3a78b1),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        content: const Text(
+                            'The end date cannot be before the start date.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              'OK',
+                              style: TextStyle(
+                                  color: Color(0xfb3a78b1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  return;
                 }
                 Travel travel = Travel(
                   title: title,
@@ -454,7 +485,7 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(
                             color: Color(0xfb3a78b1),
                             fontSize: 28,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.w900),
                       ),
                     ],
                   ),
@@ -492,15 +523,15 @@ class _HomePageState extends State<HomePage> {
                                   contentPadding: EdgeInsets.only(
                                     top: screenHeight * 0.5,
                                     left: screenHeight * 0.05,
-                                    bottom: screenHeight * 0.025,
+                                    bottom: screenHeight * 0.045,
                                     right: screenHeight * 0.025,
                                   ),
                                   tileColor: Colors.transparent,
                                   title: Text(capitalize(_travels[index].title),
                                       style: const TextStyle(
-                                          fontSize: 22,
+                                          fontSize: 30,
                                           color: Colors.white,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w700,
                                           shadows: <Shadow>[
                                             Shadow(
                                               offset: Offset(0.5, 0.5),
@@ -610,7 +641,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 //Icons home and profile
                 Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50),
+                  padding: EdgeInsets.only( left: 0.13 * screenWidth,
+                      right: 0.13 * screenWidth, bottom: 0.01*screenHeight),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -623,7 +655,7 @@ class _HomePageState extends State<HomePage> {
                         iconSize: 0.17 * screenWidth,
                         color: const Color(0xffb3a78b1),
                       ),
-                      const SizedBox(width: 130),
+                      SizedBox(width: 0.308 * screenWidth),
                       IconButton(
                         icon: const Icon(Icons.person_2_outlined),
                         onPressed: () {

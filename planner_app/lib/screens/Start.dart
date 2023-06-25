@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planner_app/components/my_button.dart';
 import 'package:planner_app/screens/wrapper.dart';
-
+import 'package:planner_app/main.dart';
 import '../components/my_button2.dart';
 
 class StartPage extends StatelessWidget {
@@ -62,7 +62,7 @@ class StartPage extends StatelessWidget {
                           register = false;
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            FadePageRoute(
                               builder: (context) => Wrapper(Register: register),
                             ),
                           );
@@ -77,7 +77,7 @@ class StartPage extends StatelessWidget {
                           register = true;
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            FadePageRoute(
                               builder: (context) => Wrapper(Register: register),
                             ),
                           );

@@ -124,7 +124,10 @@ class _AddTravelDialogState extends State<AddTravelDialog> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Cancel'),
+          child: const Text('Cancel',
+           style: TextStyle(
+                    color: Color(0xfb3a78b1),
+                  )),
         ),
         ElevatedButton(
           onPressed: () {

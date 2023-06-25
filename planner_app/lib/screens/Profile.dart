@@ -7,6 +7,7 @@ import 'package:planner_app/screens/editProfile.dart';
 import 'package:planner_app/services/auth.dart';
 import 'package:planner_app/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:planner_app/main.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -82,9 +83,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      left: 0.08 * screenWidth,
-                      bottom: 0.014 * screenHeight,
-                      top: 0.03 * screenHeight,
+                      left: screenHeight * 0.04,
+                      bottom: screenHeight * 0.025,
+                      top: screenHeight * 0.025
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Color(0xfb3a78b1),
                             fontFamily: 'Nunito',
                             fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ],
@@ -144,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          FadePageRoute(
                               builder: (context) => EditProfileScreen()),
                         );
                       },
@@ -230,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       await _auth.signOut();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => StartPage()),
+                        FadePageRoute(builder: (context) => StartPage()),
                       );
                       print('Succesfully signed out');
                     },
@@ -238,7 +239,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.all(10),
                       margin: EdgeInsets.symmetric(
                         horizontal: 0.4 * screenWidth,
-                        vertical: 0,
+                        vertical: 0.05*screenHeight,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xffb3a78b1),
@@ -260,7 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.only(
                       left: 0.13 * screenWidth,
                       right: 0.13 * screenWidth,
-                      top: 0.032 * screenHeight,
+                      top: 0.038 * screenHeight,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -273,14 +274,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              FadePageRoute(
                                   builder: (context) => HomePage()),
                             );
                           },
                           iconSize: 0.17 * screenWidth,
                           color: Colors.grey,
                         ),
-                        SizedBox(width: 0.306 * screenWidth),
+                        SizedBox(width: 0.308 * screenWidth),
                         IconButton(
                           icon: const Icon(Icons.person_2_outlined),
                           onPressed: () {},

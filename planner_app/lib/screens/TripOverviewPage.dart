@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:planner_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -180,7 +180,7 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    FadePageRoute(
                       builder: (context) =>
                           TripDetailsPage(travel: widget.travel),
                     ),

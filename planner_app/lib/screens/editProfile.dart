@@ -49,7 +49,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         iconTheme: const IconThemeData(
             color: Color(0xffb3a78b1), size: 35 //change your color here
             ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
       ),
         
@@ -57,7 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15.0, bottom: 5, top:0),
+            padding: const EdgeInsets.only(left: 15.0, bottom: 25, top:0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
@@ -82,7 +82,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 children: [
                   TextFormField(
                     initialValue: _profileName,
-                    decoration: InputDecoration(labelText: 'Profile Name',),
+                    decoration: InputDecoration(labelText: 'Profile Name', labelStyle: TextStyle(
+                      color: Color(0xfb3a78b1),
+                      fontWeight: FontWeight.bold),
+                
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color:Color(0xfb3a78b1),))),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a profile name';
@@ -99,7 +103,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: _selectImage,
-                    child: Text('Select Photo'),
+                    style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xfb3a78b1)),
+                  ),
+                    child: Text('Select Photo',
+                    ),
                   ),
                   SizedBox(height: 16.0),
                   if (_newPhotoPath != null) ...[
@@ -110,6 +119,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     onPressed: () {
                       _checkForm();
                     },
+                    style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xfb3a78b1)),
+                  ),
                     child: Text('Save'),
                   ),
                 ],

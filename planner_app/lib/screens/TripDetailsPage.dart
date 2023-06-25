@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:planner_app/screens/markerSelection.dart';
+import 'package:planner_app/main.dart';
 
 class TripDetailsPage extends StatefulWidget {
   final Travel travel;
@@ -268,11 +269,13 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         height: 100.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: isSelected ? const Color(0xfb3a78b1) : Colors.transparent,
-          border: Border.all(
-            color: const Color(0xfb3a78b1),
-            width: isSelected ? 2.0 : 1.0,
-          ),
+          color: isSelected
+              ? Color.fromARGB(255, 139, 183, 230)
+              : Color(0xffECEAEA),
+          // border: Border.all(
+          //   color: const Color(0xfb3a78b1),
+          //   width: isSelected ? 2.0 : 1.0,
+          // ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -281,7 +284,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
               'Day $day',
               style: TextStyle(
                 color: isSelected ? Colors.white : Colors.black,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontWeight: isSelected ? FontWeight.w900 : FontWeight.normal,
                 fontSize: 14.0,
               ),
             ),
@@ -301,11 +304,14 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
     return Scaffold(
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
             alignment: Alignment.centerLeft,
             child: Row(
               children: [
@@ -315,14 +321,35 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                     Navigator.of(context).pop();
                   },
                 ),
-                const SizedBox(width: 16.0),
-                const Text(
+                // const SizedBox(width: 16.0),
+                // const Text(
+                //   'Trip activities',
+                //   style: TextStyle(
+                //     fontSize: 24,
+                //     fontWeight: FontWeight.bold,
+                //     color: Color(0xfb3a78b1),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: screenHeight * 0.04,
+              bottom: screenHeight * 0.025,
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              verticalDirection: VerticalDirection.down,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   'Trip activities',
                   style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xfb3a78b1),
-                  ),
+                      color: Color(0xfb3a78b1),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900),
                 ),
               ],
             ),
@@ -476,7 +503,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           ),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              return Column(
+              return SingleChildScrollView(
+                  child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -590,7 +618,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                     title: const Text('Add Marker'),
                     onTap: () async {
                       final LatLng? position = await Navigator.of(context).push(
-                        MaterialPageRoute(
+                        FadePageRoute(
                           builder: (context) =>
                               MarkerSelection(travel: widget.travel),
                         ),
@@ -603,7 +631,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                     },
                   ),
                 ],
-              );
+              ));
             },
           ),
           actions: <Widget>[
@@ -611,7 +639,10 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: const Text('Cancel',
+                  style: TextStyle(
+                    color: Color(0xfb3a78b1),
+                  )),
             ),
             ElevatedButton(
               onPressed: () {
@@ -619,7 +650,11 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                 Navigator.of(context).pop();
               },
               child: const Text('Save'),
-            ),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(const Color(0xfb3a78b1)),
+              ),
+            )
           ],
         );
       },
@@ -768,7 +803,12 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Color(0xfb3a78b1),
+                ),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -777,7 +817,11 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                 Navigator.of(context).pop();
               },
               child: const Text('Save'),
-            ),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(const Color(0xfb3a78b1)),
+              ),
+            )
           ],
         );
       },
