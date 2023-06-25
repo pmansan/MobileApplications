@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -11,7 +10,8 @@ class TripOverviewPage extends StatefulWidget {
   final Travel travel;
   final pickedimage;
 
-  const TripOverviewPage({super.key, required this.travel});
+  const TripOverviewPage(
+      {super.key, required this.travel, required this.pickedimage});
 
   @override
   State<TripOverviewPage> createState() => _TripOverviewPageState();
@@ -75,12 +75,13 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
             decoration: BoxDecoration(
               // borderRadius: BorderRadius.circular(80),
               image: DecorationImage(
-                  image: travel.imageURL != null && travel.imageURL != 'null'
-                      ? NetworkImage(travel.imageURL!)
-                      : pickedimage != null
-                          ? FileImage(File(pickedimage!.path))
-                          : const AssetImage('lib/images/blue.png')
-                              as ImageProvider<Object>,
+                  image: widget.travel.imageURL != null &&
+                          widget.travel.imageURL != 'null'
+                      ? NetworkImage(widget.travel.imageURL!)
+                      //: pickedimage != null
+                      //  ? FileImage(File(pickedimage!.path))
+                      : const AssetImage('lib/images/blue.png')
+                          as ImageProvider<Object>,
                   // image: AssetImage('lib/images/amsterdam.jpg'),
                   fit: BoxFit.fill),
             ),

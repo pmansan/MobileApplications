@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:planner_app/screens/Models.dart';
 import 'package:planner_app/screens/markerSelection.dart';
 
@@ -351,13 +352,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text(
-                          'Day $day',
-                          style: const TextStyle(
-                              color: Color(0xffb3a78b1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25),
-                        ),
                         title: Text(
                           'Day $day',
                           style: const TextStyle(
