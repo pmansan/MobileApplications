@@ -33,14 +33,14 @@ class _SignInPageState extends State<SignInPage> {
     final double screenHeight = screenSize.height;
 
     return loading
-        ? Loading()
+        ? const Loading()
         : Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
             appBar: AppBar(
               iconTheme: const IconThemeData(
-                color: Color(0xffb3a78b1),
-                // size: 0.05 * screenSize.width, // Cambia el tamaño aquí
+                color: Color(0xfb3a78b1),
+                // size: 0.05 * screenSize.width,
               ),
               backgroundColor: Colors.white,
               elevation: 0,
@@ -55,22 +55,22 @@ class _SignInPageState extends State<SignInPage> {
                       Padding(
                         padding: EdgeInsets.only(
                           left:
-                              0.08 * screenSize.width, // Cambia el espacio aquí
+                              0.08 * screenSize.width, 
                           bottom: 0.06 *
-                              screenSize.height, // Cambia el espacio aquí
+                              screenSize.height, 
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           verticalDirection: VerticalDirection.down,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Sign in',
                               style: TextStyle(
                                 color: Color(0xfb3a78b1),
                                 fontFamily: 'Nunito',
-                                fontSize: 20, // Cambia el tamaño aquí
+                                fontSize: 20, 
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -80,19 +80,19 @@ class _SignInPageState extends State<SignInPage> {
                       Padding(
                         padding: EdgeInsets.only(
                           left:
-                              0.08 * screenSize.width, // Cambia el espacio aquí
+                              0.08 * screenSize.width,
                           bottom: 0.03 *
-                              screenSize.height, // Cambia el espacio aquí
+                              screenSize.height, 
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'E-mail',
                               style: TextStyle(
                                 color: Color(0xfb3a78b1),
                                 fontFamily: 'Nunito',
-                                fontSize: 15, // Cambia el tamaño aquí
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -102,11 +102,11 @@ class _SignInPageState extends State<SignInPage> {
                       Padding(
                           padding: EdgeInsets.only(
                             left: 0.08 *
-                                screenSize.width, // Cambia el espacio aquí
+                                screenSize.width, 
                             right: 0.08 *
-                                screenSize.width, // Cambia el espacio aquí
+                                screenSize.width, 
                             bottom: 0.01 *
-                                screenSize.height, // Cambia el espacio aquí
+                                screenSize.height,
                           ),
                           child: TextFormField(
                             validator: (String? val) =>
@@ -121,19 +121,19 @@ class _SignInPageState extends State<SignInPage> {
                       Padding(
                         padding: EdgeInsets.only(
                           left:
-                              0.08 * screenSize.width, // Cambia el espacio aquí
+                              0.08 * screenSize.width,
                           bottom: 0.03 *
-                              screenSize.height, // Cambia el espacio aquí
+                              screenSize.height,
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Password',
                               style: TextStyle(
                                 color: Color(0xfb3a78b1),
                                 fontFamily: 'Nunito',
-                                fontSize: 15, // Cambia el tamaño aquí
+                                fontSize: 15, 
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -143,11 +143,11 @@ class _SignInPageState extends State<SignInPage> {
                       Padding(
                           padding: EdgeInsets.only(
                             left: 0.08 *
-                                screenSize.width, // Cambia el espacio aquí
+                                screenSize.width, 
                             right: 0.08 *
-                                screenSize.width, // Cambia el espacio aquí
+                                screenSize.width, 
                             bottom: 0.01 *
-                                screenSize.height, // Cambia el espacio aquí
+                                screenSize.height, 
                           ),
                           child: TextFormField(
                             validator: (String? val) => val!.length < 6
@@ -160,37 +160,15 @@ class _SignInPageState extends State<SignInPage> {
                             decoration: textInputDecoration.copyWith(
                                 hintText: 'Password'),
                           )),
-                      // Padding(
-                      //   padding: EdgeInsets.only(
-                      //     left:
-                      //         0.6 * screenSize.width, // Cambia el espacio aquí
-                      //     right:
-                      //         0.08 * screenSize.width, // Cambia el espacio aquí
-                      //     bottom: 0.05 *
-                      //         screenSize.height, // Cambia el espacio aquí
-                      //   ),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.end,
-                      //     children: [
-                      //       Text(
-                      //         'Forgot Password?',
-                      //         style: TextStyle(
-                      //           color: Colors.grey[600],
-                      //           fontFamily: 'Nunito',
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // SizedBox(height: 0.02 * screenSize.height), // Cambia el espacio aquí
+       
                       Padding(
                           padding: EdgeInsets.only(
                               left: 0.08 *
-                                  screenSize.width, // Cambia el espacio aquí
+                                  screenSize.width, 
                               right: 0.08 *
-                                  screenSize.width, // Cambia el espacio aquí
+                                  screenSize.width, 
                               top: 0.2 *
-                                  screenSize.height // Cambia el espacio aquí
+                                  screenSize.height 
                               ),
                           child: MyButton(
                             onTap: () async {
@@ -207,46 +185,11 @@ class _SignInPageState extends State<SignInPage> {
                               }
                             },
                           )),
-                      // SizedBox(height: 0.0002 * screenSize.height), // Cambia el espacio aquí
+                      SizedBox(height: 0.0002 * screenSize.height), 
                       Text(
                         error,
                         style: TextStyle(color: Colors.red, fontSize: 18),
                       ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(
-                      //       left: 0.08 * screenSize.width,
-                      //       right: 0.08 * screenSize.width),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
-                      //       Text(
-                      //         'Or',
-                      //         style: TextStyle(color: Colors.grey[600]),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // SizedBox(height: 0.0002 * screenSize.height), // Cambia el espacio aquí
-                      // Padding(
-                      //     padding: EdgeInsets.only(
-                      //       left: 0.08 *
-                      //           screenSize.width, // Cambia el espacio aquí
-                      //       right: 0.08 *
-                      //           screenSize.width, // Cambia el espacio aquí
-                      //       bottom: 0.1 * screenSize.height,
-                      //     ),
-                      //     child: MyButton_Anon(
-                      //       onTap: () async {
-                      //         setState(() => loading = true);
-                      //         dynamic result = await _auth.signInAnon();
-                      //         setState(() => loading = false);
-                      //         if (result == null) {
-                      //           print("Error signing in");
-                      //         } else {
-                      //           print("Signing in succesful");
-                      //         }
-                      //       },
-                      //     )),
                     ],
                   ),
                 ),

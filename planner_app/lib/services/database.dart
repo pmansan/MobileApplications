@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:planner_app/models/planner.dart';
+import 'package:planner_app/models/plannel.dart';
 
 class DataBaseService {
   final String? uid;

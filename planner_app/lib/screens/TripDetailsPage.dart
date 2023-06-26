@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:planner_app/screens/Models.dart';
+import 'package:planner_app/models/Models.dart';
 import 'package:planner_app/screens/markerSelection.dart';
 import 'package:planner_app/main.dart';
 
@@ -27,19 +27,19 @@ class DashedLine extends StatelessWidget {
         final dashCount = (boxWidth / (2 * dashWidth)).floor();
 
         return Flex(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
           children: List.generate(dashCount, (_) {
             return SizedBox(
               width: dashWidth,
               height: dashHeight,
-              child: DecoratedBox(
+              child: const DecoratedBox(
                 decoration: BoxDecoration(
                   color: Color(0xfb3a78b1),
                 ),
               ),
             );
           }),
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
         );
       },
     );
@@ -47,7 +47,7 @@ class DashedLine extends StatelessWidget {
 }
 
 class _TripDetailsPageState extends State<TripDetailsPage> {
-  Map<int, List<Activity>> _activitiesMap = {};
+  final Map<int, List<Activity>> _activitiesMap = {};
   List<Activity> _activities = [];
   int _selectedDay = 1;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -232,7 +232,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Container(
+          content: SizedBox(
             width: double.maxFinite,
             height: 400.0,
             child: googleMap,
@@ -270,8 +270,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           color: isSelected
-              ? Color.fromARGB(255, 139, 183, 230)
-              : Color(0xffECEAEA),
+              ? const Color.fromARGB(255, 139, 183, 230)
+              : const Color(0xffECEAEA),
           // border: Border.all(
           //   color: const Color(0xfb3a78b1),
           //   width: isSelected ? 2.0 : 1.0,
@@ -321,15 +321,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                     Navigator.of(context).pop();
                   },
                 ),
-                // const SizedBox(width: 16.0),
-                // const Text(
-                //   'Trip activities',
-                //   style: TextStyle(
-                //     fontSize: 24,
-                //     fontWeight: FontWeight.bold,
-                //     color: Color(0xfb3a78b1),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -382,12 +373,12 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         title: Text(
                           'Day $day',
                           style: const TextStyle(
-                              color: Color(0xffb3a78b1),
+                              color: Color(0xfb3a78b1),
                               fontWeight: FontWeight.bold,
                               fontSize: 25),
                         ),
                         trailing: IconButton(
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                           onPressed: () {
                             _showAddActivityDialog(day);
                           },
@@ -403,17 +394,17 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                           return Stack(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(left: 40.0),
+                                margin: const EdgeInsets.only(left: 40.0),
                                 child: ListTile(
                                   title: Row(
                                     children: [
                                       Text(
                                         '${activity.time.toString().substring(11, 16)}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Color(0xfb3a78b1),
                                         ),
                                       ),
-                                      SizedBox(width: 8.0),
+                                      const SizedBox(width: 8.0),
                                       Text(activity.title),
                                     ],
                                   ),
@@ -424,19 +415,20 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: Icon(Icons.edit),
+                                        icon: const Icon(Icons.edit),
                                         onPressed: () {
                                           _showEditActivityDialog(activity);
                                         },
                                       ),
                                       IconButton(
-                                        icon: Icon(Icons.delete),
+                                        icon: const Icon(Icons.delete),
                                         onPressed: () {
                                           _deleteActivity(activity);
                                         },
                                       ),
                                       IconButton(
-                                        icon: Icon(Icons.location_on_rounded),
+                                        icon: const Icon(
+                                            Icons.location_on_rounded),
                                         onPressed: () {
                                           _showMap(context,
                                               activity.markerPosition!);
@@ -452,7 +444,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                 child: Container(
                                   width: 20.0,
                                   height: 20.0,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(0xfb3a78b1),
                                   ),
@@ -465,7 +457,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                   bottom: 0,
                                   width: 2.0,
                                   child: Container(
-                                    color: Color(0xfb3a78b1),
+                                    color: const Color(0xfb3a78b1),
                                     child: DashedLine(),
                                   ),
                                 ),
@@ -493,7 +485,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Add an activity',
             style: TextStyle(
               fontSize: 18.0,
@@ -511,14 +503,14 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Title',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xfb3a78b1),
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -528,7 +520,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                           onChanged: (value) {
                             title = value;
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter the title of the activity',
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(12.0),
@@ -537,24 +529,24 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Time',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xfb3a78b1),
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        padding: EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.all(12.0),
                         child: GestureDetector(
                           onTap: () async {
                             final TimeOfDay? picked = await showTimePicker(
@@ -575,7 +567,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                           },
                           child: Text(
                             '${time.hour}:${time.minute}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                             ),
                           ),
@@ -583,18 +575,18 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Price (€)',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xfb3a78b1),
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -605,7 +597,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                             price = double.tryParse(value) ?? 0.0;
                           },
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter the price in euros',
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(12.0),
@@ -649,11 +641,11 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                 _addActivity(title, time, price);
                 Navigator.of(context).pop();
               },
-              child: const Text('Save'),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(const Color(0xfb3a78b1)),
               ),
+              child: const Text('Save'),
             )
           ],
         );
@@ -673,7 +665,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Edit Activity',
             style: TextStyle(
               fontSize: 18.0,
@@ -683,21 +675,22 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           ),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              return Column(
+              return SingleChildScrollView(
+                  child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Title',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xfb3a78b1),
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -705,7 +698,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         ),
                         child: TextField(
                           controller: titleController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter the new title',
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(12.0),
@@ -714,18 +707,18 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Time',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xfb3a78b1),
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -753,7 +746,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                             padding: const EdgeInsets.all(12.0),
                             child: Text(
                               '${newTime.hour}:${newTime.minute}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                               ),
                             ),
@@ -762,18 +755,18 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Price (€)',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xfb3a78b1),
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -785,7 +778,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                             newPrice = double.tryParse(value) ?? 0.0;
                           },
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter the price in euros',
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(12.0),
@@ -795,7 +788,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                     ],
                   ),
                 ],
-              );
+              ));
             },
           ),
           actions: <Widget>[
@@ -816,11 +809,11 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                     activity, titleController.text, newTime, newPrice);
                 Navigator.of(context).pop();
               },
-              child: const Text('Save'),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(const Color(0xfb3a78b1)),
               ),
+              child: const Text('Save'),
             )
           ],
         );

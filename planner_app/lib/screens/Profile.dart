@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:planner_app/main.dart';
-import 'package:planner_app/models/planner.dart';
+import 'package:planner_app/models/plannel.dart';
 import 'package:planner_app/screens/Home.dart';
 import 'package:planner_app/screens/Start.dart';
 import 'package:planner_app/screens/editProfile.dart';
@@ -87,12 +87,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         left: screenHeight * 0.04,
                         bottom: screenHeight * 0.025,
                         top: screenHeight * 0.025),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       verticalDirection: VerticalDirection.down,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           'Your profile',
                           style: TextStyle(
@@ -109,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     backgroundImage: profilePictureUrl != null
                         ? NetworkImage(profilePictureUrl as String)
                             as ImageProvider<Object>?
-                        : AssetImage('lib/images/blue.png'),
+                        : const AssetImage('lib/images/blue.png'),
                     radius: 0.156 * screenWidth,
                   ),
 
@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                         return Text(
                           name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xfb3a78b1),
                             fontFamily: 'Nunito',
                             fontSize: 20,
@@ -133,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         );
                       } else {
-                        return Text('Loading...');
+                        return const Text('Loading...');
                       }
                     },
                   ),
@@ -165,9 +165,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         elevation: 0,
                         foregroundColor: Colors.grey,
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
+                        children:  <Widget>[
                           Icon(
                             Icons.edit_note_rounded,
                             color: Colors.yellow,
@@ -183,43 +183,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  // Divider(
-                  //   thickness: 1,
-                  //   color: Colors.grey,
-                  //   indent: 0.08 * screenWidth,
-                  //   endIndent: 0.08 * screenWidth,
-                  // ),
-                  // SizedBox(
-                  //   width: 0.778 * screenWidth,
-                  //   child: ElevatedButton(
-                  //     onPressed: () {},
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor: Colors.white,
-                  //       padding: EdgeInsets.only(
-                  //         left: 0,
-                  //         right: 0.213 * screenWidth,
-                  //         top: 0.032 * screenHeight,
-                  //         bottom: 0.032 * screenHeight,
-                  //       ),
-                  //       elevation: 0,
-                  //       foregroundColor: Colors.grey,
-                  //     ),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: const <Widget>[
-                  //         Icon(
-                  //           Icons.settings_rounded,
-                  //           color: Colors.red,
-                  //         ),
-                  //         SizedBox(width: 10),
-                  //         Text(
-                  //           "Settings",
-                  //           style: TextStyle(fontFamily: 'Nunito'),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Padding(
                       padding: EdgeInsets.only(
                         bottom: 0.12 * screenWidth,
@@ -247,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         vertical: 0.05 * screenHeight,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xffb3a78b1),
+                        color: const Color(0xfb3a78b1),
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: const Center(
@@ -290,7 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           icon: const Icon(Icons.person_2_outlined),
                           onPressed: () {},
                           iconSize: 0.17 * screenWidth,
-                          color: const Color(0xffb3a78b1),
+                          color: const Color(0xfb3a78b1),
                         ),
                       ],
                     ),

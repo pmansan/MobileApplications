@@ -3,7 +3,7 @@ import 'package:planner_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:planner_app/screens/Models.dart';
+import 'package:planner_app/models/Models.dart';
 import 'package:planner_app/screens/TripDetailsPage.dart';
 
 class TripOverviewPage extends StatefulWidget {
@@ -115,7 +115,7 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           capitalize(widget.travel.title),
                           style: const TextStyle(
@@ -134,7 +134,7 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
           Expanded(
             child: Container(
               color: Colors.white,
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -143,7 +143,7 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xffb3a78b1),
+                      color: Color(0xfb3a78b1),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -192,10 +192,10 @@ class _TripOverviewPageState extends State<TripOverviewPage> {
                   ),
                   backgroundColor: const Color(0xffb3a78b1),
                   padding:
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                  textStyle: TextStyle(fontSize: 18.0),
+                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                  textStyle: const TextStyle(fontSize: 18.0),
                 ),
-                child: Text('View Activities'),
+                child: const Text('View Activities'),
               ),
             ),
           ),

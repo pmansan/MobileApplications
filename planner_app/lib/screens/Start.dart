@@ -41,11 +41,11 @@ class StartPage extends StatelessWidget {
                   children: [
                     SizedBox(height: screenHeight * 0.1),
                     Image(
-                      image: AssetImage('lib/images/plannel_logo.png'),
+                      image: const AssetImage('lib/images/plannel_logo.png'),
                       height: screenHeight * 0.2,
                     ),
                     SizedBox(height: screenHeight * 0.05),
-                    Text(
+                    const Text(
                       'Welcome to Plannel!',
                       style: TextStyle(
                         color: Color(0xfb3a78b1),

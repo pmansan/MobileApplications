@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planner_app/main.dart';
-import 'package:planner_app/screens/Models.dart';
+import 'package:planner_app/models/Models.dart';
 import 'package:planner_app/screens/Profile.dart';
 import 'package:planner_app/screens/TripOverviewPage.dart';
 
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         _travels = trips;
       });
     } else {
-      print('El usuario no está autenticado');
+      print('User is not authenticated');
     }
   }
 
@@ -90,12 +90,12 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           _travels.removeAt(index);
         });
-        print('Viaje eliminado de Firestore');
+        print('Trip removed from Firestore');
       }).catchError((error) {
-        print('Error al eliminar el viaje: $error');
+        print('Error when deleting the trip: $error');
       });
     } else {
-      print('El usuario no está autenticado');
+      print('User is not authenticated');
     }
   }
 
@@ -109,19 +109,18 @@ class _HomePageState extends State<HomePage> {
     final descriptionController = TextEditingController();
     final startDateController = TextEditingController();
     final endDateController = TextEditingController();
-    // final tripCoverController = TextEditingController();
     DateTime selectedDate = DateTime.now();
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    void guardarViaje() async {
+    void saveTrip() async {
       String? userId = FirebaseAuth.instance.currentUser?.uid;
       if (userId != null) {
         CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('users');
 
-        // Verificar si se seleccionó una imagen
+        // Check if an image was selected
         if (_pickedImage != null) {
-          // Subir la imagen a Firebase Storage
+          // Upload image to Firebase Storage
           final storageRef = firebase_storage.FirebaseStorage.instance.ref();
           final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
           final uploadTask =
@@ -131,33 +130,31 @@ class _HomePageState extends State<HomePage> {
             firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
             String downloadURL = await taskSnapshot.ref.getDownloadURL();
 
-            // Crear el mapa de datos para tripData con la URL de la imagen
+            // Create the data map for tripData with the image URL
             Map<String, dynamic> tripData = {
               'title': title,
               'description': description,
               'startDate': startDate,
               'endDate': endDate,
-              'imageURL': downloadURL, // Agregar la URL de la imagen a tripData
+              'imageURL': downloadURL,
             };
 
-            // travel.imageURL = downloadURL;
-
-            // Guardar tripData en Firestore
+            //Save tripData in Firestore
             usersCollection
                 .doc(userId)
                 .collection('trips')
                 .doc(title)
                 .set(tripData)
                 .then((value) {
-              print('Viaje con foto guardado en Firestore');
+              print('Travel with photo stored in Firestore');
             }).catchError((error) {
-              print('Error al guardar el viaje: $error');
+              print('Error saving the trip: $error');
             });
           } catch (error) {
-            print('Error al subir la imagen a Firebase Storage: $error');
+            print('Error uploading image to Firebase Storage: $error');
           }
         } else {
-          // Crear el mapa de datos para tripData sin la URL de la imagen
+          // Create the data map for tripData without the image URL
           Map<String, dynamic> tripData = {
             'title': title,
             'description': description,
@@ -165,20 +162,20 @@ class _HomePageState extends State<HomePage> {
             'endDate': endDate,
           };
 
-          // Guardar tripData en Firestore
+          // Save tripData in Firestore
           usersCollection
               .doc(userId)
               .collection('trips')
               .doc(title)
               .set(tripData)
               .then((value) {
-            print('Viaje sin foto guardado en Firestore');
+            print('Travel without photo stored in Firestore');
           }).catchError((error) {
-            print('Error al guardar el viaje: $error');
+            print('Error saving the trip: $error');
           });
         }
       } else {
-        print('El usuario no está autenticado');
+        print('User is not authenticated');
       }
     }
 
@@ -187,7 +184,7 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Add a new travel',
             style: TextStyle(
               fontSize: 18.0,
@@ -200,7 +197,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 ListTile(
-                  title: Text(
+                  title: const Text(
                     'Title',
                     style: TextStyle(
                       color: Color(0xfb3a78b1),
@@ -225,9 +222,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ListTile(
-                  title: Text(
+                  title: const Text(
                     'Description',
                     style: TextStyle(
                       color: Color(0xfb3a78b1),
@@ -255,11 +252,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
                     return ListTile(
-                      title: Text(
+                      title: const Text(
                         'Start Date',
                         style: TextStyle(
                           color: Color(0xfb3a78b1),
@@ -290,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                               });
                             }
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Select Start Date',
                             border: InputBorder.none,
                           ),
@@ -299,11 +296,11 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
                     return ListTile(
-                      title: Text(
+                      title: const Text(
                         'End Date',
                         style: TextStyle(
                           color: Color(0xfb3a78b1),
@@ -334,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                               });
                             }
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Select End Date',
                             border: InputBorder.none,
                           ),
@@ -343,7 +340,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: _pickImage,
                   style: ButtonStyle(
@@ -426,7 +423,7 @@ class _HomePageState extends State<HomePage> {
                   endDate: endDate,
                 );
                 _addTravel(travel);
-                guardarViaje();
+                saveTrip();
                 Navigator.of(context).pop();
                 // loadUserTrips();
                 Navigator.push(
@@ -435,11 +432,11 @@ class _HomePageState extends State<HomePage> {
                 );
                 loadUserTrips();
               },
-              child: const Text('Save'),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(const Color(0xfb3a78b1)),
               ),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -473,12 +470,12 @@ class _HomePageState extends State<HomePage> {
                       left: screenHeight * 0.04,
                       bottom: screenHeight * 0.025,
                       top: screenHeight * 0.025),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     verticalDirection: VerticalDirection.down,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         'Your trips',
                         style: TextStyle(
@@ -490,7 +487,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 //List of trips
-                Container(
+                SizedBox(
                   height: screenHeight * 0.63,
                   child: ListView.builder(
                     itemCount: _travels.length,
@@ -584,6 +581,13 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                               ),
                                               ElevatedButton(
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                              Color>(
+                                                          const Color(
+                                                              0xfb3a78b1)),
+                                                ),
                                                 onPressed: () {
                                                   _deleteTravel(index);
                                                   Navigator.of(context).pop();
@@ -637,8 +641,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 //Icons home and profile
                 Padding(
-                  padding: EdgeInsets.only( left: 0.13 * screenWidth,
-                      right: 0.13 * screenWidth, bottom: 0.01*screenHeight),
+                  padding: EdgeInsets.only(
+                      left: 0.13 * screenWidth,
+                      right: 0.13 * screenWidth,
+                      bottom: 0.01 * screenHeight),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -649,7 +655,7 @@ class _HomePageState extends State<HomePage> {
                         icon: const Icon(Icons.home_outlined),
                         onPressed: () {},
                         iconSize: 0.17 * screenWidth,
-                        color: const Color(0xffb3a78b1),
+                        color: const Color(0xfb3a78b1),
                       ),
                       SizedBox(width: 0.308 * screenWidth),
                       IconButton(
@@ -657,7 +663,8 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            FadePageRoute(builder: (context) => ProfilePage()),
+                            FadePageRoute(
+                                builder: (context) => const ProfilePage()),
                           );
                         },
                         iconSize: 0.17 * screenWidth,

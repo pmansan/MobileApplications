@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:planner_app/firebase_options.dart';
+import 'package:planner_app/services/firebase_options.dart';
 import 'package:planner_app/models/user.dart';
 import 'package:planner_app/screens/Start.dart';
 import 'package:planner_app/services/auth.dart';
@@ -13,23 +13,6 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-}
-
-class FadePageRoute<T> extends PageRouteBuilder<T> {
-  final WidgetBuilder builder;
-
-  FadePageRoute({required this.builder})
-      : super(
-          transitionDuration: const Duration(milliseconds: 20),
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              builder(context),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
 }
 
 class MyApp extends StatelessWidget {
@@ -49,4 +32,22 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+
+class FadePageRoute<T> extends PageRouteBuilder<T> {
+  final WidgetBuilder builder;
+
+  FadePageRoute({required this.builder})
+      : super(
+          transitionDuration: const Duration(milliseconds: 20),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              builder(context),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
 }

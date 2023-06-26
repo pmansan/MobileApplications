@@ -55,14 +55,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         body: SafeArea(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, bottom: 25, top: 0),
+          const Padding(
+            padding: EdgeInsets.only(left: 15.0, bottom: 25, top: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               verticalDirection: VerticalDirection.down,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Edit profile',
                   style: TextStyle(
@@ -81,7 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 children: [
                   TextFormField(
                     initialValue: _profileName,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         labelText: 'Profile Name',
                         labelStyle: TextStyle(
                             color: Color(0xfb3a78b1),
@@ -100,21 +100,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       _profileName = value!;
                       final userId = getUserId();
                       await DataBaseService(uid: userId).updateUserName(value);
-                      print('nombre cambiado');
+                      print('Changed name');
                     },
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: _selectImage,
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xfb3a78b1)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Select Photo',
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () async {
                       if (_newPhotoPath != null) {
@@ -131,7 +131,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xfb3a78b1)),
                     ),
-                    child: Text('Save'),
+                    child: const Text('Save'),
                   ),
                 ],
               ),

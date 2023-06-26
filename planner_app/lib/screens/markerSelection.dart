@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:planner_app/screens/Models.dart';
+import 'package:planner_app/models/Models.dart';
 
 class MarkerSelection extends StatefulWidget {
   final Travel travel;

@@ -48,7 +48,7 @@ class _SignUpPageState extends State<SignUpPage> {
     final double screenHeight = screenSize.height;
 
     return loading
-        ? Loading()
+        ? const Loading()
         : Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
@@ -72,12 +72,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           left: 0.08 * screenWidth,
                           bottom: 0.06 * screenHeight,
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           verticalDirection: VerticalDirection.down,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Sign up',
                               style: TextStyle(
@@ -95,9 +95,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           left: 0.08 * screenWidth,
                           bottom: 0.03 * screenHeight,
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'E-mail',
                               style: TextStyle(
@@ -133,9 +133,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           left: 0.08 * screenWidth,
                           bottom: 0.03 * screenHeight,
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Password',
                               style: TextStyle(
@@ -169,12 +169,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(height: 0.12 * screenHeight),
                       MyButton2(
                         onTap:
-                            signUp, // Llama a la función signUp al pulsar el botón
+                            signUp, 
                       ),
                       SizedBox(height: 0.014 * screenHeight),
                       Text(
                         error,
-                        style: TextStyle(color: Colors.red, fontSize: 18),
+                        style: const TextStyle(color: Colors.red, fontSize: 18),
                       ),
                     ],
                   ),
