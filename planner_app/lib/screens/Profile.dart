@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:planner_app/main.dart';
 import 'package:planner_app/models/planner.dart';
 import 'package:planner_app/screens/Home.dart';
 import 'package:planner_app/screens/Start.dart';
@@ -7,7 +8,6 @@ import 'package:planner_app/screens/editProfile.dart';
 import 'package:planner_app/services/auth.dart';
 import 'package:planner_app/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:planner_app/main.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -23,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final AuthService _auth = AuthService();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String name = '';
+  String? profilePictureUrl;
 
   @override
   void initState() {
@@ -33,15 +34,15 @@ class _ProfilePageState extends State<ProfilePage> {
   void loadDataBaseData() async {
     final userId = getUserId();
     if (userId != null) {
-      DocumentSnapshot nameSnapshot = await DataBaseService(uid: userId)
+      DocumentSnapshot userDataSnapshot = await DataBaseService(uid: userId)
           .plannerCollection
           .doc(userId)
           .get();
 
       setState(() {
-        name = nameSnapshot.get('name');
+        name = userDataSnapshot.get('name');
+        profilePictureUrl = userDataSnapshot.get('imagePath');
       });
-      print(name);
     } else {
       print('ERROR');
     }
@@ -83,10 +84,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      left: screenHeight * 0.04,
-                      bottom: screenHeight * 0.025,
-                      top: screenHeight * 0.025
-                    ),
+                        left: screenHeight * 0.04,
+                        bottom: screenHeight * 0.025,
+                        top: screenHeight * 0.025),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
@@ -106,9 +106,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   CircleAvatar(
-                    //backgroundImage: NetworkImage('URL_DE_LA_IMAGEN'),
+                    backgroundImage: profilePictureUrl != null
+                        ? NetworkImage(profilePictureUrl as String)
+                            as ImageProvider<Object>?
+                        : AssetImage('lib/images/blue.png'),
                     radius: 0.156 * screenWidth,
                   ),
+
                   SizedBox(height: 0.02 * screenHeight),
                   StreamBuilder<DocumentSnapshot>(
                     stream: DataBaseService(uid: getUserId())
@@ -118,6 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         String name = snapshot.data!.get('name');
+
                         return Text(
                           name,
                           style: TextStyle(
@@ -239,7 +244,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.all(10),
                       margin: EdgeInsets.symmetric(
                         horizontal: 0.4 * screenWidth,
-                        vertical: 0.05*screenHeight,
+                        vertical: 0.05 * screenHeight,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xffb3a78b1),
@@ -274,8 +279,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              FadePageRoute(
-                                  builder: (context) => HomePage()),
+                              FadePageRoute(builder: (context) => HomePage()),
                             );
                           },
                           iconSize: 0.17 * screenWidth,

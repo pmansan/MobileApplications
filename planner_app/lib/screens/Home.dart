@@ -36,7 +36,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _pickedImage = PickedFile(pickedImage.path);
         loadUserTrips();
-        // print(_pickedImage);
       });
     }
   }
@@ -511,9 +510,6 @@ class _HomePageState extends State<HomePage> {
                                               _travels[index].imageURL != 'null'
                                           ? NetworkImage(
                                               _travels[index].imageURL!)
-                                          // : _pickedImage != null
-                                          //     ? FileImage(
-                                          //         File(_pickedImage!.path))
                                           : const AssetImage(
                                                   'lib/images/blue.png')
                                               as ImageProvider<Object>,
