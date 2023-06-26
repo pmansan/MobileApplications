@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:planner_app/components/constants.dart';
 import 'package:planner_app/components/loading.dart';
 import 'package:planner_app/components/my_button.dart';
-import 'package:planner_app/components/my_button_anon_signin.dart';
 import 'package:planner_app/services/auth.dart';
 
 class SignInPage extends StatefulWidget {
